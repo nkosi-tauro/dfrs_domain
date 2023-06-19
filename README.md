@@ -1,4 +1,7 @@
 
+## Enviroments
+- [Production](https://dfrsdomain-production.up.railway.app/)  
+- [Development](https://dfrsdomain-dev.up.railway.app/)
 
 ## :checkered_flag: Starting ##
 
