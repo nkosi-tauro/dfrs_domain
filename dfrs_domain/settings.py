@@ -26,7 +26,8 @@ SECRET_KEY = "django-insecure-(x5v541yhfn6lb(_z2&x17%%i6#k)3#$2tv#mwbh*5=pd^0wec
 DEBUG = True
 
 ALLOWED_HOSTS = [
-    "dfrsdomain-production.up.railway.app"
+    "dfrsdomain-production.up.railway.app",
+    "dfrsdomain-dev.up.railway.app"
 ]
 
 
