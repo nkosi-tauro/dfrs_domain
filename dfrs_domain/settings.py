@@ -9,8 +9,13 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+import dj_database_url
+
+load_dotenv()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -27,7 +32,8 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     "dfrsdomain-production.up.railway.app",
-    "dfrsdomain-dev.up.railway.app"
+    "dfrsdomain-dev.up.railway.app",
+    "127.0.0.1"
 ]
 
 
@@ -75,13 +81,21 @@ WSGI_APPLICATION = "dfrs_domain.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-
+db_config = dj_database_url.config(default=os.environ.get('DATABASE_URL'), conn_max_age=1000)
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
+    'default': db_config,
 }
+# DATABASES = {
+#     "default": {
+#         # "ENGINE": "django.db.backends.sqlite3",
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': os.environ.get('PGDATABASE'),
+#         'USER': os.environ.get('PGUSER'),
+#         'PASSWORD': os.environ.get('PGPASSWORD'),
+#         'HOST': os.environ.get('PGHOST'),
+#         'PORT': os.environ.get('PGPORT'),
+#     }
+# }
 
 
 # Password validation
