@@ -16,7 +16,15 @@ $ cd dfrs_domain
 $ docker build --tag dfrs_domain .
 
 # Run the project
-$ docker run --publish 8000:8000 dfrs_domain
+$ docker run --env-file=.env --publish 8000:8000 dfrs_domain
 
 # The server will initialize in the <http://localhost:8000>
+```
+
+## 🗃️ Adding Packages
+
+```bash
+#After installing new packages or tools via pip, run:
+$ pip freeze > requirements.txt
+#To add the packages to the requirements.txt file.
 ```
