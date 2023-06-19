@@ -10,4 +10,7 @@ RUN pip3 install -r requirements.txt
 # Copy local directory into /app
 COPY . .
 
+# Expose port 8000
+EXPOSE 8000
+
 CMD ["python3", "manage.py" , "runserver", "0.0.0.0:8000"]
