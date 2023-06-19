@@ -37,9 +37,9 @@ ALLOWED_HOSTS = [
 ]
 
 CSRF_TRUSTED_ORIGINS = [
-    "dfrsdomain-production.up.railway.app",
-    "dfrsdomain-dev.up.railway.app",
-    "127.0.0.1"
+    "https://dfrsdomain-production.up.railway.app",
+    "https://dfrsdomain-dev.up.railway.app",
+    "https://127.0.0.1"
 ]
 
 
