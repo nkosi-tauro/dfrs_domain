@@ -6,6 +6,9 @@
 # Clone this project
 $ git clone https://github.com/nkosi-tauro/dfrs_domain
 
+# Access directory
+$ cd dfrs_domain
+
 # build docker container
 $ docker build --tag dfrs_domain .
 
