@@ -36,6 +36,12 @@ ALLOWED_HOSTS = [
     "127.0.0.1"
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "dfrsdomain-production.up.railway.app",
+    "dfrsdomain-dev.up.railway.app",
+    "127.0.0.1"
+]
+
 
 # Application definition
 
