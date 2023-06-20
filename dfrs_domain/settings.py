@@ -87,22 +87,11 @@ WSGI_APPLICATION = "dfrs_domain.wsgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-db_config = dj_database_url.config(default=os.environ.get('DATABASE_URL'), conn_max_age=1000)
+db_config = dj_database_url.config(default=os.environ.get('DATABASE_URL'), conn_max_age=1000,
+                                   ssl_require=True, engine="django_cockroachdb")
 DATABASES = {
     'default': db_config,
 }
-# DATABASES = {
-#     "default": {
-#         # "ENGINE": "django.db.backends.sqlite3",
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.environ.get('PGDATABASE'),
-#         'USER': os.environ.get('PGUSER'),
-#         'PASSWORD': os.environ.get('PGPASSWORD'),
-#         'HOST': os.environ.get('PGHOST'),
-#         'PORT': os.environ.get('PGPORT'),
-#     }
-# }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
