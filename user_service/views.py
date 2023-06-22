@@ -2,7 +2,7 @@
 User Service views
 '''
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
+from .forms import EmployeeRegisterForm
 
 # Create your views here.
 def register_employee(request):
@@ -12,14 +12,14 @@ def register_employee(request):
     '''
     if request.method == 'POST':
         # This will take the form inputs (username, password)
-        form = UserCreationForm(request.POST)
+        form = EmployeeRegisterForm(request.POST)
         # This will check if the inputs are valid based on the contraints
         if form.is_valid():
             form.save()
             # This will redirect back to the admin view
             return redirect('adminview')
     else:
-        form = UserCreationForm()
-    form = UserCreationForm()
+        form = EmployeeRegisterForm()
+    form = EmployeeRegisterForm()
     context = {'form': form}
     return render(request, 'adminview/register_employee.html', context)
