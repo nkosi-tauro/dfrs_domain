@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "reporting_system.apps.ReportingSystemConfig",
+    "user_service.apps.UserServiceConfig",
 ]
 
 MIDDLEWARE = [
