@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "reporting_system.apps.ReportingSystemConfig",
     "user_service.apps.UserServiceConfig",
+    "crispy_forms",
+    "crispy_tailwind",
 ]
 
 MIDDLEWARE = [
@@ -115,6 +117,9 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+CRISPY_ALLOWED_TEMPLATE_PACKS = "tailwind"
+
+CRISPY_TEMPLATE_PACK = "tailwind"
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
