@@ -3,6 +3,7 @@ User Service views
 '''
 from django.shortcuts import render, redirect
 from .forms import EmployeeRegisterForm
+from django.contrib.auth.models import User
 
 # Create your views here.
 def register_employee(request):
@@ -23,3 +24,23 @@ def register_employee(request):
     form = EmployeeRegisterForm()
     context = {'form': form}
     return render(request, 'adminview/register_employee.html', context)
+
+
+def employee_detail(request, primary_key):
+    '''
+    This will allow an admin to view a specific employee and edit or delete it
+    '''
+    employee = User.objects.get(id=primary_key)
+    context = {'employee': employee}
+    return render(request, 'adminview/employee_detail.html', context)
+
+def employee_delete(request, primary_key):
+    '''
+    This will allow an admin to delete an employee
+    '''
+    employee = User.objects.get(id=primary_key)
+    if request.method=='POST':
+        employee.delete()
+        return redirect('adminview')
+    context = {'employee': employee}
+    return render(request, 'adminview/employee_delete.html', context)
