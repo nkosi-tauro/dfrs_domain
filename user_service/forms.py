@@ -4,13 +4,14 @@ Forms related to the user service
 from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
+from django.core import validators
 
 class EmployeeRegisterForm(UserCreationForm):
     '''
     Creating a new form for employee registration
     '''
     # Include the email field into the default form
-    email = forms.EmailField()
+    email = forms.EmailField(required=True, validators=[validators.EmailValidator])
 
     class Meta:
         '''
