@@ -11,4 +11,6 @@ urlpatterns = [
     path("cyberdetective/<int:primary_key>", user_view.employee_detail, name="employee-detail"),
     path("cyberdetective/delete/<int:primary_key>",
          user_view.employee_delete, name="employee-delete"),
+    path("cyberdetective/update/",
+         user_view.employee_update, name="employee-update"),
 ]

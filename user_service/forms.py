@@ -20,3 +20,16 @@ class EmployeeRegisterForm(UserCreationForm):
         '''
         model = User
         fields = ['username', 'email', 'password1', 'password2']
+
+
+class EmployeeUpdateForm(forms.ModelForm):
+    '''
+    Creating a form for employee update
+    '''
+    class Meta:
+        '''
+        This class is used to set the model we want to interact with 
+        and fields that will be in the form
+        '''
+        model = User
+        fields = ['username', 'email']

@@ -2,7 +2,7 @@
 User Service views
 '''
 from django.shortcuts import render, redirect
-from .forms import EmployeeRegisterForm
+from .forms import EmployeeRegisterForm, EmployeeUpdateForm
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -44,3 +44,20 @@ def employee_delete(request, primary_key):
         return redirect('adminview')
     context = {'employee': employee}
     return render(request, 'adminview/employee_delete.html', context)
+
+
+def employee_update(request):
+    '''
+    This will allow an admin to update an employee
+    '''
+    if request.method == 'POST':
+        # instance=request.user will pass through the user data into the input fields
+        form = EmployeeUpdateForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('adminview')
+    else:
+        form = EmployeeUpdateForm(instance=request.user)
+    context = {'form': form,
+               'request': request.user}
+    return render(request, 'adminview/employee_update.html', context)
