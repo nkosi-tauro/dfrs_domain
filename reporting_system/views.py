@@ -14,3 +14,9 @@ def employeeview(request):
     employee = User.objects.all()
     context = {'employee': employee}
     return render(request,'employeeview/employee.html', context)
+
+def loginPopup(request):
+    if request.method == 'POST':
+        user = request.POST['Username']
+        print("dasdasdas")
+        return render(request, 'login1.html')
