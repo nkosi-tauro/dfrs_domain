@@ -9,3 +9,8 @@ def adminview(request):
     cyberdetectives = User.objects.all()
     context = {'cyberdetectives': cyberdetectives}
     return render(request,'adminview/admin.html', context)
+
+def employeeview(request):
+    employee = User.objects.all()
+    context = {'employee': employee}
+    return render(request,'employeeview/employee.html', context)

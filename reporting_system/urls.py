@@ -16,4 +16,6 @@ urlpatterns = [
          user_view.employee_delete, name="employee-delete"),
     path("cyberdetective/update/",
          user_view.employee_update, name="employee-update"),
+    path("employee",
+         views.employeeview, name="employeeview"),
 ]
