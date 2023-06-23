@@ -2,8 +2,8 @@
 User Service views
 '''
 from django.shortcuts import render, redirect
-from .forms import EmployeeRegisterForm, EmployeeUpdateForm
 from django.contrib.auth.models import User
+from .forms import EmployeeRegisterForm, EmployeeUpdateForm
 
 # Create your views here.
 def register_employee(request):
