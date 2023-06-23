@@ -87,7 +87,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = "dfrs_domain.wsgi.application"
 
-
+#DATABASE_URL='postgresql://dfrsadmin:wrYh-7cxewxbZJNZJTI1kw@dfrsdomain-928.g8x.cockroachlabs.cloud:26257/defaultdb?sslmode=verify-full'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 db_config = dj_database_url.config(default=os.environ.get('DATABASE_URL'), conn_max_age=1000,

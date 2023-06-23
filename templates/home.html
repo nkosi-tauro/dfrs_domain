@@ -20,7 +20,22 @@
           {% comment %} <a href="#" class="text-sm font-semibold leading-6 text-gray-900">About</a> {% endcomment %}
         </div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Employee Login <span aria-hidden="true">&rarr;</span></a>
+
+          <button class="btn" onclick="my_modal_3.showModal()">Employee Login</button>
+          <dialog id="my_modal_3" class="modal">
+            <form action="/login_u" method="POST" class="modal-box">
+              <button class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">✕</button>
+              <p class="py-4">Welcome back. Please authenticate as an employee.</p>
+              {% csrf_token %}
+              <input type="text" name="Username" placeholder="Username" class="input input-bordered input-primary w-full max-w-xs" style="margin-bottom: 1%" />
+              <!--<input type="text" placeholder="Password" class="input input-bordered input-primary w-full max-w-xs" /> -->
+
+              
+            </form>
+          </dialog>
+
+
+          <!--<a href="http://127.0.0.1:8000/admin" class="text-sm font-semibold leading-6 text-gray-900">Employee Login <span aria-hidden="true">&rarr;</span></a> -->
         </div>
       </nav>
     </header>
@@ -46,7 +61,7 @@
           <div class="mt-10 flex items-center justify-center gap-x-6">
             <a href="#"
                class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Report Vulnerability</a>
-            <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Employee Login <span aria-hidden="true">→</span></a>
+            <a href="http://127.0.0.1:8000/admin" class="text-sm font-semibold leading-6 text-gray-900">Employee Login <span aria-hidden="true">→</span></a>
           </div>
         </div>
       </div>
