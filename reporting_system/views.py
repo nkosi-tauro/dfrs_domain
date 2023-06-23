@@ -18,5 +18,5 @@ def employeeview(request):
 def loginPopup(request):
     if request.method == 'POST':
         user = request.POST['Username']
-        print("dasdasdas")
-        return render(request, 'login1.html')
+        if user == "a":
+            return render(request, 'employeeview/employee.html')

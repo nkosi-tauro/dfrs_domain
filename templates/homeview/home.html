@@ -23,13 +23,16 @@
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
           <button class="btn" onclick="my_modal_3.showModal()">Employee Login</button>
           <dialog id="my_modal_3" class="modal">
-            <form action="/login" method="POST" class="modal-box">
+            <!--<form action="/login" method="POST" class="modal-box">
               <button class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">✕</button>
               <p class="py-4">Welcome back. Please authenticate as an employee.</p>
               {% csrf_token %}
               <input type="text" name="Username" placeholder="Username" class="input input-bordered input-primary w-full max-w-xs" style="margin-bottom: 1%" />
-              <!--<input type="text" placeholder="Password" class="input input-bordered input-primary w-full max-w-xs" /> -->
-            </form>
+              <input type="text" placeholder="Password" class="input input-bordered input-primary w-full max-w-xs" /> 
+            </form>-->
+            {% include "homeview/popup.html" %}
+
+
           </dialog>
         </div>
       </nav>
