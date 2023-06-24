@@ -17,6 +17,5 @@ urlpatterns = [
     path("cyberdetective/update/",
          user_view.employee_update, name="employee-update"),
     path('login', views.loginPopup, name='login'),
-    path("employee",
-         views.employeeview, name="employeeview"),
+    path("employee",views.employeeview, name="employeeview"),
 ]
