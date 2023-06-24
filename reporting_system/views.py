@@ -38,18 +38,22 @@ def loginPopup(request):
     if request.method == 'POST':
         user = request.POST.get('Username')
         password = request.POST.get('Password')
-        user_id = request.user.id
+        print(user)
+        print(password)
         
         print("user_id jeeeee")
-        print(user_id)
         user = authenticate(username=user, password=password)
-
+        print(user.is_authenticated)
         if user.is_authenticated:
             login(request, user)
+            user_id = request.user.id
+
+            print(user_id)
+
             if User.objects.get(username=user).is_staff:
                 return redirect(adminview)
             else:
-                return redirect("employeeview", user_id)
+                return redirect("employeeview", primary_key=user_id)
         else:
             print("Not yet implemented")
     else:
