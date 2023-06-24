@@ -4,10 +4,12 @@ User Service views
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .forms import EmployeeRegisterForm, EmployeeUpdateForm
 
 # Create your views here.
+@login_required(login_url='employee-login')
 def register_employee(request):
     '''
     So this will allow an admin to register an employee(new user)
@@ -27,7 +29,7 @@ def register_employee(request):
     context = {'form': form}
     return render(request, 'adminview/register_employee.html', context)
 
-
+@login_required(login_url='employee-login')
 def employee_detail(request, primary_key):
     '''
     This will allow an admin to view a specific employee and edit or delete it
@@ -36,6 +38,7 @@ def employee_detail(request, primary_key):
     context = {'employee': employee}
     return render(request, 'adminview/employee_detail.html', context)
 
+@login_required(login_url='employee-login')
 def employee_delete(request, primary_key):
     '''
     This will allow an admin to delete an employee
@@ -47,7 +50,7 @@ def employee_delete(request, primary_key):
     context = {'employee': employee}
     return render(request, 'adminview/employee_delete.html', context)
 
-
+@login_required(login_url='employee-login')
 def employee_update(request):
     '''
     This will allow an admin to update an employee
@@ -71,6 +74,13 @@ def login_service(request):
     This will enable admins and staff to login from one entry point
     And then be redirected to the relavant view based on their permissions.
     '''
+    # Check if user is already logged in and redirect them to the correct view
+    if request.user.is_authenticated:
+        if request.user.is_staff:
+            return redirect('adminview')
+        else:
+            return redirect('employeeview')
+
     if request.method == 'POST':
         user = request.POST.get('username')
         password = request.POST.get('password')
