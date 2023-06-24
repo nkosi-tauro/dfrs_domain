@@ -1,0 +1,32 @@
+{% load static %}
+{% block content %}
+  {% comment %} Ignoring inline styles warning {% endcomment %}
+  {# djlint:off H021,H023,H006 #}
+
+
+    <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4">
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="username">
+          Username
+        </label>
+        <input type="text" name="Username" placeholder="Username" class="input input-bordered input-primary w-full max-w-xs" style="margin-bottom: 1%" />
+      </div>
+      <div class="mb-6">
+        
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
+            Password
+        </label>
+        <input type="text" name="Username" placeholder="Username" class="input input-bordered input-primary w-full max-w-xs" style="margin-bottom: 1%" />
+        <p class="text-red-500 text-xs italic">Please choose a password.</p>
+      </div>
+      <div class="flex items-center justify-between">
+        <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" style = "margin-left:30%;" type="button">
+          Sign In
+        </button>
+      </div>
+    </form>
+
+    <p class="text-center text-gray-500 text-xs">
+      &copy;2023 DFRS. All rights reserved.
+    </p>
+{% endblock content %}
