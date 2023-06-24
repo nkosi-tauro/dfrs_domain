@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.templatetags.static import static
@@ -24,27 +24,32 @@ def adminview(request):
     return render(request,'adminview/admin.html', context)
 
 @login_required
-def employeeview(request):
+def employeeview(request, primary_key):
     print("employee!")
-    employee = User.objects.all()
-    #u = request.user()
-    context = {'employee': employee}
-    return render(request,'employeeview/employee.html', context)
-
+    print(primary_key)
+    
+    
+    context = {'employees': 4}
+    print(context)
+    return render(request,'employeeview/employee.html', context=context)
 
 def loginPopup(request):
 
     if request.method == 'POST':
         user = request.POST.get('Username')
         password = request.POST.get('Password')
+        user_id = request.user.id
+        
+        print("user_id jeeeee")
+        print(user_id)
         user = authenticate(username=user, password=password)
 
         if user.is_authenticated:
             login(request, user)
             if User.objects.get(username=user).is_staff:
-                return adminview(request)
+                return redirect(adminview)
             else:
-                return employeeview(request)
+                return redirect("employeeview", user_id)
         else:
             print("Not yet implemented")
     else:

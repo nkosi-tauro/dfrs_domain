@@ -25,7 +25,8 @@
           <dialog id="my_modal_3" class="modal">
               <div class="w-full max-w-xs">
                 <a href="" class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3" style="padding-right: 3%;">✕</a>
-                <form action="/login" method="POST" class="bg-white shadow-md rounded px-6 pt-6 pb-8 mb-4">
+                <!--<form action="/login" method="POST" class="bg-white shadow-md rounded px-6 pt-6 pb-8 mb-4">-->
+                <form action="{% url 'login' %}" method="POST" class="bg-white shadow-md rounded px-6 pt-6 pb-8 mb-4">
                   {% csrf_token %}
                   <div class="mb-4">
                     <label class="block text-gray-700 text-sm font-bold mb-2" for="Username">
