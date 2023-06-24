@@ -1,0 +1,47 @@
+<div class="px-4 sm:px-6 lg:px-8  p-4 rounded border-2">
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-base font-semibold leading-6 text-gray-900">System and Event Logs</h1>
+      <p class="mt-2 text-sm text-gray-700">
+        A list of all the events occuring on the system.
+      </p>
+    </div>
+  </div>
+  <div class="mt-8 flow-root">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <table class="min-w-full divide-y divide-gray-300">
+          <thead>
+            <tr>
+              <th scope="col"
+                  class="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-0">
+                Type
+              </th>
+              <th scope="col"
+                  class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">Date</th>
+              <th scope="col"
+                  class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">IP Address</th>
+              <th scope="col"
+                  class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">User</th>
+              {% comment %} <th scope="col" class="relative py-3 pl-3 pr-4 sm:pr-0">
+                <span class="sr-only">Edit</span>
+              </th> {% endcomment %}
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 bg-white">
+            <tr>
+              <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">Login</td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">June 21, 2023, 4:01 p.m.</td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">192.81.12.12</td>
+              <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Public</td>
+              {% comment %} <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                <a href="#" class="text-indigo-600 hover:text-indigo-900">Edit<span class="sr-only">, Lindsay Walton</span></a>
+              </td> {% endcomment %}
+            </tr>
+            <!-- More people... -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
