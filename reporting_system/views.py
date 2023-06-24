@@ -12,7 +12,7 @@ def homeview(request):
     '''
     return render(request,'homeview/home.html')
 
-@login_required
+@login_required(login_url='employee-login')
 def adminview(request):
     '''
     Admin View
@@ -21,7 +21,7 @@ def adminview(request):
     context = {'cyberdetectives': cyberdetectives}
     return render(request,'adminview/admin.html', context)
 
-@login_required
+@login_required(login_url='employee-login')
 def employeeview(request, primary_key):
     '''
     Employee View
