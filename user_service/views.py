@@ -80,10 +80,11 @@ def login_service(request):
         if user is not None:
             if user.is_authenticated:
                 login(request, user)
+                user_id = request.user.id
                 if User.objects.get(username=user).is_staff:
                     return redirect('adminview')
                 else:
-                    return redirect('employeeview')
+                    return redirect('employeeview', user_id)
         else:
             messages.error(request, 'Invalid username or password.')
     return render(request, 'homeview/login.html')

@@ -22,7 +22,7 @@ def adminview(request):
     return render(request,'adminview/admin.html', context)
 
 @login_required
-def employeeview(request):
+def employeeview(request, primary_key):
     '''
     Employee View
     '''
