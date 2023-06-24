@@ -2,6 +2,7 @@
 URLS for the reporting system
 '''
 from django.urls import path
+from django.contrib.auth import views as auth_views
 from user_service import views as user_view
 from . import views
 
@@ -16,6 +17,8 @@ urlpatterns = [
          user_view.employee_delete, name="employee-delete"),
     path("cyberdetective/update/",
          user_view.employee_update, name="employee-update"),
-    path('login', views.loginPopup, name='login'),
+    path('login/', user_view.login_service, name='employee-login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='homeview/logout.html'),
+         name='employee-logout'),
     path("employee",views.employeeview, name="employeeview"),
 ]

@@ -3,6 +3,8 @@ User Service views
 '''
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 from .forms import EmployeeRegisterForm, EmployeeUpdateForm
 
 # Create your views here.
@@ -61,3 +63,28 @@ def employee_update(request):
     context = {'form': form,
                'request': request.user}
     return render(request, 'adminview/employee_update.html', context)
+
+
+def login_service(request):
+    '''
+    Login Service. 
+    This will enable admins and staff to login from one entry point
+    And then be redirected to the relavant view based on their permissions.
+    '''
+    if request.method == 'POST':
+        user = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(username=user, password=password)
+
+        # This will first check if the account exists before it tries to authenticate
+        if user is not None:
+            if user.is_authenticated:
+                login(request, user)
+                if User.objects.get(username=user).is_staff:
+                    return redirect('adminview')
+                else:
+                    return redirect('employeeview')
+        else:
+            messages.error(request, 'Invalid username or password.')
+    return render(request, 'homeview/login.html')
+           

@@ -1,0 +1,62 @@
+{% extends "base/base.html" %}
+{% block title %}
+  DFRS Domain: logout
+{% endblock title %}
+{% block content %}
+  {# djlint:off H021,H023,H006,H029,H029 #}
+  <nav class="bg-gray-800">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex h-16 justify-between">
+        <div class="flex">
+          <div class="-ml-2 mr-2 flex items-center md:hidden"></div>
+          <div class="flex flex-shrink-0 items-center">
+            <img class="block h-8 w-auto lg:hidden"
+                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                 alt="Your Company">
+            <img class="hidden h-8 w-auto lg:block"
+                 src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+                 alt="Your Company">
+          </div>
+          <div class="hidden md:ml-6 md:flex md:space-x-8">
+            <p class="inline-flex items-center text-white  px-1 pt-1 text-sm font-medium">Logged Out</p>
+          </div>
+        </div>
+        <div class="flex items-center"></div>
+      </div>
+    </div>
+  </nav>
+  <div class="rounded-md bg-green-50 p-4">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg class="h-5 w-5 text-green-400"
+             viewBox="0 0 20 20"
+             fill="currentColor"
+             aria-hidden="true">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.857-9.809a.75.75 0 00-1.214-.882l-3.483 4.79-1.88-1.88a.75.75 0 10-1.06 1.061l2.5 2.5a.75.75 0 001.137-.089l4-5.5z" clip-rule="evenodd" />
+        </svg>
+      </div>
+      <div class="ml-3">
+        <h3 class="text-sm font-medium text-green-800">Logged Out</h3>
+        <div class="mt-2 text-sm text-green-700">
+          <p>You have been successfully logged out of the application</p>
+        </div>
+        <div class="mt-4">
+          <div class="-mx-2 -my-1.5 flex">
+            <a href={% url 'homeview' %}>
+              <button type="button"
+                      class="rounded-md bg-green-50 px-2 py-1.5 text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50">
+                Home
+              </button>
+            </a>
+            <a href={% url 'employee-login' %}>
+              <button type="button"
+                      class="ml-3 rounded-md bg-green-50 px-2 py-1.5 text-sm font-medium text-green-800 hover:bg-green-100 focus:outline-none focus:ring-2 focus:ring-green-600 focus:ring-offset-2 focus:ring-offset-green-50">
+                Login Again?
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock content %}

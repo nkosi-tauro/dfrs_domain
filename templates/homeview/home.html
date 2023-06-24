@@ -1,9 +1,11 @@
 {% extends "base/base.html" %}
-{% block title %} DFRS Domain: Home {% endblock title %}
+{% block title %}
+  DFRS Domain: Home
+{% endblock title %}
 {% load static %}
 {% block content %}
   {% comment %} Ignoring inline styles warning {% endcomment %}
-  {# djlint:off H021,H023,H006 #}
+  {# djlint:off H021,H023,H006,H029,H012 #}
   <div class="bg-white">
     <header class="absolute inset-x-0 top-0 z-50">
       <nav class="flex items-center justify-between p-6 lg:px-8"
@@ -16,47 +18,28 @@
                  alt="">
           </a>
         </div>
-        <div class="hidden lg:flex lg:gap-x-12">
-          {% comment %} <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Report Vulnerability</a> {% endcomment %}
-          {% comment %} <a href="#" class="text-sm font-semibold leading-6 text-gray-900">About</a> {% endcomment %}
-        </div>
+        <div class="hidden lg:flex lg:gap-x-12"></div>
         <div class="hidden lg:flex lg:flex-1 lg:justify-end">
-          <button class="btn" onclick="my_modal_3.showModal()">Employee Login</button>
-          <dialog id="my_modal_3" class="modal">
-              <div class="w-full max-w-xs">
-                <a href="" class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3" style="padding-right: 3%;">✕</a>
-                <form action="/login" method="POST" class="bg-white shadow-md rounded px-6 pt-6 pb-8 mb-4">
-                  {% csrf_token %}
-                  <div class="mb-4">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Username">
-                      Username
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" name="Username" type="text" placeholder="Username">
-                  </div>
-                  <div class="mb-6">
-                    <label class="block text-gray-700 text-sm font-bold mb-2" for="Password">
-                      Password
-                    </label>
-                    <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" name="Password" type="password" placeholder="******************">
-                    
-                  </div>
-                  <div class="flex items-center">
-                    <input class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit" value = "Validate">
-                    <input class="bg-red-500 hover:bg-red-700 text-white text-s font-bold py-2 px-1 rounded focus:outline-none focus:shadow-outline" type="submit" value="Request new password" style="margin-left: 3%;">
-                  </div>  
-                </form>
-                <p class="text-center text-gray-500 text-xs">
-                  &copy;2023 DFRS. All rights reserved.
-                </p>
-              </div>
- 
-
-             <!-- <button class="btn btn-sm btn-circle btn-ghost absolute right-3 top-3">✕</button>
-              <p class="py-4">Welcome back. Please authenticate as an employee.</p>
-              {% csrf_token %}
-              <input type="text" name="Username" placeholder="Username" class="input input-bordered input-primary w-full max-w-xs" style="margin-bottom: 1%" />
-              <input type="text" placeholder="Password" class="input input-bordered input-primary w-full max-w-xs" /> -->
-          </dialog>
+          {% if user.is_authenticated and user.is_staff %}
+            {% comment %} {% if user.is_staff %} {% endcomment %}
+            <a href={% url 'adminview' %}>
+              <button class="text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500">
+                Admin Dashboard <span aria-hidden="true">&rarr;</span>
+              </button>
+            </a>
+          {% elif user.is_authenticated and user.is_staff == False %}
+            <a href={% url 'employeeview' %}>
+              <button class="text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500">
+                CyberDetective Dashboard <span aria-hidden="true">&rarr;</span>
+              </button>
+            </a>
+          {% else %}
+            <a href={% url 'employee-login' %}>
+              <button class="text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500">
+                Employee Login <span aria-hidden="true">&rarr;</span>
+              </button>
+            </a>
+          {% endif %}
         </div>
       </nav>
     </header>
@@ -80,9 +63,30 @@
             service for identifying flaws in ICT systems across various organisations.
           </p>
           <div class="mt-10 flex items-center justify-center gap-x-6">
-            <a href="#"
+            {% if user.is_authenticated and user.is_staff %}
+            {% comment %} {% if user.is_staff %} {% endcomment %}
+            <a href={% url 'adminview' %}>
+              <button class="text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500">
+                Admin Dashboard <span aria-hidden="true">&rarr;</span>
+              </button>
+            </a>
+          {% elif user.is_authenticated and user.is_staff == False %}
+          <a href="#"
                class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Report Vulnerability</a>
-            <a href="#" class="text-sm font-semibold leading-6 text-gray-900">Employee Login <span aria-hidden="true">→</span></a>
+            <a href={% url 'employeeview' %}>
+              <button class="text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500">
+                CyberDetective Dashboard <span aria-hidden="true">&rarr;</span>
+              </button>
+            </a>
+          {% else %}
+          <a href="#"
+               class="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Report Vulnerability</a>
+            <a href={% url 'employee-login' %}>
+              <button class="text-sm font-semibold leading-6 text-gray-900 hover:text-indigo-500">
+                Employee Login <span aria-hidden="true">&rarr;</span>
+              </button>
+            </a>
+          {% endif %}
           </div>
         </div>
       </div>
@@ -185,7 +189,6 @@
                  alt="">
             <div>
               <h3 class="text-base font-semibold leading-7 tracking-tight text-gray-900">Nkosilathi Tauro</h3>
-
               <ul role="list" class="mt-2 flex gap-x-3">
                 <li>
                   <a href="https://github.com/nkosi-tauro"
