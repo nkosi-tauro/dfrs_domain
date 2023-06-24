@@ -79,7 +79,7 @@ def login_service(request):
         if request.user.is_staff:
             return redirect('adminview')
         else:
-            return redirect('employeeview')
+            return redirect('employeeview', user_id)
 
     if request.method == 'POST':
         user = request.POST.get('username')
