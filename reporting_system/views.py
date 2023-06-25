@@ -27,5 +27,9 @@ def employeeview(request, primary_key):
     Employee View
     '''
     employee = User.objects.all()
-    context = {'employee': employee}
+    
+    context = {
+        'employee': employee,
+        }
+
     return render(request,'employeeview/employee.html', context)
