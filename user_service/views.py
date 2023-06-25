@@ -76,6 +76,7 @@ def login_service(request):
     '''
     # Check if user is already logged in and redirect them to the correct view
     if request.user.is_authenticated:
+        user_id = request.user.id
         if request.user.is_staff:
             return redirect('adminview')
         else:
@@ -84,13 +85,14 @@ def login_service(request):
     if request.method == 'POST':
         user = request.POST.get('username')
         password = request.POST.get('password')
+        
         user = authenticate(username=user, password=password)
+        login(request, user)
+        user_id = request.user.id
 
         # This will first check if the account exists before it tries to authenticate
         if user is not None:
             if user.is_authenticated:
-                login(request, user)
-                user_id = request.user.id
                 if User.objects.get(username=user).is_staff:
                     return redirect('adminview')
                 else:
