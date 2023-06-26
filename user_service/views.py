@@ -16,13 +16,21 @@ def register_employee(request):
     Without having to use the django admin dashboard
     '''
     if request.method == 'POST':
-        # This will take the form inputs (username, password)
+        # This will take the form inputs (username, email, password)
         form = EmployeeRegisterForm(request.POST)
+        email= request.POST.get('email')
         # This will check if the inputs are valid based on the contraints
         if form.is_valid():
             form.save()
             # This will redirect back to the admin view
             return redirect('adminview')
+        elif form.errors:
+            # This will display the error messages
+            if User.objects.filter(username=form.fields['username']).exists():
+                messages.add_message(request, messages.ERROR, 'Username already exists')
+            if User.objects.filter(email=email).exists():
+                messages.add_message(request, messages.ERROR, 'Email already exists')
+            messages.add_message(request, messages.ERROR, form.errors)
     else:
         form = EmployeeRegisterForm()
     form = EmployeeRegisterForm()
