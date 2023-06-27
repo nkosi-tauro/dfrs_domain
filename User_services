@@ -1,0 +1,64 @@
+Registering a User
+# forms.py
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import User
+
+class RegisterForm(UserCreationForm):
+    email = forms.EmailField()
+
+    class Meta:
+        model = User
+        fields = ["username", "email", "password1", "password2"]
+
+
+# tests.py
+from django.test import TestCase
+from django.urls import reverse
+from .forms import RegisterForm
+from django.contrib.auth.models import User
+
+class RegistrationTest(TestCase):
+    def test_form(self):
+        form_data = {'username': 'testuser', 'email': 'test@example.com', 'password1': '123456abc', 'password2': '123456abc'}
+        form = RegisterForm(data=form_data)
+        self.assertTrue(form.is_valid())
+
+    def test_view(self):
+        form_data = {'username': 'testuser', 'email': 'test@example.com', 'password1': '123456abc', 'password2': '123456abc'}
+        response = self.client.post(reverse('register'), form_data)
+        self.assertEqual(response.status_code, 302)  # Assuming you're redirecting after successful registration
+
+        users = User.objects.all()
+        self.assertEqual(len(users), 1)
+        self.assertEqual(users[0].username, 'testuser')
+
+Loging in a User
+
+# tests.py
+class LoginTest(TestCase):
+    def setUp(self):
+        self.credentials = {
+            'username': 'testuser',
+            'password': 'testpassword'
+        }
+        User.objects.create_user(**self.credentials)
+
+    def test_login(self):
+        response = self.client.post(reverse('login'), self.credentials, follow=True)
+        # should be logged in now
+        self.assertTrue(response.context['user'].is_authenticated)
+
+Forgot password
+# tests.py
+from django.core import mail
+class PasswordResetTest(TestCase):
+    def setUp(self):
+        self.user = User.objects.create_user('testuser', 'test@example.com', 'testpassword')
+
+    def test_password_reset(self):
+        response = self.client.post(reverse('password_reset'), {'email': 'test@example.com'})
+        self.assertEqual(response.status_code, 302)  # Assuming you're redirecting after sending the email
+
+        # Check that an email has been sent
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertIn('Password reset on', mail.outbox[0].subject)
