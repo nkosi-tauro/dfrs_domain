@@ -2,3 +2,4 @@
 dfrs_domain/__pycache__/
 reporting_system/__pycache__/
 user_service/__pycache__/
+.vscode/
