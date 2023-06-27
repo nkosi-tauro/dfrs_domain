@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     "user_service.apps.UserServiceConfig",
     "crispy_forms",
     "crispy_tailwind",
+    "eventlog.apps.EventLogConfig",
 ]
 
 MIDDLEWARE = [
