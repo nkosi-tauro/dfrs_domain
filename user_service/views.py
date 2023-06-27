@@ -49,7 +49,7 @@ def register_employee(request):
                 messages.add_message(request, messages.ERROR, 'Username already exists')
             if User.objects.filter(email=email).exists():
                 messages.add_message(request, messages.ERROR, 'Email already exists')
-            messages.add_message(request, messages.ERROR, form.errors)
+            messages.add_message(request, messages.ERROR, f"{form.errors}")
     else:
         form = EmployeeRegisterForm()
     form = EmployeeRegisterForm()
