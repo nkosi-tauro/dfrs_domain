@@ -93,7 +93,7 @@ def login_service(request):
     if request.method == 'POST':
         user = request.POST.get('username')
         password = request.POST.get('password')
-        
+
         user = authenticate(username=user, password=password)
         login(request, user)
         user_id = request.user.id

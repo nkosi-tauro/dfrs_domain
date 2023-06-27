@@ -27,7 +27,7 @@ def employeeview(request, primary_key):
     Employee View
     '''
     employee = User.objects.all()
-    
+
     context = {
         'employee': employee,
         }
