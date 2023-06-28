@@ -10,12 +10,14 @@
     <div class="flex flex-col md:flex-row w-full">
       <div class="column-1 w-full md:w-6/12 h-full md:mx-2 my-2 rounded-md">
         {% csrf_token %}
-        {% include "adminview/eventlogs.html" %}
+        {% include "adminview/reports.html" %}
       </div>
       <div class="column-2 w-full md:w-5/12 h-full md:mx-2 my-2 rounded-md">
-        {% include "adminview/reports.html" %}
+        {% include "adminview/eventlogs.html" %}
         {% include "adminview/employee.html" %}
       </div>
     </div>
   </div>
+
+  
 {% endblock content %}
