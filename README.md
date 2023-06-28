@@ -1,3 +1,21 @@
+<h1 align="center">The Dutch Forensics Reporting System</h1>
+
+<p align="center">
+  <img alt="Github top language" src="https://img.shields.io/github/languages/top/nkosi-tauro/dfrs_domain?color=56BEB8">
+
+  <img alt="Github language count" src="https://img.shields.io/github/languages/count/nkosi-tauro/dfrs_domain?color=56BEB8">
+
+  <img alt="Repository size" src="https://img.shields.io/github/repo-size/nkosi-tauro/dfrs_domain?color=56BEB8">
+
+  <img alt="License" src="https://img.shields.io/github/license/nkosi-tauro/dfrs_domain?color=56BEB8">
+
+  [![Django CI](https://github.com/nkosi-tauro/dfrs_domain/actions/workflows/django.yml/badge.svg)](https://github.com/nkosi-tauro/dfrs_domain/actions/workflows/django.yml)
+
+</p>
+
+## :dart: About ##
+
+The Dutch Forensic Reporting System aims to provide a comprehensive reporting service for identifying flaws in ICT systems across various organisations.
 
 ## Enviroments
 - [Production](https://dfrsdomain-production.up.railway.app/)  
@@ -122,3 +140,10 @@ $ coverage run --source='django_app_name' manage.py test && coverage report
 $ coverage run --source='django_app_name' manage.py test && coverage report && coverage html
 
 ```
+
+Made with :heart: by 
+
+- <a href="https://github.com/alesteka" target="_blank">Ales Tekavcic</a>
+- <a href="https://github.com/muwalofra" target="_blank">Francis Muwalo</a>
+- <a href="https://github.com/nkosi-tauro" target="_blank">Nkosilathi Tauro</a>
+- <a href="https://github.com/alihu12345" target="_blank">Abdulahi Alihu Ngamjeh</a>
