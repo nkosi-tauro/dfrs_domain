@@ -1,4 +1,12 @@
+{% extends "base/base.html" %}
+{% block title %}
+  DFRS Domain: Admin
+{% endblock title %}
+{% block content %}
+
 {# djlint:off H021,H023,H006 #}
+<link rel="stylesheet" href="https://unpkg.com/flowbite@1.5.1/dist/flowbite.min.css" />
+
 <nav class="bg-gray-800">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 justify-between">
@@ -19,6 +27,67 @@
       </div>
       <div class="flex items-center">
         <div class="flex-shrink-0">
+          <button type="button" onclick="my_modal_3.showModal()" class="relative inline-flex items-center gap-x-1.5 rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+            <svg class="-ml-0.5 h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path d="M10.75 4.75a.75.75 0 00-1.5 0v4.5h-4.5a.75.75 0 000 1.5h4.5v4.5a.75.75 0 001.5 0v-4.5h4.5a.75.75 0 000-1.5h-4.5v-4.5z" />
+            </svg>
+            Add flaw
+          </button>
+          <dialog id="my_modal_3" class="modal w-3/12">
+            <form method="dialog" class="modal-box" >
+              <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
+
+              <div class="mb-6">
+                <label for="default-input" class="mb-4 font-semibold text-gray-900 dark:text-white">Type</label>
+                <input style="margin-top: 6%;" type="text" id="default-input" name = "Type" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+              </div>
+  
+
+
+              <h3 class="mb-4 font-semibold text-gray-900 dark:text-white" style = "padding-top: 1%;">Severity</h3>
+              <ul class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white" style="margin-bottom: 5%;">
+                <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                  <div class="flex items-center pl-3">
+                    <input id="vue-radio" type="radio" name="technology" value="Low" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                    <label for="vue-radio" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Low</label>
+                  </div>
+                </li>
+                <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                  <div class="flex items-center pl-3">
+                    <input id="react-radio" type="radio" name="technology" value="Medium" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                    <label for="react-radio" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Medium</label>
+                  </div>
+                </li>
+                <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                  <div class="flex items-center pl-3">
+                    <input id="angular-radio" type="radio" name="technology" value="Critical" class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500">
+                    <label for="angular-radio" class="w-full py-3 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">Critical</label>
+                  </div>
+                </li>
+                </ul>
+
+                <div class="mb-6">
+                  <label for="default-input" class="block mb-4 text-sm font-semibold text-gray-900 dark:text-white">Description</label>
+                  <input type="text" id="default-input" name = "Type" class="resize bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                </div>
+
+                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-3 px-4 border border-blue-700 rounded">
+                  Add
+                </button>
+
+              
+
+
+              
+
+
+
+
+
+            </form>
+          </dialog>
+
+        </div>
           <div class="flex-shrink-0 ml-1">
             <a href={% url 'employee-logout' %}>
               <button type="button"
@@ -32,3 +101,6 @@
     </div>
   </div>
 </nav>
+<script src="https://unpkg.com/flowbite@1.5.1/dist/flowbite.js"></script>
+
+{% endblock content %}
