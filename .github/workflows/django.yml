@@ -4,7 +4,10 @@ on:
   push:
     branches: [ "master" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "dev" ]
+
+env:
+  DATABASE_URL: ${{ secrets.DATABASE_URL }}
 
 jobs:
   build:
@@ -18,8 +21,6 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
-      env:
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
       uses: actions/setup-python@v3
       with:
         python-version: ${{ matrix.python-version }}
