@@ -10,8 +10,8 @@ class EmployeeRegisterForm(UserCreationForm):
     '''
     Creating a new form for employee registration
     '''
-    # Include the email field into the default form
-    email = forms.EmailField(required=True, validators=[validators.EmailValidator])
+    # Include the email field with the Default EmailValidator
+    email = forms.EmailField(required=True, validators=[validators.EmailValidator()])
 
     class Meta:
         '''

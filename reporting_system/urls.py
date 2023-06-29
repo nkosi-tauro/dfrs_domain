@@ -20,5 +20,6 @@ urlpatterns = [
     path('login/', user_view.login_service, name='employee-login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='homeview/logout.html'),
          name='employee-logout'),
-    path("employee",views.employeeview, name="employeeview"),
+    path("employee/<int:primary_key>",views.employeeview, name="employeeview"),
+#    path("addflaw/",user_view.add_flaw, name="add-flaw"),
 ]

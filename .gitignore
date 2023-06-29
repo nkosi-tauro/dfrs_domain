@@ -1,1 +1,9 @@
 .env
+dfrs_domain/__pycache__/
+reporting_system/__pycache__/
+user_service/__pycache__/
+user_service/tests/__pycache__/
+reporting_system/tests/__pycache__/
+.vscode/
+.coverage
+htmlcov/
