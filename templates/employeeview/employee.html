@@ -3,7 +3,8 @@
   DFRS Domain: Admin
 {% endblock title %}
 {% block content %}
-  {% include "employeeview/nav.html" %}
+  {% include "employeeview/nav.html" with user_id=user_id %}
+  {{ user_id }}
   <div class="flex flex-row ">
     <div class="relative column-1 w-1/12  bg-custom-blue justify-center">
     </div>

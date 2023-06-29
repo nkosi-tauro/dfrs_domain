@@ -33,3 +33,22 @@ class EmployeeUpdateForm(forms.ModelForm):
         '''
         model = User
         fields = ['username', 'email']
+
+
+# import the standard Django Forms
+# from built-in library
+	
+# creating a form
+class AddFlawForm(forms.Form):
+    type = forms.CharField(max_length = 200, required=True)
+    CHOICES = [
+        ('1', 'Low'),
+        ('2', 'Medium'),
+        ('3', 'Critical'),
+    ]
+    severity = forms.ChoiceField(
+        widget=forms.RadioSelect,
+        choices=CHOICES, 
+    )
+    description = forms.CharField(max_length = 200, required=False)
+

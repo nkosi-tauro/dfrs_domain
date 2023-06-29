@@ -7,7 +7,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from eventlog.events import EventGroup
-from .forms import EmployeeRegisterForm, EmployeeUpdateForm
+from .forms import EmployeeRegisterForm, EmployeeUpdateForm, AddFlawForm
+from .models import Flaw
 
 # Start a new Event group
 systemEvent = EventGroup()
@@ -139,3 +140,70 @@ def login_service(request):
             messages.error(request, 'Invalid username or password.')
     return render(request, 'homeview/login.html')
            
+
+#def add_flaw(request, user_id):
+#
+#    #if request.method == 'POST':
+#        # This will take the form inputs (username, email, password)
+#    form = AddFlawForm()        
+#    context = {'form': form}
+#    context["user_id"] = user_id
+#    return render(request, 'employeeview/addFlaw.html', context)
+
+        # This will check if the inputs are valid based on the contraints
+    #    if form.is_valid():
+    #        form.save()
+    #        systemEvent.info(f"New employee registered: {form.cleaned_data['username']}",
+    #                         initiator=request.user)
+    #        # This will redirect back to the admin view
+    #        return redirect('adminview')
+    #    elif form.errors:
+    #        # This will display the error messages
+    #        if User.objects.filter(username=form.fields['username']).exists():
+    #            messages.add_message(request, messages.ERROR, 'Username already exists')
+    #        if User.objects.filter(email=email).exists():
+    #            messages.add_message(request, messages.ERROR, 'Email already exists')
+    #        messages.add_message(request, messages.ERROR, f"{form.errors}")
+    #else:
+    #    form = EmployeeRegisterForm()
+    #form = EmployeeRegisterForm()
+    #
+    #context = {'form': form}
+    #context["user_id"] = user_id
+
+    #return render(request, 'adminview/register_employee.html', context)
+    
+    #return render(request, 'employeeview/addFlaw.html', context)
+
+def add_flaw(request, user_id):
+    if request.method == 'POST':
+        form = AddFlawForm(request.POST)
+        if form.is_valid():
+            print("aaaaaaaaaaaaaaaaaaaaaa")
+            # Create a new Flaw object and save it to the database
+            flaw = Flaw(
+                user_id=user_id,
+                type=form.cleaned_data['type'],
+                severity=form.cleaned_data['severity'],
+                description=form.cleaned_data['description']
+            )
+            print(flaw)
+            flaw.save()
+            #return redirect('employeeview', primary_key=user_id)
+            context = {
+                'form': form,
+                'user_id': user_id,
+                'flaws': Flaw.objects.filter(user_id=user_id)  # Query the database for flaws related to the user
+            }
+            #Flaw.objects.delete()
+            return render(request, 'employeeview/employee.html', context)
+
+    else:
+        form = AddFlawForm()
+    context = {
+        'form': form,
+        'user_id': user_id,
+        'flaws': Flaw.objects.filter(user_id=user_id)  # Query the database for flaws related to the user
+    }
+    print(context)
+    return render(request, 'employeeview/addFlaw.html', context)

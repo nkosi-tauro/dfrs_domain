@@ -36,9 +36,11 @@ def employeeview(request, primary_key):
     # .all() will return a list of all objects(users)
     # employee = User.objects.get(id=primary_key)
     employee = User.objects.all()
+    user_id = request.user.id
 
     context = {
         'employee': employee,
+        "user_id": user_id,
         }
 
     return render(request,'employeeview/employee.html', context)
