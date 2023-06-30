@@ -21,5 +21,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(template_name='homeview/logout.html'),
          name='employee-logout'),
     path("employee/<int:primary_key>",views.employeeview, name="employeeview"),
+    path("report/",views.publicview, name="publicview"),
 #    path("addflaw/",user_view.add_flaw, name="add-flaw"),
+
 ]
