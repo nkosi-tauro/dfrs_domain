@@ -81,3 +81,22 @@ def publicview(request):
     context = {'form': form}
 
     return render(request,'publicview/public.html', context)
+
+
+def cyberdetectiveview(request):
+    '''
+    The Cyber Detective View
+    '''
+    cyberdetectives = User.objects.all()
+    context = {'cyberdetectives': cyberdetectives}
+    return render(request,'adminview/employee.html', context)
+
+
+def systemlogsview(request):
+    '''
+    The System Logs View
+    '''
+    events = Event.objects.all()
+    context = {'events': events}
+    return render(request,'adminview/eventlogs.html', context)
+
