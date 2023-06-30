@@ -73,8 +73,9 @@ def publicview(request):
             systemEvent.info(
                 "A Public user has submitted a new vulnerability report",
                              initiator=get_client_ip(request))
+            messages.success(request, 'Your Report has been submitted successfully')
         elif form.errors:
-            messages.add_message(request, messages.ERROR, f"{form.errors}")
+            messages.error(request, f"{form.errors}")
     else:
         form =ReportingFormView()
     form = ReportingFormView()
