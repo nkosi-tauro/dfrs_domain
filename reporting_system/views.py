@@ -83,7 +83,7 @@ def publicview(request):
 
     return render(request,'publicview/public.html', context)
 
-
+@login_required(login_url='employee-login')
 def cyberdetectiveview(request):
     '''
     The Cyber Detective View
@@ -92,7 +92,7 @@ def cyberdetectiveview(request):
     context = {'cyberdetectives': cyberdetectives}
     return render(request,'adminview/employee.html', context)
 
-
+@login_required(login_url='employee-login')
 def systemlogsview(request):
     '''
     The System Logs View
