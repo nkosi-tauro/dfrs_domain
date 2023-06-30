@@ -15,11 +15,17 @@ urlpatterns = [
          user_view.employee_detail, name="employee-detail"),
     path("dfrsadmin/cyberdetective/delete/<int:primary_key>",
          user_view.employee_delete, name="employee-delete"),
+    path("dfrsadmin/cyberdetectives/",
+         views.cyberdetectiveview, name="cyberdetectiveview"),
+    path("dfrsadmin/systemlogs/",
+         views.systemlogsview, name="systemlogsview"),
     path("cyberdetective/update/",
          user_view.employee_update, name="employee-update"),
     path('login/', user_view.login_service, name='employee-login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='homeview/logout.html'),
          name='employee-logout'),
     path("employee/<int:primary_key>",views.employeeview, name="employeeview"),
+    path("report/",views.publicview, name="publicview"),
 #    path("addflaw/",user_view.add_flaw, name="add-flaw"),
+
 ]

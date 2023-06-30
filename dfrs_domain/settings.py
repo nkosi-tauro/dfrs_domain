@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from django.contrib.messages import constants as messages
 import dj_database_url
 
 load_dotenv()
@@ -152,3 +153,12 @@ STATIC_URL = "/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "adminview"
+
+# Message Tags for form messages
+MESSAGE_TAGS = {
+        messages.DEBUG: 'text-sm text-yellow-700',
+        messages.INFO: 'text-sm text-blue-700',
+        messages.SUCCESS: 'text-sm font-medium text-green-800',
+        messages.WARNING: 'text-sm text-yellow-700',
+        messages.ERROR: 'text-sm text-red-700',
+}
