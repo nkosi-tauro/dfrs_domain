@@ -100,4 +100,3 @@ def systemlogsview(request):
     events = Event.objects.all()
     context = {'events': events}
     return render(request,'adminview/eventlogs.html', context)
-
