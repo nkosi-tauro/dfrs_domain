@@ -1,21 +1,26 @@
 {# djlint:off H021,H023,H006 #}
-<nav class="bg-gray-800 shadow">
+<nav class="bg-gray-800">
   <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
     <div class="flex h-16 justify-between">
       <div class="flex">
         <div class="flex flex-shrink-0 items-center">
           <img class="block h-8 w-auto lg:hidden"
-               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                alt="Your Company">
           <img class="hidden h-8 w-auto lg:block"
-               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600"
+               src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
                alt="Your Company">
         </div>
-        <div class="hidden md:ml-6 md:flex md:space-x-8">
-          <a href={% url 'adminview' %} class="inline-flex items-center border-b-2 border-indigo-500 px-1 pt-1 text-sm font-medium text-white">Vulnerabilities</a>
-              <a href={% url 'cyberdetectiveview' %} class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-white hover:border-white-300 hover:text-white-700">Employees</a>
+        <div class="hidden md:ml-6 md:flex md:items-center md:space-x-4">
+          {% with request.resolver_match.url_name as url_name %}
+            <a href="{% url 'adminview' %}"
+               class="{% if url_name == 'adminview' %} bg-gray-900 text-white {% endif %} text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium"
+               aria-current="page">Vulnerabilities</a>
+            <a href="{% url 'cyberdetectiveview' %}"
+               class="{% if url_name == 'cyberdetectiveview' %} bg-gray-900 text-white {% endif %} text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">Employees</a>
             <a href="{% url 'systemlogsview' %}"
-               class="inline-flex items-center border-b-2 border-transparent px-1 pt-1 text-sm font-medium text-white hover:border-white-300 hover:text-white-700">System Events</a>
+               class="{% if url_name == 'systemlogsview' %} bg-gray-900 text-white {% endif %} text-gray-300 hover:bg-gray-700 hover:text-white rounded-md px-3 py-2 text-sm font-medium">System Events</a>
+          {% endwith %}
         </div>
       </div>
       <div class="flex items-center">
