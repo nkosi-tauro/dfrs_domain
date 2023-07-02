@@ -5,7 +5,6 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core import validators
-from .models import FlawFormModel
 
 
 
@@ -37,14 +36,3 @@ class EmployeeUpdateForm(forms.ModelForm):
         model = User
         fields = ['username', 'email']
 
-class AddFlawForm(forms.ModelForm):
-    '''
-    Creating a form to add a flaw
-    '''    
-    class Meta:
-        '''
-        This class is used to set the model we want to interact with 
-        and fields that will be in the form
-        '''
-        model = FlawFormModel
-        fields = ['type', 'severity', 'description']

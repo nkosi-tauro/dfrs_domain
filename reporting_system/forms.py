@@ -3,7 +3,7 @@ Reporting System Forms
 
 '''
 from django import forms
-from .models import ReportingFormModel
+from .models import ReportingFormModel, FlawFormModel
 
 class ReportingFormView(forms.ModelForm):
     '''
@@ -16,3 +16,15 @@ class ReportingFormView(forms.ModelForm):
         '''
         model = ReportingFormModel
         fields = ['first_name', 'last_name', 'email', 'type_of_vulnerability', 'description']
+
+class AddFlawForm(forms.ModelForm):
+    '''
+    Creating a form to add a flaw
+    '''
+    class Meta:
+        '''
+        This class is used to set the model we want to interact with 
+        and fields that will be in the form
+        '''
+        model = FlawFormModel
+        fields = ['type', 'severity', 'description']
