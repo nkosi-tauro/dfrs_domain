@@ -1,13 +1,15 @@
 '''
 User Service views
 '''
+from django.forms.models import model_to_dict
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from eventlog.events import EventGroup
-from .forms import EmployeeRegisterForm, EmployeeUpdateForm
+from .forms import EmployeeRegisterForm, EmployeeUpdateForm, AddFlawForm
+from user_service.models import FlawFormModel
 
 # Start a new Event group
 systemEvent = EventGroup()
@@ -138,4 +140,67 @@ def login_service(request):
                                 initiator=get_client_ip(request))
             messages.error(request, 'Invalid username or password.')
     return render(request, 'homeview/login.html')
-           
+
+@login_required(login_url='employee-login')
+def add_flaw(request, user_id):
+    '''
+    Service to add the flaws, that have been identified by the employee. 
+    This will allow employees to track breaches.
+    '''
+    form = AddFlawForm()
+    context = {
+        'form': form,
+        'user_id': user_id,
+    }
+    if request.method == 'POST':        
+        form = AddFlawForm(request.POST)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.user_id_id = user_id          
+            obj.save()
+            return redirect('employeeview', user_id=user_id)
+        else:
+            context["not_valid"] = 1
+            return render(request, 'employeeview/addFlaw.html', context)
+    
+    return render(request, 'employeeview/addFlaw.html', context)
+
+@login_required(login_url='employee-login')
+def remove_flaw(request, user_id, flaw):   
+    '''
+    Service to delete the chosen flaw.
+    '''
+    if request.method == 'POST':
+        #flaw = AddFlawForm.objects.get(id=flaw)
+        flaw = FlawFormModel.objects.filter(id=flaw)  # Query the database for flaws related to the user
+        flaw.delete()
+        return redirect('employeeview', user_id)  # Redirect back to employee view
+
+    context = {"user_id": user_id,
+            "flaw_id": flaw
+            }   
+    return render(request, 'employeeview/remove_flaw.html', context=context)
+
+@login_required(login_url='employee-login')
+def edit_flaw(request, user_id, flaw):
+    '''
+    Service to modify the chosen flaw.
+    '''
+    form = AddFlawForm()
+    context = {"form": form, 
+               "user_id": user_id,
+               "flaw_id": flaw
+               }
+    if request.method == 'POST':
+        form = AddFlawForm(request.POST)
+        if form.is_valid():
+            type = request.POST["type"]
+            severity = request.POST["severity"]
+            description = request.POST["description"]
+            FlawFormModel.objects.filter(id = flaw).update(type=type, severity = severity, description = description)
+            return redirect('employeeview', user_id)  # Redirect back to employee view
+        else:
+            context["not_valid"] = 1
+            return render(request, 'employeeview/edit_flaw.html', context)
+
+    return render(request, 'employeeview/edit_flaw.html', context)

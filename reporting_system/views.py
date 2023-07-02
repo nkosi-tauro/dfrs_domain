@@ -8,6 +8,7 @@ from django.contrib import messages
 from eventlog.models import Event
 from eventlog.events import EventGroup
 from .forms import ReportingFormView
+from user_service.models import FlawFormModel
 
 # Start a new Event group
 systemEvent = EventGroup()
@@ -46,21 +47,18 @@ def adminview(request):
     return render(request,'adminview/admin.html', context)
 
 @login_required(login_url='employee-login')
-def employeeview(request, primary_key):
+def employeeview(request, user_id):
     '''
     Employee View
-    '''
-    # If you want to get the user object by primary key
-    # .all() will return a list of all objects(users)
-    # employee = User.objects.get(id=primary_key)
+    '''       
     employee = User.objects.all()
-
+    flaws_context = FlawFormModel.objects.filter(user_id=user_id)  # Query the database for flaws related to the user
     context = {
         'employee': employee,
+        "user_id": user_id,
+        "flaws": flaws_context
         }
-
     return render(request,'employeeview/employee.html', context)
-
 
 def publicview(request):
     '''
