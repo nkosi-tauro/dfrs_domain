@@ -26,10 +26,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-(x5v541yhfn6lb(_z2&x17%%i6#k)3#$2tv#mwbh*5=pd^0wec"
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# (Set to True when in development mode)
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "dfrsdomain-production.up.railway.app",
@@ -43,6 +44,20 @@ CSRF_TRUSTED_ORIGINS = [
     "https://127.0.0.1"
 ]
 
+# Security settings
+SECURE_HSTS_SECONDS = 31536000
+SECURE_CONTENT_TYPE_NOSNIFF = True
+# Forces application to be servered over a SSL connection only
+# (Set to False when in development mode)
+SECURE_SSL_REDIRECT=True
+# using a secure-only session cookie makes it more difficult for network traffic sniffers to hijack user sessions.
+SESSION_COOKIE_SECURE=True
+# Using a secure-only CSRF cookie makes it more difficult for network traffic sniffers to steal the CSRF token.
+CSRF_COOKIE_SECURE=True
+# Makes sure all subdomains are served over SSL 
+SECURE_HSTS_INCLUDE_SUBDOMAINS=True
+# Adds site to browser preload list
+SECURE_HSTS_PRELOAD=True
 
 # Application definition
 
