@@ -50,6 +50,3 @@ jobs:
             repo: context.repo.repo,
             body: `${{ steps.results.outputs.file }}`
           })
-    - name: Run Tests
-      run: |
-        python manage.py test
