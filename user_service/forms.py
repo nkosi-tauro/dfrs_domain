@@ -6,6 +6,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core import validators
 
+
+
 class EmployeeRegisterForm(UserCreationForm):
     '''
     Creating a new form for employee registration
@@ -33,3 +35,4 @@ class EmployeeUpdateForm(forms.ModelForm):
         '''
         model = User
         fields = ['username', 'email']
+

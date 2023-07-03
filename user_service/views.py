@@ -138,4 +138,3 @@ def login_service(request):
                                 initiator=get_client_ip(request))
             messages.error(request, 'Invalid username or password.')
     return render(request, 'homeview/login.html')
-           

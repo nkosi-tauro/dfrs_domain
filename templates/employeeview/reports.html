@@ -1,61 +1,52 @@
-
-<div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-  <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-      <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-          <tr>
-              <th scope="col" class="p-4">
+  {# djlint:off H021,H023,H006,H029 #}
+<div class="px-12 sm:px-12 lg:px-12 h-5/6 overflow-y-auto p-10 rounded border-2"
+     style="margin-right: 15%;
+            padding-left: 2%">
+  <div class="sm:flex sm:items-center">
+    <div class="sm:flex-auto">
+      <h1 class="text-base font-semibold leading-6 text-gray-900">List of Vulnerablites</h1>
+    </div>
+  </div>
+  <div class="mt-8 flow-root">
+    <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+        <table class="min-w-full divide-y divide-gray-300 order-separate border-spacing-0">
+          <thead class="border-b-2">
+            <tr>
+              <th scope="col"
+                  class="sticky top-0 z-10 px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                Type
               </th>
-              <th scope="col" class="px-6 py-3">
-                  Type
+              <th scope="col"
+                  class="sticky top-0 z-10 px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                Severity
               </th>
-              <th scope="col" class="px-6 py-3">
-                  Severity
+              <th scope="col"
+                  class="sticky top-0 z-10 px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                Description
               </th>
-              <th scope="col" class="px-6 py-3">
-                  Description
-              </th>
-              <th scope="col" class="px-6 py-3">
-                  Action
-              </th>
-          </tr>
-      </thead>
-      <tbody>
-          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <td class="w-4 p-4">
-              </td>
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                  Injection
-              </th>
-              <td class="px-6 py-4">
-                  High
-              </td>
-              <td class="px-6 py-4">
-                  this is the flaw...
-              </td>
-              <td class="flex items-center px-6 py-4 space-x-3">
-                  <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                  <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
-              </td>
-          </tr>
-      </tbody>
-      <tbody>
-          <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <td class="w-4 p-4">
-              </td>
-              <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                DDoS
-              </th>
-              <td class="px-6 py-4">
-                  High
-              </td>
-              <td class="px-6 py-4">
-                  
-              </td>
-              <td class="flex items-center px-6 py-4 space-x-3">
-                  <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                  <a href="#" class="font-medium text-red-600 dark:text-red-500 hover:underline">Remove</a>
-              </td>
-          </tr>
-      </tbody>
-  </table>
+              <th scope="col"
+                  class="sticky top-0 z-10 px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500"
+                  style="padding-left: 5%">Action</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-gray-200 bg-white">
+            {% for flaw in flaws %}
+              <tr>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ flaw.type }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ flaw.severity }}</td>
+                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ flaw.description }}</td>
+                <td class="flex items-center px-6 py-4 space-x-3">
+                  <a href="{% url 'edit-flaw' user_id=user_id flaw=flaw.id %}"
+                     class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                  <a href="{% url 'remove-flaw' user_id=user_id flaw=flaw.id %}"
+                     class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</a>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 </div>

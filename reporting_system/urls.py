@@ -24,8 +24,10 @@ urlpatterns = [
     path('login/', user_view.login_service, name='employee-login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='homeview/logout.html'),
          name='employee-logout'),
-    path("employee/<int:primary_key>",views.employeeview, name="employeeview"),
+    path("employee/<int:user_id>",views.employeeview, name="employeeview"),
     path("report/",views.publicview, name="publicview"),
-#    path("addflaw/",user_view.add_flaw, name="add-flaw"),
+    path("employee/<int:user_id>/flaw",views.add_flaw, name="add-flaw"),
+    path("employee/<int:user_id>/remove/<int:flaw>",views.remove_flaw, name="remove-flaw"),
+    path("employee/<int:user_id>/edit/<int:flaw>",views.edit_flaw, name="edit-flaw"),
 
 ]
