@@ -8,7 +8,7 @@ from django.contrib import messages
 from eventlog.models import Event
 from eventlog.events import EventGroup
 from .models import VulnerabilityFormModel
-from .forms import ReportingFormView, AddVulnerabilityForm
+from .forms import ReportingFormView, AddVulnerabilityForm, GDPRRequestForm
 
 # Start a new Event group
 systemEvent = EventGroup()
@@ -88,6 +88,27 @@ def publicview(request):
     context = {'form': form}
 
     return render(request, 'publicview/public.html', context)
+
+def gdprview(request):
+    '''
+    The GDPR View
+    '''
+    if request.method == 'POST':
+        form = GDPRRequestForm(request.POST)
+        if form.is_valid():
+            systemEvent.warning(
+                f"A user with email {request.POST['email']} has submitted a data deletion request",
+                initiator=get_client_ip(request))
+            messages.success(
+                request, 'Your Request has been submitted successfully')
+        elif form.errors:
+            messages.error(request, f"{form.errors}")
+    else:
+        form = GDPRRequestForm()
+    form = GDPRRequestForm()
+    context = {'form': form}
+
+    return render(request, 'publicview/gdprview.html', context)
 
 
 @login_required(login_url='employee-login')
