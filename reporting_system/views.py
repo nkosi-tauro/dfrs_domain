@@ -7,11 +7,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from eventlog.models import Event
 from eventlog.events import EventGroup
-from .models import FlawFormModel
-from .forms import ReportingFormView, AddFlawForm
+from .models import VulnerabilityFormModel
+from .forms import ReportingFormView, AddVulnerabilityForm
 
 # Start a new Event group
 systemEvent = EventGroup()
+
 
 def get_client_ip(request):
     '''
@@ -27,11 +28,14 @@ def get_client_ip(request):
     return ip_address
 
 # Create your views here.
+
+
 def homeview(request):
     '''
     The Landing Page
     '''
-    return render(request,'homeview/home.html')
+    return render(request, 'homeview/home.html')
+
 
 @login_required(login_url='employee-login')
 def adminview(request):
@@ -43,8 +47,9 @@ def adminview(request):
     context = {
         'cyberdetectives': cyberdetectives,
         'events': events,
-        }
-    return render(request,'adminview/admin.html', context)
+    }
+    return render(request, 'adminview/admin.html', context)
+
 
 @login_required(login_url='employee-login')
 def employeeview(request, user_id):
@@ -52,14 +57,15 @@ def employeeview(request, user_id):
     Employee View
     '''
     employee = User.objects.all()
-    flaws_context = FlawFormModel.objects.filter(
+    flaws_context = VulnerabilityFormModel.objects.filter(
         user_id=user_id)  # Query the database for flaws related to the user
     context = {
         'employee': employee,
         "user_id": user_id,
         "flaws": flaws_context
-        }
-    return render(request,'employeeview/employee.html', context)
+    }
+    return render(request, 'employeeview/employee.html', context)
+
 
 def publicview(request):
     '''
@@ -71,16 +77,18 @@ def publicview(request):
             form.save()
             systemEvent.info(
                 "A Public user has submitted a new vulnerability report",
-                             initiator=get_client_ip(request))
-            messages.success(request, 'Your Report has been submitted successfully')
+                initiator=get_client_ip(request))
+            messages.success(
+                request, 'Your Report has been submitted successfully')
         elif form.errors:
             messages.error(request, f"{form.errors}")
     else:
-        form =ReportingFormView()
+        form = ReportingFormView()
     form = ReportingFormView()
     context = {'form': form}
 
-    return render(request,'publicview/public.html', context)
+    return render(request, 'publicview/public.html', context)
+
 
 @login_required(login_url='employee-login')
 def cyberdetectiveview(request):
@@ -89,7 +97,8 @@ def cyberdetectiveview(request):
     '''
     cyberdetectives = User.objects.all()
     context = {'cyberdetectives': cyberdetectives}
-    return render(request,'adminview/employee.html', context)
+    return render(request, 'adminview/employee.html', context)
+
 
 @login_required(login_url='employee-login')
 def systemlogsview(request):
@@ -98,7 +107,8 @@ def systemlogsview(request):
     '''
     events = Event.objects.all()
     context = {'events': events}
-    return render(request,'adminview/eventlogs.html', context)
+    return render(request, 'adminview/eventlogs.html', context)
+
 
 @login_required(login_url='employee-login')
 def add_flaw(request, user_id):
@@ -106,13 +116,13 @@ def add_flaw(request, user_id):
     Service to add the flaws, that have been identified by the employee. 
     This will allow employees to track breaches.
     '''
-    form = AddFlawForm()
+    form = AddVulnerabilityForm()
     context = {
         'form': form,
         'user_id': user_id,
     }
     if request.method == 'POST':
-        form = AddFlawForm(request.POST)
+        form = AddVulnerabilityForm(request.POST)
         if form.is_valid():
             obj = form.save(commit=False)
             obj.user_id_id = user_id
@@ -121,21 +131,25 @@ def add_flaw(request, user_id):
         context["not_valid"] = 1
     return render(request, 'employeeview/addFlaw.html', context)
 
+
 @login_required(login_url='employee-login')
 def remove_flaw(request, user_id, flaw):
     '''
     Service to delete the chosen flaw.
     '''
     if request.method == 'POST':
-        #flaw = AddFlawForm.objects.get(id=flaw)
-        flaw = FlawFormModel.objects.filter(id=flaw)  # Query the database for flaws related to the user
+        # flaw = AddVulnerabilityForm.objects.get(id=flaw)
+        # Query the database for flaws related to the user
+        flaw = VulnerabilityFormModel.objects.filter(id=flaw)
         flaw.delete()
-        return redirect('employeeview', user_id)  # Redirect back to employee view
+        # Redirect back to employee view
+        return redirect('employeeview', user_id)
 
     context = {"user_id": user_id,
-            "flaw_id": flaw
-            }
+               "flaw_id": flaw
+               }
     return render(request, 'employeeview/remove_flaw.html', context=context)
+
 
 @login_required(login_url='employee-login')
 def edit_flaw(request, user_id, flaw):
@@ -144,17 +158,20 @@ def edit_flaw(request, user_id, flaw):
     '''
     context = {"user_id": user_id,
                "flaw_id": flaw}
-
+    flaw_record = VulnerabilityFormModel.objects.get(id=flaw)
     if request.method == 'POST':
-        form = AddFlawForm(request.POST, instance=request.user)
+        form = AddVulnerabilityForm(request.POST, instance=flaw_record)
+        print(request)
         if form.is_valid():
-            type = request.POST["type"]
+            type_flaw = request.POST["type"]
             severity = request.POST["severity"]
             description = request.POST["description"]
-            FlawFormModel.objects.filter(id = flaw).update(
-                type=type, severity = severity, description = description)
-            return redirect('employeeview', user_id)  # Redirect back to employee view
+            VulnerabilityFormModel.objects.filter(id=flaw).update(
+                type=type_flaw , severity=severity, description=description)
+            # Redirect back to employee view
+            return redirect('employeeview', user_id)
         context["not_valid"] = 1
-    form = AddFlawForm(instance=request.user)
+    form = AddVulnerabilityForm(instance=flaw_record)
+    print(request.user)
     context['form'] = form
     return render(request, 'employeeview/edit_flaw.html', context)

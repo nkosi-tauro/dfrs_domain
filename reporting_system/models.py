@@ -58,12 +58,13 @@ class ReportingFormModel(models.Model):
     def __str__(self):
         return f"{self.first_name} - {self.type_of_vulnerability}"
 
-class FlawFormModel(models.Model):
+class VulnerabilityFormModel(models.Model):
     '''
     Reporting Form Model
     '''
     user_id = models.ForeignKey(User, on_delete=models.CASCADE, serialize=True)
-    type = models.CharField(max_length=100, choices=Vulnerability_Type_Flaw, blank=False, serialize=True)
+    type = models.CharField(max_length=100, choices=Vulnerability_Type_Flaw,
+                            blank=False, serialize=True)
     severity = models.CharField(max_length=10, choices=CHOICES, blank=False,serialize=True)
     description = models.TextField(blank=True, serialize=True)
 
