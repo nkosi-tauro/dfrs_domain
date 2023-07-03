@@ -54,6 +54,10 @@ SECURE_SSL_REDIRECT=True
 SESSION_COOKIE_SECURE=True
 # Using a secure-only CSRF cookie makes it more difficult for network traffic sniffers to steal the CSRF token.
 CSRF_COOKIE_SECURE=True
+# Makes sure all subdomains are served over SSL 
+SECURE_HSTS_INCLUDE_SUBDOMAINS=True
+# Adds site to browser preload list
+SECURE_HSTS_PRELOAD=True
 
 # Application definition
 
