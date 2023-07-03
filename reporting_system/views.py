@@ -127,6 +127,9 @@ def add_flaw(request, user_id):
             obj = form.save(commit=False)
             obj.user_id_id = user_id
             obj.save()
+            systemEvent.info(
+                f"Cyberdetective {request.user} has submitted a new vulnerability report",
+                initiator=request.user)
             return redirect('employeeview', user_id=user_id)
         context["not_valid"] = 1
     return render(request, 'employeeview/addFlaw.html', context)
