@@ -30,7 +30,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # (Set to True when in development mode)
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = [
     "dfrsdomain-production.up.railway.app",
