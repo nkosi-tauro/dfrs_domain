@@ -26,6 +26,7 @@ urlpatterns = [
          name='employee-logout'),
     path("employee/<int:user_id>",views.employeeview, name="employeeview"),
     path("report/",views.publicview, name="publicview"),
+    path("gdpr-delete/",views.gdprview, name="gdprview"),
     path("employee/<int:user_id>/flaw",views.add_flaw, name="add-flaw"),
     path("employee/<int:user_id>/remove/<int:flaw>",views.remove_flaw, name="remove-flaw"),
     path("employee/<int:user_id>/edit/<int:flaw>",views.edit_flaw, name="edit-flaw"),

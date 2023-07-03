@@ -3,7 +3,9 @@ Reporting System Forms
 
 '''
 from django import forms
+from django.core import validators
 from .models import ReportingFormModel, VulnerabilityFormModel
+
 
 class ReportingFormView(forms.ModelForm):
     '''
@@ -28,3 +30,10 @@ class AddVulnerabilityForm(forms.ModelForm):
         '''
         model = VulnerabilityFormModel
         fields = ['type', 'severity', 'description']
+
+class GDPRRequestForm(forms.Form):
+    '''
+    GDPR Request Form
+    '''
+    email = forms.EmailField(max_length=100, validators=[validators.EmailValidator()])
+    message = forms.CharField(max_length=200)
