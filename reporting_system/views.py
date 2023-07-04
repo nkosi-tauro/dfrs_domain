@@ -8,6 +8,7 @@ from django.contrib import messages
 from eventlog.models import Event
 from eventlog.events import EventGroup
 from .models import VulnerabilityFormModel
+from django.views.decorators.cache import cache_page
 from .forms import ReportingFormView, AddVulnerabilityForm, GDPRRequestForm
 
 # Start a new Event group
@@ -122,6 +123,7 @@ def cyberdetectiveview(request):
 
 
 @login_required(login_url='employee-login')
+@cache_page(60 * 15) # Cache for 15 minutes
 def systemlogsview(request):
     '''
     The System Logs View
