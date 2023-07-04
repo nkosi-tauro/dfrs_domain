@@ -9,6 +9,8 @@ on:
 env:
   DATABASE_URL: ${{ secrets.DATABASE_URL }}
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  REDIS_USERNAME: ${{ secrets.REDIS_USERNAME }}
+  REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
   ENV_TYPE: venv
   DEP_PATH: requirements.txt
 
