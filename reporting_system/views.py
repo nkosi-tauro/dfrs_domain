@@ -130,6 +130,15 @@ def systemlogsview(request):
     context = {'events': events}
     return render(request, 'adminview/eventlogs.html', context)
 
+@login_required(login_url='employee-login')
+def systemlogsdetailview(request, primary_key):
+    '''
+    The System Logs View
+    '''
+    event = Event.objects.get(id=primary_key)
+    context = {'event': event}
+    return render(request, 'adminview/eventlogsdetail.html', context)
+
 
 @login_required(login_url='employee-login')
 def add_flaw(request, user_id):

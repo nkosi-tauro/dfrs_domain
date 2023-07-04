@@ -136,7 +136,7 @@ def login_service(request):
                     # Redirect to the employee view
                     return redirect('employeeview', user_id)
         else:
-            systemEvent.warning(f"User with IP: {get_client_ip(request)} failed to login",
+            systemEvent.critical(f"User with IP: {get_client_ip(request)} failed to login",
                                 initiator=get_client_ip(request))
             messages.error(request, 'Invalid username or password.')
     return render(request, 'homeview/login.html')
