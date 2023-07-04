@@ -73,26 +73,28 @@ def employee_delete(request, primary_key):
     employee = User.objects.get(id=primary_key)
     if request.method=='POST':
         employee.delete()
-        systemEvent.info(f"Employee deleted: {employee}", initiator=request.user)
-        return redirect('adminview')
+        systemEvent.warning(f"Employee deleted: {employee}", initiator=request.user)
+        return redirect('cyberdetectiveview')
     context = {'employee': employee}
     return render(request, 'adminview/employee_delete.html', context)
 
 @login_required(login_url='employee-login')
-def employee_update(request):
+def employee_update(request, primary_key):
     '''
     This will allow an admin to update an employee
     '''
+    employee = User.objects.get(id=primary_key)
+    print(employee)
     if request.method == 'POST':
         # instance=request.user will pass through the user data into the input fields
-        form = EmployeeUpdateForm(request.POST, instance=request.user)
+        form = EmployeeUpdateForm(request.POST, instance=employee)
         if form.is_valid():
             form.save()
-            systemEvent.info(f"{request.user} has updated their information.",
+            systemEvent.info(f"{employee}'s profile has been updated.",
                              initiator=request.user)
-            return redirect('adminview')
+            return redirect('cyberdetectiveview')
     else:
-        form = EmployeeUpdateForm(instance=request.user)
+        form = EmployeeUpdateForm(instance=employee)
     context = {'form': form,
                'request': request.user}
     return render(request, 'adminview/employee_update.html', context)

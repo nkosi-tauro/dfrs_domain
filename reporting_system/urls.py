@@ -19,7 +19,7 @@ urlpatterns = [
          views.cyberdetectiveview, name="cyberdetectiveview"),
     path("dfrsadmin/systemlogs/",
          views.systemlogsview, name="systemlogsview"),
-    path("cyberdetective/update/",
+    path("cyberdetective/update/update/<int:primary_key>",
          user_view.employee_update, name="employee-update"),
     path('login/', user_view.login_service, name='employee-login'),
     path('logout/', auth_views.LogoutView.as_view(template_name='homeview/logout.html'),
