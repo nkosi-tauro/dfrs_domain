@@ -1,12 +1,15 @@
 '''
 User Service views
 '''
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from eventlog.events import EventGroup
+from django.core.cache import caches
+from .ratelimit import RateLimit, RateLimitExceeded
 from .forms import EmployeeRegisterForm, EmployeeUpdateForm
 
 # Start a new Event group
@@ -136,6 +139,20 @@ def login_service(request):
                     # Redirect to the employee view
                     return redirect('employeeview', user_id)
         else:
+            try:
+                RateLimit(
+                    key=f"{get_client_ip(request)}",
+                    limit=5,
+                    period=60,
+                    cache=caches['default'],
+                ).check()
+            except RateLimitExceeded as e:
+                systemEvent.critical(f"User with IP: {get_client_ip(request)} has been rate limitted, {e.usage} login requests failed",
+                                initiator=get_client_ip(request))
+                return HttpResponse(
+                    f"Rate limit exceeded. You have used {e.usage} requests, limit is {e.limit}.",
+                    status=429,
+            )        
             systemEvent.critical(f"User with IP: {get_client_ip(request)} failed to login",
                                 initiator=get_client_ip(request))
             messages.error(request, 'Invalid username or password.')
