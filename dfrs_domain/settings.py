@@ -92,7 +92,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_tailwind",
     "eventlog.apps.EventLogConfig",
-    "debug_toolbar",
+    # "debug_toolbar",  # Uncomment For Debugging Only
 ]
 
 MIDDLEWARE = [
