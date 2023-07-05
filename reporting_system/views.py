@@ -1,14 +1,20 @@
 '''
 Reporting System views
 '''
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from eventlog.models import Event
 from eventlog.events import EventGroup
-from .models import VulnerabilityFormModel
-from .forms import ReportingFormView, AddVulnerabilityForm, GDPRRequestForm
+from django.views.decorators.cache import cache_page
+from django.core.cache import caches
+from django import forms
+from user_service.forms import EmployeeUpdateForm
+from .models import VulnerabilityFormModel, ReportingForm2Model
+from user_service.ratelimit import RateLimit, RateLimitExceeded
+from .forms import ReportingFormView, AddVulnerabilityForm, GDPRRequestForm, RateLimitForm
 
 # Start a new Event group
 systemEvent = EventGroup()
@@ -29,7 +35,7 @@ def get_client_ip(request):
 
 # Create your views here.
 
-
+# ----------------------------------------STANDALONE VIEWS----------------------------------------
 def homeview(request):
     '''
     The Landing Page
@@ -42,11 +48,11 @@ def adminview(request):
     '''
     Admin View
     '''
-    cyberdetectives = User.objects.all()
-    events = Event.objects.all()
+    external_reports = ReportingForm2Model.objects.all()
+    internal_reports = VulnerabilityFormModel.objects.all()
     context = {
-        'cyberdetectives': cyberdetectives,
-        'events': events,
+        'external_reports': external_reports,
+        'internal_reports': internal_reports,
     }
     return render(request, 'adminview/admin.html', context)
 
@@ -56,7 +62,7 @@ def employeeview(request, user_id):
     '''
     Employee View
     '''
-    employee = User.objects.all()
+    employee = User.objects.get(id=user_id)
     flaws_context = VulnerabilityFormModel.objects.filter(
         user_id=user_id)  # Query the database for flaws related to the user
     context = {
@@ -120,8 +126,9 @@ def cyberdetectiveview(request):
     context = {'cyberdetectives': cyberdetectives}
     return render(request, 'adminview/employee.html', context)
 
-
+# ----------------------------------------SYSTEM LOGS----------------------------------------
 @login_required(login_url='employee-login')
+# @cache_page(60 * 15) # Cache for 15 minutes
 def systemlogsview(request):
     '''
     The System Logs View
@@ -129,6 +136,113 @@ def systemlogsview(request):
     events = Event.objects.all()
     context = {'events': events}
     return render(request, 'adminview/eventlogs.html', context)
+
+@login_required(login_url='employee-login')
+def systemlogsdetailview(request, primary_key):
+    '''
+    The System Logs View
+    '''
+    event = Event.objects.get(id=primary_key)
+    if request.method == 'POST':
+        form = RateLimitForm(request.POST)
+        if form.is_valid():
+            message = form.cleaned_data['message']
+            ip_address = event.initiator
+            try:
+                RateLimit(
+                    key=f"{ip_address}",
+                    limit=1,
+                    period=60,
+                    cache=caches['default'],
+                ).check()
+            except RateLimitExceeded as e:
+                systemEvent.warning(f"User with IP: {ip_address} has been rate limitted, {e.usage} login requests failed",
+                                initiator=ip_address)
+                return HttpResponse(
+                    f"Rate limit exceeded. You have used {e.usage} requests, limit is {e.limit}. Admin Message: {message}",
+                    status=429,
+            )        
+            systemEvent.warning(f"You have rate limitted a User with the IP: {ip_address}",
+                                initiator=request.user)
+            messages.success(
+                request, 'Your Rate Limit Request has been submitted successfully')
+        elif form.errors:
+            messages.error(request, f"{form.errors}")
+    else:
+        form = RateLimitForm()
+    form = RateLimitForm()  
+    context = {'event': event,
+               'form': form}
+    return render(request, 'adminview/eventlogsdetail.html', context)
+
+# ----------------------------------------REPORTS----------------------------------------
+@login_required(login_url='employee-login')
+def reportsdetail(request, primary_key):
+    '''
+    Public Reports Detail View
+    '''
+    report = ReportingForm2Model.objects.get(id=primary_key)
+    context = {'report': report}
+    return render(request, 'adminview/reportsdetail.html', context)
+
+@login_required(login_url='employee-login')
+def reports_delete(request, primary_key):
+    '''
+    This will allow an admin to delete a public vulnerability report
+    '''
+    report = ReportingForm2Model.objects.get(id=primary_key)
+    if request.method=='POST':
+        report.delete()
+        systemEvent.warning(f"Report deleted: {report}", initiator=request.user)
+        return redirect('adminview')
+    context = {'report': report}
+    return render(request, 'adminview/reportsdelete.html', context)
+
+@login_required(login_url='employee-login')
+def reports_update(request, primary_key):
+    '''
+    This will allow an admin to update a public vulnerability report
+    They wont be able to modify any data, just mark the report as fixed or unfixed
+    '''
+    report = ReportingForm2Model.objects.get(id=primary_key)
+    if request.method == 'POST':
+        form = ReportingFormView(request.POST, instance=report)
+        form.fields = {'status': form.fields['status']}
+        if form.is_valid():
+            status = form.save(commit=False)
+            status.status = form.cleaned_data['status']
+            form.save()
+            systemEvent.info(f"The Public Report {report} has been updated.",
+                             initiator=request.user)
+            return redirect('adminview')
+    else:
+        form = ReportingFormView(instance=report)
+        form.fields = {'status': form.fields['status']}
+        form.fields['status'].widget = forms.Select()
+    context = {'form': form,
+               'request': request.user}
+    return render(request, 'adminview/reportsupdate.html', context)
+
+# ----------------------------------------EMPLOYEE ROUTES----------------------------------------
+@login_required(login_url='employee-login')
+def employeeupdate(request, user_id):
+    '''
+    This will allow an admin to update an employee
+    '''
+    employee = User.objects.get(id=user_id)
+    if request.method == 'POST':
+        # instance=request.user will pass through the user data into the input fields
+        form = EmployeeUpdateForm(request.POST, instance=employee)
+        if form.is_valid():
+            form.save()
+            systemEvent.info(f"{employee} has updated their profile.",
+                             initiator=request.user)
+            return redirect('employeeview', user_id=user_id)
+    else:
+        form = EmployeeUpdateForm(instance=employee)
+    context = {'form': form,
+               'user_id': user_id}
+    return render(request, 'employeeview/employeeupdate.html', context)
 
 
 @login_required(login_url='employee-login')

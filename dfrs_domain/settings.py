@@ -44,6 +44,12 @@ CSRF_TRUSTED_ORIGINS = [
     "https://127.0.0.1"
 ]
 
+# Uncomment For Debugging Only
+# INTERNAL_IPS = [
+#     # ...
+#     "127.0.0.1",
+#     # ...
+# ]
 
 # Security settings
 SECURE_HSTS_SECONDS = 31536000
@@ -86,6 +92,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_tailwind",
     "eventlog.apps.EventLogConfig",
+    # "debug_toolbar",  # Uncomment For Debugging Only
 ]
 
 MIDDLEWARE = [
@@ -96,7 +103,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'dfrs_domain.middleware.RestrictAdminMiddleware',
+    "dfrs_domain.middleware.RestrictAdminMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware", # Uncomment For Debugging Only
 
 ]
 AUTHENTICATION_BACKENDS = (
@@ -131,6 +139,18 @@ db_config = dj_database_url.config(default=os.environ.get('DATABASE_URL'), conn_
                                    ssl_require=True, engine="django_cockroachdb")
 DATABASES = {
     'default': db_config,
+}
+
+# Caches
+# https://docs.djangoproject.com/en/4.2/topics/cache/
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{os.environ.get('REDIS_USERNAME')}:{os.environ.get('REDIS_PASSWORD')}@containers-us-west-43.railway.app:6057",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
 }
 
 # Password validation

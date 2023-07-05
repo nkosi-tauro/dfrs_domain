@@ -1,12 +1,15 @@
 '''
 User Service views
 '''
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from eventlog.events import EventGroup
+from django.core.cache import caches
+from .ratelimit import RateLimit, RateLimitExceeded
 from .forms import EmployeeRegisterForm, EmployeeUpdateForm
 
 # Start a new Event group
@@ -73,26 +76,28 @@ def employee_delete(request, primary_key):
     employee = User.objects.get(id=primary_key)
     if request.method=='POST':
         employee.delete()
-        systemEvent.info(f"Employee deleted: {employee}", initiator=request.user)
-        return redirect('adminview')
+        systemEvent.warning(f"Employee deleted: {employee}", initiator=request.user)
+        return redirect('cyberdetectiveview')
     context = {'employee': employee}
     return render(request, 'adminview/employee_delete.html', context)
 
 @login_required(login_url='employee-login')
-def employee_update(request):
+def employee_update(request, primary_key):
     '''
     This will allow an admin to update an employee
     '''
+    employee = User.objects.get(id=primary_key)
+    print(employee)
     if request.method == 'POST':
         # instance=request.user will pass through the user data into the input fields
-        form = EmployeeUpdateForm(request.POST, instance=request.user)
+        form = EmployeeUpdateForm(request.POST, instance=employee)
         if form.is_valid():
             form.save()
-            systemEvent.info(f"{request.user} has updated their information.",
+            systemEvent.info(f"{employee}'s profile has been updated.",
                              initiator=request.user)
-            return redirect('adminview')
+            return redirect('cyberdetectiveview')
     else:
-        form = EmployeeUpdateForm(instance=request.user)
+        form = EmployeeUpdateForm(instance=employee)
     context = {'form': form,
                'request': request.user}
     return render(request, 'adminview/employee_update.html', context)
@@ -134,7 +139,21 @@ def login_service(request):
                     # Redirect to the employee view
                     return redirect('employeeview', user_id)
         else:
-            systemEvent.warning(f"User with IP: {get_client_ip(request)} failed to login",
+            try:
+                RateLimit(
+                    key=f"{get_client_ip(request)}",
+                    limit=5,
+                    period=60,
+                    cache=caches['default'],
+                ).check()
+            except RateLimitExceeded as e:
+                systemEvent.critical(f"User with IP: {get_client_ip(request)} has been rate limitted, {e.usage} login requests failed",
+                                initiator=get_client_ip(request))
+                return HttpResponse(
+                    f"Rate limit exceeded. You have used {e.usage} requests, limit is {e.limit}.",
+                    status=429,
+            )        
+            systemEvent.critical(f"User with IP: {get_client_ip(request)} failed to login",
                                 initiator=get_client_ip(request))
             messages.error(request, 'Invalid username or password.')
     return render(request, 'homeview/login.html')

@@ -43,6 +43,11 @@ CHOICES = [
         ('Critical', 'Critical'),
 ]
 
+STATUS_CHOICES = (
+        ('unfixed', 'Unfixed'),
+        ('fixed', 'Fixed'),
+    )
+# Not using this Model
 class ReportingFormModel(models.Model):
     '''
     Reporting Form Model
@@ -69,3 +74,20 @@ class VulnerabilityFormModel(models.Model):
 
     def __str__(self):
         return f"{self.type}"
+
+class ReportingForm2Model(models.Model):
+    '''
+    Reporting Form Model
+    '''
+    first_name = models.CharField(max_length=100, serialize=True)
+    last_name = models.CharField(max_length=100, serialize=True)
+    email = models.EmailField(validators=[validators.EmailValidator()], serialize=True)
+    type_of_vulnerability = models.CharField(max_length=30,
+                                             choices=Vulnerability_Type, serialize=True, blank=False)
+    explanation_of_vulnerability = models.TextField(max_length=255)
+    why_is_it_a_vulnerability = models.TextField(max_length=255)
+    domain_name_or_ip_address = models.CharField(max_length=255)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='unfixed')
+
+    def __str__(self):
+        return f"{self.first_name} - {self.type_of_vulnerability}"
