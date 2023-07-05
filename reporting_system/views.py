@@ -34,7 +34,7 @@ def get_client_ip(request):
 
 # Create your views here.
 
-
+# ----------------------------------------STANDALONE VIEWS----------------------------------------
 def homeview(request):
     '''
     The Landing Page
@@ -125,7 +125,7 @@ def cyberdetectiveview(request):
     context = {'cyberdetectives': cyberdetectives}
     return render(request, 'adminview/employee.html', context)
 
-
+# ----------------------------------------SYSTEM LOGS----------------------------------------
 @login_required(login_url='employee-login')
 # @cache_page(60 * 15) # Cache for 15 minutes
 def systemlogsview(request):
@@ -174,6 +174,7 @@ def systemlogsdetailview(request, primary_key):
                'form': form}
     return render(request, 'adminview/eventlogsdetail.html', context)
 
+# ----------------------------------------REPORTS----------------------------------------
 @login_required(login_url='employee-login')
 def reportsdetail(request, primary_key):
     '''
@@ -221,7 +222,7 @@ def reports_update(request, primary_key):
                'request': request.user}
     return render(request, 'adminview/reportsupdate.html', context)
 
-
+# ----------------------------------------EMPLOYEE ROUTES----------------------------------------
 @login_required(login_url='employee-login')
 def add_flaw(request, user_id):
     '''
