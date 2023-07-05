@@ -3,46 +3,115 @@
   DFRS Domain: Admin Reports
 {% endblock title %}
 {% block content %}
-  <div class="px-4 sm:px-6 lg:px-8 overflow-y-auto  p-4 rounded border-2">
+  <div class="px-4 sm:px-6 lg:px-8 max-h-96 overflow-y-scroll p-4 rounded border-2">
     <div class="sm:flex sm:items-center">
       <div class="sm:flex-auto">
-        <h1 class="text-base font-semibold leading-6 text-gray-900">Vulnerability Reports</h1>
-        <p class="mt-2 text-sm text-gray-700">
-          A list of all the submitted reports including their type, severity, and who submitted them.
-        </p>
+        <h1 class="text-base font-semibold leading-6 text-gray-900">External Vulnerability Reports</h1>
+        <p class="mt-2 text-sm text-gray-700">A list of all the reports submitted by public users.</p>
       </div>
     </div>
     <div class="mt-8 flow-root">
       <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-          <table class="min-w-full divide-y divide-gray-300">
+          <table class="min-w-full divide-y divide-gray-300 order-separate border-spacing-0">
             <thead>
               <tr>
                 <th scope="col"
-                    class="py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-0">
-                  Type
+                    class="sticky top-0 z-10 border-b border-gray-300 z-10 py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-0">
+                  Name
                 </th>
                 <th scope="col"
-                    class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">Severity</th>
-                <th scope="col"
-                    class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
-                  Organisation
+                    class="sticky top-0 z-10 border-b border-gray-300 top-0 z-10 px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                  Vulnerability Type
                 </th>
                 <th scope="col"
-                    class="px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">User</th>
-                <th scope="col" class="relative py-3 pl-3 pr-4 sm:pr-0">
-                  <span class="sr-only">IP Address</span>
+                    class="sticky top-0 z-10 border-b border-gray-300 top-0 z-10 px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                  Domain Name
+                </th>
+                <th scope="col"
+                    class="sticky top-0 z-10 border-b border-gray-300 top-0 z-10 px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                  Email
+                </th>
+                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-0">
+                  <span class="sr-only">View Report</span>
                 </th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200 bg-white">
+              {% for report in external_reports %}
+                <tr>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ report.first_name }}</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                    <span class="inline-flex items-center rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20">{{ report.type_of_vulnerability }}</span>
+                  </td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ report.domain_name_or_ip_address }}</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ report.email }}</td>
+                  <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">
+                    <a href="{% url 'reports-detail' report.id %}"
+                       class="text-indigo-600 hover:text-indigo-900">View report</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% comment %} internal_reports table {% endcomment %}
+  <div class="mt-4 px-4 sm:px-6 lg:px-8 max-h-80 overflow-y-scroll p-4 rounded border-2">
+    <div class="sm:flex sm:items-center">
+      <div class="sm:flex-auto">
+        <h1 class="text-base font-semibold leading-6 text-gray-900">Internal Vulnerability Reports</h1>
+        <p class="mt-2 text-sm text-gray-700">A list of all the reports submitted by Employees (cyberdetectives).</p>
+      </div>
+    </div>
+    <div class="mt-8 flow-root">
+      <div class="-mx-4 -my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+          <table class="min-w-full divide-y divide-gray-300 order-separate border-spacing-0">
+            <thead>
               <tr>
-                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">XSS Attack</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">high</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Department of Fisheries</td>
-                <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">Public</td>
-                <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-0">192.81.12.12</td>
+                <th scope="col"
+                    class="sticky top-0 z-10 border-b border-gray-300 z-10 py-3 pl-4 pr-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500 sm:pl-0">
+                  Vulnerability Type
+                </th>
+                <th scope="col"
+                    class="sticky top-0 z-10 border-b border-gray-300 top-0 z-10 px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                  Severity
+                </th>
+                <th scope="col"
+                    class="sticky top-0 z-10 border-b border-gray-300 top-0 z-10 px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                  Description
+                </th>
+                <th scope="col"
+                    class="sticky top-0 z-10 border-b border-gray-300 top-0 z-10 px-3 py-3 text-left text-xs font-medium uppercase tracking-wide text-gray-500">
+                  Submitted By
+                </th>
               </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-200 bg-white">
+              {% for report in internal_reports %}
+                <tr>
+                  <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-0">{{ report.type }}</td>
+                  {% if report.severity == "Low" %}
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">
+                      <span class="inline-flex items-center rounded-md bg-green-50 px-2 py-1 text-xs font-medium text-green-700 ring-1 ring-inset ring-green-600/20">{{ report.severity }}</span>
+                    </td>
+                  {% elif report.severity == "Medium" %}
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-yellow-500">
+                      <span class="inline-flex items-center rounded-md bg-amber-50 px-2 py-1 text-xs font-medium text-amber-700 ring-1 ring-inset ring-amber-600/20">{{ report.severity }}</span>
+                    </td>
+                  {% elif report.severity == "Critical" %}
+                    <td class="whitespace-nowrap px-3 py-4 text-sm text-yellow-500">
+                      <span class="inline-flex items-center rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-700 ring-1 ring-inset ring-red-600/20">{{ report.severity }}</span>
+                    </td>
+                  {% endif %}
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ report.description }}</td>
+                  <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ report.user_id }}</td>
+                </tr>
+              {% endfor %}
             </tbody>
           </table>
         </div>

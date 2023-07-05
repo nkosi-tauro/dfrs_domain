@@ -11,6 +11,10 @@ urlpatterns = [
     path('', views.homeview, name='homeview'),
      # Admin Routes
     path('dfrsadmin', views.adminview, name='adminview'),
+    path(f'dfrsadmin/reports/<int:primary_key>',
+         views.reportsdetail, name='reports-detail'),
+    path("dfrsadmin/reports/delete/<int:primary_key>",
+         views.reports_delete, name="reports-delete"),
     path("dfrsadmin/register/cyberdetective/",
          user_view.register_employee, name="register-employee"),
     path("dfrsadmin/cyberdetective/<int:primary_key>",

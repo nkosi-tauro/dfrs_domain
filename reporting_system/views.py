@@ -10,7 +10,7 @@ from eventlog.models import Event
 from eventlog.events import EventGroup
 from django.views.decorators.cache import cache_page
 from django.core.cache import caches
-from .models import VulnerabilityFormModel
+from .models import VulnerabilityFormModel, ReportingForm2Model
 from user_service.ratelimit import RateLimit, RateLimitExceeded
 from .forms import ReportingFormView, AddVulnerabilityForm, GDPRRequestForm, RateLimitForm
 
@@ -46,11 +46,11 @@ def adminview(request):
     '''
     Admin View
     '''
-    cyberdetectives = User.objects.all()
-    events = Event.objects.all()
+    external_reports = ReportingForm2Model.objects.all()
+    internal_reports = VulnerabilityFormModel.objects.all()
     context = {
-        'cyberdetectives': cyberdetectives,
-        'events': events,
+        'external_reports': external_reports,
+        'internal_reports': internal_reports,
     }
     return render(request, 'adminview/admin.html', context)
 
@@ -172,6 +172,28 @@ def systemlogsdetailview(request, primary_key):
     context = {'event': event,
                'form': form}
     return render(request, 'adminview/eventlogsdetail.html', context)
+
+@login_required(login_url='employee-login')
+def reportsdetail(request, primary_key):
+    '''
+    The System Logs View
+    '''
+    report = ReportingForm2Model.objects.get(id=primary_key)
+    context = {'report': report}
+    return render(request, 'adminview/reportsdetail.html', context)
+
+@login_required(login_url='employee-login')
+def reports_delete(request, primary_key):
+    '''
+    This will allow an admin to delete an employee
+    '''
+    report = ReportingForm2Model.objects.get(id=primary_key)
+    if request.method=='POST':
+        report.delete()
+        systemEvent.warning(f"Report deleted: {report}", initiator=request.user)
+        return redirect('adminview')
+    context = {'report': report}
+    return render(request, 'adminview/reportsdelete.html', context)
 
 
 @login_required(login_url='employee-login')

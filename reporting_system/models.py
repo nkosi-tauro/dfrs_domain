@@ -42,7 +42,7 @@ CHOICES = [
         ('Medium', 'Medium'),
         ('Critical', 'Critical'),
 ]
-
+# Not using this Model
 class ReportingFormModel(models.Model):
     '''
     Reporting Form Model
