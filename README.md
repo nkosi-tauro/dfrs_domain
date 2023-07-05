@@ -17,7 +17,7 @@
 
 The Dutch Forensic Reporting System aims to provide a comprehensive reporting service for identifying flaws in ICT systems across various organisations.
 
-## Enviroments
+## 💻View Deployed Project
 - [Production](https://dfrsdomain-production.up.railway.app/)  
 - [Development](https://dfrsdomain-dev.up.railway.app/)
 
@@ -25,11 +25,14 @@ The Dutch Forensic Reporting System aims to provide a comprehensive reporting se
 There are 2 ways of getting this project up and running but before getting started, please make sure you have [docker](https://www.docker.com/) installed if you are using method 2.   
 For Method 1, make sure you have [python](https://www.python.org/) 3.10.x and above installed.  
 
-1. Method 1 (Normal Django Way)
-2. Method 2 (Docker)
+1. Python
+2. Docker
+
+_Important:_  
+When Running locally please make sure that `DEBUG` and `SECURE_SSL_REDIRECT` are set to  `DEBUG=True` and `SECURE_SSL_REDIRECT=False` inside the `settings.py` file
 
 
-### Method 1 (Normal Django Way)
+### 1. Python
 
 ```bash
 # Clone this project
@@ -50,7 +53,7 @@ $ python3 manage.py runserver
 # The server will initialize on <http://127.0.0.1:8000>
 ```
 
-### Docker 
+### 2. Docker 
 
 ```bash
 # Clone this project
@@ -77,41 +80,85 @@ $ pip freeze > requirements.txt
 ```
 
 
-## 🔐 Security risks to look for and implement
+## 🔐 Security Risks and Mitigations.
 
-### Injection
-To prevent injection attacks, I would recommend to validate each user input submited through the form, and ideally we should do the same for the logging, but I would skip this for now, because the main purpose is to demonstrate it on the submitted form.
+### 1. Risk: Injection
+*Mitigation:*  
+In our application, we have implemented Django's querysets which implement query parameterisation to protect against SQL injection attacks (Django, N.D). Additionally, we utilise the built-in validators to validate and sanitize user input, ensuring adherence to specific regex patterns which are utilised under the hood. These measures collectively enhance the security of our application by safeguarding against malicious SQL injections and promoting secure user input handling.
 
-Validating each user input means enforcing the use of regex at inputs where it makes sense.
-sanitizing data - preventing that any input isnt harmfull.
-At least these two features should be included (my proposal)
 
-### Insecure design
-Regarding this risk, it is not much of a technical aspect, but rather an mental tought about overall design of a system - meaning:
-we have provided functionality, which validates employee login. Consequently he can only do what his permissions are allowing him to do
-Moreover we can mention/include technologies, which helped us to follow the best practices (using cloud - cloud security features, CI/CD with Github, docker,  Concurrent 'transactions', etc.).
+### 2. Risk(s):  Insecure design + 3. Vulnerable and Outdated components
+*Mitigation(s):*  
+We added a [Django Dependency and Security checker](https://github.com/marketplace/actions/django-security-check). It scans the repo and helps to continuously monitor and fix common security vulnerabilities in the Django application. With this tool we can keep up to date with any changes to the tools we utilise in the project and update and or fix them if any issues arise.  
 
-### Vulnarable and Outdated components
-Regarding this risk, I would suggest that one of us tries to use dependency-check tool for python. If we manage to use it, then we can say that we have met the standards of Vulnarable and Outdated components. Moreover regarding this risk, we can say (in final report if we will have to submit it) that we have used latest versions of django etc.
+These where some of the security issues identified in our Project:   
 
-### Broken Access Control
-To tackle these issues, we have to prevent an employee to access admin's functionalitis vice versa, this has been achieved through the use of session tokens (I think we have already implemented this solution (login (store session), logout (delete session), accessing unauthorized pages)), so ,maybe we can mark this task as successfully met?
+![Alt text](security_images/securityBefore.png)
 
-some additional features that are worth considering regarding AC (access control):
-Client-side - this way Django works, as fas as i know, so it makes sense to have this in mind (Client/server side catching) can also be marked as done
-insecure design - Tauro has already provided restrictions regarding appropriate passwords - can be marked as done
 
-### Security Logging and Monitoring Failures:
-We have also met this feature, however I am not sure if it would make sense to store these data to postgresql?
+After fixing the issues:  
 
-### Cryptographic Failures:
-We have to encrypt sensitive data before sending it to postgresql, and consequently decrypt it when querying? I assume
+![Alt text](security_images/securityAfter.png)
+
+
+### 4. Risk: Broken Access Control
+*Mitigation:*   
+Using The Django authentication provider allowed us to implement role based access to the application. Using the `@login_required(login_url='employee-login')` decorators, we can __secure__ routes behind the authentication system and any unauthenticated users will not be able to visit them. Furthermore we added a redirect system for Authenticated users roles, `admin` or `employee`. Based on their role the authenticated user will be redirected to the relevant view where they have permissions.  
+
+Code Snippets:  
+```py
+#login decorator on route
+@login_required(login_url='employee-login')
+def someview(request):
+    return render(request, 'this/this.html')
+```
+
+```py
+# Role based authentication
+user = authenticate(username=req_user, password=password)
+# This will first check if the account exists before it tries to authenticate
+if user is not None:
+  login(request, user)
+  if user.is_authenticated:
+    if User.objects.get(username=user).is_staff:         
+      # Redirect to the admin view
+      return redirect('adminview')
+    else:
+      # Redirect to the employee view
+      return redirect('employeeview', user_id)
+```
+
+### 5. Risk: Security Logging and Monitoring Failures:
+*Mitigation:*  
+We Implemented a logging feature that logs/Tracks the following:
+
+- When a user of the General Public submits a vulnerability report
+- When a user attempts and fails to login, it captures their IP - the plan would be then to rate limit the IP if we notice malicious activity (e.g repeat incorrect login attempts)
+- When Employees login
+- When Employees submit a vulnerability report  
+
+The logs are only viewable by an admin user.  
+![Alt text](security_images/logs.png)
+
+### 6. Risk: Cryptographic Failures:
+*Mitigation:*  
+We used The Django authentication provider which is a trusted authentication library (Django, N.D). This ensures the secure handling of sensitive data. SSL/TLS are enforced on the Server which encrypts any data moving between the application and database. 
+
+Server deployed on HTTPS Protocol:  
+![Alt text](security_images/https.png)
+
+Let's Encrypt Certificate:  
+![Alt text](security_images/cert.png)
+
+
+## 🕵️ GDPR Compliance.
+As part of out application complying with GDPR, users can request that their data be deleted from the Dutch Forensics Reporting System.
 
 
 ## :test_tube: Testing
 
 We are using The Default testing module in Django `TestCase` to create our tests.
-The `coverage` module is required to run the `coverage commands`.
+The `coverage` module is required if you want to run the `coverage commands`.
 ```bash
 # Install coverage:
 $ python3 -m pip install coverage
@@ -140,7 +187,16 @@ $ coverage run --source='django_app_name' manage.py test && coverage report
 $ coverage run --source='django_app_name' manage.py test && coverage report && coverage html
 
 ```
+## 🔍 References
 
+Django, (N.D). Security In Django. _SQL Injection Protection_ Available from:
+https://docs.djangoproject.com/en/4.2/topics/security/ [Accessed 03 July 2023]
+
+Django, (N.D). Security In Django. Available from:
+https://docs.djangoproject.com/en/4.2/topics/security/ [Accessed 03 July 2023]
+
+
+## ✍️ Authors
 Made with :heart: by 
 
 - <a href="https://github.com/alesteka" target="_blank">Ales Tekavcic</a>

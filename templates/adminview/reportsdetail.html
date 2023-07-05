@@ -1,6 +1,6 @@
 {% extends "base/base.html" %}
 {% block title %}
-  DFRS Domain: CyberDetectives
+  DFRS Domain: Reports
 {% endblock title %}
 {% block content %}
   {# djlint:off H021,H023,H006,H029 #}
@@ -18,7 +18,7 @@
                  alt="Your Company">
           </div>
           <div class="hidden md:ml-6 md:flex md:space-x-8">
-            <p class="inline-flex items-center text-white  px-1 pt-1 text-sm font-medium">CyberDetective</p>
+            <p class="inline-flex items-center text-white  px-1 pt-1 text-sm font-medium">Reports</p>
           </div>
         </div>
         <div class="flex items-center">
@@ -40,21 +40,21 @@
         <div>
           <div class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
             <div>
-              <h2 class="text-base font-semibold leading-7 text-gray-900">Profile</h2>
-              <p class="mt-1 text-sm leading-6 text-gray-500">CyberDetective Profile</p>
+              <h2 class="text-base font-semibold leading-7 text-gray-900">Report Details</h2>
+              <p class="mt-1 text-sm leading-6 text-gray-500">Detailed Information About the Report submitted by <span class="font-semibold">{{ report.first_name }} {{ report.last_name }}</span> </p>
             </div>
             <div class="mt-6 flex items-center justify-end gap-x-6">
               {% comment %} Add to Employee View {% endcomment %}
-              <a href="{% url 'employee-update' employee.id %}">
+              <a href="{% url 'reportsupdate' report.id %}">
                 <button type="button"
-                        class="block mt-2 rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  Update Detective
+                        class="block mt-2 rounded-md bg-green-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-green-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
+                  Mark Report as Fixed
                 </button>
               </a>
-              <a href="{% url 'employee-delete' employee.id %}">
+              <a href="{% url 'reports-delete' report.id %}">
                 <button type="button"
                         class="block mt-2 rounded-md bg-red-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">
-                  Delete Detective
+                  Delete Report
                 </button>
               </a>
             </div>
@@ -63,31 +63,43 @@
             <div class="pt-6 sm:flex">
               <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Full name</dt>
               <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                <div class="text-gray-900">{{ employee.username }}</div>
+                <div class="text-gray-900">{{ report.first_name }} {{ report.last_name }}</div>
               </dd>
             </div>
             <div class="pt-6 sm:flex">
               <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Email address</dt>
               <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                <div class="text-gray-900">{{ employee.email }}</div>
+                <div class="text-gray-900">{{ report.email }}</div>
+              </dd>
+            </div>
+            <div class="pt-6 sm:flex">
+              <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Type of Vulnerability</dt>
+              <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                <div class="text-gray-900">{{ report.type_of_vulnerability }}</div>
               </dd>
             </div>
           </dl>
         </div>
         <div>
           <h2 class="text-base font-semibold leading-7 text-gray-900">More Information</h2>
-          <p class="mt-1 text-sm leading-6 text-gray-500">Extra Information about the CyberDetective</p>
+          <p class="mt-1 text-sm leading-6 text-gray-500">Extra Information about the Vulnerability</p>
           <dl class="mt-6 space-y-6 divide-y divide-gray-100 border-t border-gray-200 text-sm leading-6">
-            {% comment %} <div class="pt-6 sm:flex">
-              <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">IP Address</dt>
-              <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                <div class="text-gray-900">English</div>
-              </dd>
-            </div> {% endcomment %}
             <div class="pt-6 sm:flex">
-              <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Date Joined</dt>
+              <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Explanation of vulnerability</dt>
               <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
-                <div class="text-gray-900">{{ employee.date_joined }}</div>
+                <div class="text-gray-900">{{ report.explanation_of_vulnerability }}</div>
+              </dd>
+            </div>
+            <div class="pt-6 sm:flex">
+              <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Why is it a vulnerability?</dt>
+              <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                <div class="text-gray-900">{{ report.why_is_it_a_vulnerability }}</div>
+              </dd>
+            </div>
+            <div class="pt-6 sm:flex">
+              <dt class="font-medium text-gray-900 sm:w-64 sm:flex-none sm:pr-6">Domain Name or IP Address of Where the Vulnerability Occured</dt>
+              <dd class="mt-1 flex justify-between gap-x-6 sm:mt-0 sm:flex-auto">
+                <div class="text-gray-900">{{ report.domain_name_or_ip_address }}</div>
               </dd>
             </div>
           </dl>

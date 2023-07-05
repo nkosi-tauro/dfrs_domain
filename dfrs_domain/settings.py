@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 from dotenv import load_dotenv
+from django.contrib.messages import constants as messages
 import dj_database_url
 
 load_dotenv()
@@ -25,9 +26,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-(x5v541yhfn6lb(_z2&x17%%i6#k)3#$2tv#mwbh*5=pd^0wec"
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
+# (Set to True when in development mode)
 DEBUG = True
 
 ALLOWED_HOSTS = [
@@ -41,6 +43,39 @@ CSRF_TRUSTED_ORIGINS = [
     "https://dfrsdomain-dev.up.railway.app",
     "https://127.0.0.1"
 ]
+
+# Uncomment For Debugging Only
+# INTERNAL_IPS = [
+#     # ...
+#     "127.0.0.1",
+#     # ...
+# ]
+
+# Security settings
+SECURE_HSTS_SECONDS = 31536000
+SECURE_CONTENT_TYPE_NOSNIFF = True
+# using a secure-only session cookie makes it more difficult for network traffic sniffers to hijack user sessions.
+SESSION_COOKIE_SECURE=True
+# Using a secure-only CSRF cookie makes it more difficult for network traffic sniffers to steal the CSRF token.
+CSRF_COOKIE_SECURE=True
+
+# For Production ONLY
+# SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# # Security settings
+# SECURE_HSTS_SECONDS = 31536000
+# SECURE_CONTENT_TYPE_NOSNIFF = True
+# # Forces application to be servered over a SSL connection only
+# # (Set to False when in development mode)
+# SECURE_SSL_REDIRECT=True
+# # using a secure-only session cookie makes it more difficult for network traffic sniffers to hijack user sessions.
+# SESSION_COOKIE_SECURE=True
+# # Using a secure-only CSRF cookie makes it more difficult for network traffic sniffers to steal the CSRF token.
+# CSRF_COOKIE_SECURE=True
+# # Makes sure all subdomains are served over SSL 
+# SECURE_HSTS_INCLUDE_SUBDOMAINS=True
+# # Adds site to browser preload list
+# SECURE_HSTS_PRELOAD=True
 
 
 # Application definition
@@ -57,6 +92,7 @@ INSTALLED_APPS = [
     "crispy_forms",
     "crispy_tailwind",
     "eventlog.apps.EventLogConfig",
+    # "debug_toolbar",  # Uncomment For Debugging Only
 ]
 
 MIDDLEWARE = [
@@ -67,7 +103,8 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'dfrs_domain.middleware.RestrictAdminMiddleware',
+    "dfrs_domain.middleware.RestrictAdminMiddleware",
+    # "debug_toolbar.middleware.DebugToolbarMiddleware", # Uncomment For Debugging Only
 
 ]
 AUTHENTICATION_BACKENDS = (
@@ -102,6 +139,18 @@ db_config = dj_database_url.config(default=os.environ.get('DATABASE_URL'), conn_
                                    ssl_require=True, engine="django_cockroachdb")
 DATABASES = {
     'default': db_config,
+}
+
+# Caches
+# https://docs.djangoproject.com/en/4.2/topics/cache/
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": f"redis://{os.environ.get('REDIS_USERNAME')}:{os.environ.get('REDIS_PASSWORD')}@containers-us-west-43.railway.app:6057",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
 }
 
 # Password validation
@@ -152,3 +201,12 @@ STATIC_URL = "/static/"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = "adminview"
+
+# Message Tags for form messages
+MESSAGE_TAGS = {
+        messages.DEBUG: 'text-sm text-yellow-700',
+        messages.INFO: 'text-sm text-blue-700',
+        messages.SUCCESS: 'text-sm font-medium text-green-800',
+        messages.WARNING: 'text-sm text-yellow-700',
+        messages.ERROR: 'text-sm text-red-700',
+}
