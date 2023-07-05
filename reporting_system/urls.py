@@ -37,6 +37,7 @@ urlpatterns = [
          name='employee-logout'),
      # Employee Routes
     path("employee/<int:user_id>",views.employeeview, name="employeeview"),
+    path("employee/update/<int:user_id>",views.employeeupdate, name="profile-update"),
     path("employee/<int:user_id>/flaw",views.add_flaw, name="add-flaw"),
     path("employee/<int:user_id>/remove/<int:flaw>",views.remove_flaw, name="remove-flaw"),
     path("employee/<int:user_id>/edit/<int:flaw>",views.edit_flaw, name="edit-flaw"),

@@ -11,6 +11,7 @@ from eventlog.events import EventGroup
 from django.views.decorators.cache import cache_page
 from django.core.cache import caches
 from django import forms
+from user_service.forms import EmployeeUpdateForm
 from .models import VulnerabilityFormModel, ReportingForm2Model
 from user_service.ratelimit import RateLimit, RateLimitExceeded
 from .forms import ReportingFormView, AddVulnerabilityForm, GDPRRequestForm, RateLimitForm
@@ -61,7 +62,7 @@ def employeeview(request, user_id):
     '''
     Employee View
     '''
-    employee = User.objects.all()
+    employee = User.objects.get(id=user_id)
     flaws_context = VulnerabilityFormModel.objects.filter(
         user_id=user_id)  # Query the database for flaws related to the user
     context = {
@@ -223,6 +224,27 @@ def reports_update(request, primary_key):
     return render(request, 'adminview/reportsupdate.html', context)
 
 # ----------------------------------------EMPLOYEE ROUTES----------------------------------------
+@login_required(login_url='employee-login')
+def employeeupdate(request, user_id):
+    '''
+    This will allow an admin to update an employee
+    '''
+    employee = User.objects.get(id=user_id)
+    if request.method == 'POST':
+        # instance=request.user will pass through the user data into the input fields
+        form = EmployeeUpdateForm(request.POST, instance=employee)
+        if form.is_valid():
+            form.save()
+            systemEvent.info(f"{employee} has updated their profile.",
+                             initiator=request.user)
+            return redirect('employeeview', user_id=user_id)
+    else:
+        form = EmployeeUpdateForm(instance=employee)
+    context = {'form': form,
+               'user_id': user_id}
+    return render(request, 'employeeview/employeeupdate.html', context)
+
+
 @login_required(login_url='employee-login')
 def add_flaw(request, user_id):
     '''
