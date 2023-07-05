@@ -37,3 +37,9 @@ class GDPRRequestForm(forms.Form):
     '''
     email = forms.EmailField(max_length=100, validators=[validators.EmailValidator()])
     message = forms.CharField(max_length=200)
+
+class RateLimitForm(forms.Form):
+    '''
+    Rate Limit Form
+    '''
+    message = forms.CharField(max_length=200)

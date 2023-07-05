@@ -1,15 +1,18 @@
 '''
 Reporting System views
 '''
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from eventlog.models import Event
 from eventlog.events import EventGroup
-from .models import VulnerabilityFormModel
 from django.views.decorators.cache import cache_page
-from .forms import ReportingFormView, AddVulnerabilityForm, GDPRRequestForm
+from django.core.cache import caches
+from .models import VulnerabilityFormModel
+from user_service.ratelimit import RateLimit, RateLimitExceeded
+from .forms import ReportingFormView, AddVulnerabilityForm, GDPRRequestForm, RateLimitForm
 
 # Start a new Event group
 systemEvent = EventGroup()
@@ -123,7 +126,7 @@ def cyberdetectiveview(request):
 
 
 @login_required(login_url='employee-login')
-@cache_page(60 * 15) # Cache for 15 minutes
+# @cache_page(60 * 15) # Cache for 15 minutes
 def systemlogsview(request):
     '''
     The System Logs View
@@ -138,7 +141,36 @@ def systemlogsdetailview(request, primary_key):
     The System Logs View
     '''
     event = Event.objects.get(id=primary_key)
-    context = {'event': event}
+    if request.method == 'POST':
+        form = RateLimitForm(request.POST)
+        if form.is_valid():
+            message = form.cleaned_data['message']
+            ip_address = event.initiator
+            try:
+                RateLimit(
+                    key=f"{ip_address}",
+                    limit=1,
+                    period=60,
+                    cache=caches['default'],
+                ).check()
+            except RateLimitExceeded as e:
+                systemEvent.warning(f"User with IP: {ip_address} has been rate limitted, {e.usage} login requests failed",
+                                initiator=ip_address)
+                return HttpResponse(
+                    f"Rate limit exceeded. You have used {e.usage} requests, limit is {e.limit}. Admin Message: {message}",
+                    status=429,
+            )        
+            systemEvent.warning(f"You have rate limitted a User with the IP: {ip_address}",
+                                initiator=request.user)
+            messages.success(
+                request, 'Your Rate Limit Request has been submitted successfully')
+        elif form.errors:
+            messages.error(request, f"{form.errors}")
+    else:
+        form = RateLimitForm()
+    form = RateLimitForm()  
+    context = {'event': event,
+               'form': form}
     return render(request, 'adminview/eventlogsdetail.html', context)
 
 
