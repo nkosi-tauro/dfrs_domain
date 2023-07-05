@@ -4,7 +4,7 @@ Reporting System Forms
 '''
 from django import forms
 from django.core import validators
-from .models import ReportingFormModel, VulnerabilityFormModel
+from .models import ReportingForm2Model, VulnerabilityFormModel
 
 
 class ReportingFormView(forms.ModelForm):
@@ -16,8 +16,8 @@ class ReportingFormView(forms.ModelForm):
         This class is used to set the model we want to interact with 
         and fields that will be in the form
         '''
-        model = ReportingFormModel
-        fields = ['first_name', 'last_name', 'email', 'type_of_vulnerability', 'description']
+        model = ReportingForm2Model
+        fields = "__all__"
 
 class AddVulnerabilityForm(forms.ModelForm):
     '''
