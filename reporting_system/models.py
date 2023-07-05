@@ -42,6 +42,11 @@ CHOICES = [
         ('Medium', 'Medium'),
         ('Critical', 'Critical'),
 ]
+
+STATUS_CHOICES = (
+        ('unfixed', 'Unfixed'),
+        ('fixed', 'Fixed'),
+    )
 # Not using this Model
 class ReportingFormModel(models.Model):
     '''
@@ -82,6 +87,7 @@ class ReportingForm2Model(models.Model):
     explanation_of_vulnerability = models.TextField(max_length=255)
     why_is_it_a_vulnerability = models.TextField(max_length=255)
     domain_name_or_ip_address = models.CharField(max_length=255)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='unfixed')
 
     def __str__(self):
         return f"{self.first_name} - {self.type_of_vulnerability}"

@@ -10,6 +10,7 @@ from eventlog.models import Event
 from eventlog.events import EventGroup
 from django.views.decorators.cache import cache_page
 from django.core.cache import caches
+from django import forms
 from .models import VulnerabilityFormModel, ReportingForm2Model
 from user_service.ratelimit import RateLimit, RateLimitExceeded
 from .forms import ReportingFormView, AddVulnerabilityForm, GDPRRequestForm, RateLimitForm
@@ -176,7 +177,7 @@ def systemlogsdetailview(request, primary_key):
 @login_required(login_url='employee-login')
 def reportsdetail(request, primary_key):
     '''
-    The System Logs View
+    Public Reports Detail View
     '''
     report = ReportingForm2Model.objects.get(id=primary_key)
     context = {'report': report}
@@ -185,7 +186,7 @@ def reportsdetail(request, primary_key):
 @login_required(login_url='employee-login')
 def reports_delete(request, primary_key):
     '''
-    This will allow an admin to delete an employee
+    This will allow an admin to delete a public vulnerability report
     '''
     report = ReportingForm2Model.objects.get(id=primary_key)
     if request.method=='POST':
@@ -194,6 +195,31 @@ def reports_delete(request, primary_key):
         return redirect('adminview')
     context = {'report': report}
     return render(request, 'adminview/reportsdelete.html', context)
+
+@login_required(login_url='employee-login')
+def reports_update(request, primary_key):
+    '''
+    This will allow an admin to update a public vulnerability report
+    They wont be able to modify any data, just mark the report as fixed or unfixed
+    '''
+    report = ReportingForm2Model.objects.get(id=primary_key)
+    if request.method == 'POST':
+        form = ReportingFormView(request.POST, instance=report)
+        form.fields = {'status': form.fields['status']}
+        if form.is_valid():
+            status = form.save(commit=False)
+            status.status = form.cleaned_data['status']
+            form.save()
+            systemEvent.info(f"The Public Report {report} has been updated.",
+                             initiator=request.user)
+            return redirect('adminview')
+    else:
+        form = ReportingFormView(instance=report)
+        form.fields = {'status': form.fields['status']}
+        form.fields['status'].widget = forms.Select()
+    context = {'form': form,
+               'request': request.user}
+    return render(request, 'adminview/reportsupdate.html', context)
 
 
 @login_required(login_url='employee-login')
