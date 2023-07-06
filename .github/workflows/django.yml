@@ -11,6 +11,7 @@ env:
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
   REDIS_USERNAME: ${{ secrets.REDIS_USERNAME }}
   REDIS_PASSWORD: ${{ secrets.REDIS_PASSWORD }}
+  BREVO_MASTER_PASS: ${{ secrets.BREVO_MASTER_PASS }}
   ENV_TYPE: venv
   DEP_PATH: requirements.txt
 

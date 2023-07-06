@@ -1,6 +1,7 @@
 '''
 Reporting System views
 '''
+from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -9,6 +10,8 @@ from django.contrib import messages
 from eventlog.models import Event
 from eventlog.events import EventGroup
 from django.views.decorators.cache import cache_page
+from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.cache import caches
 from django import forms
 from user_service.forms import EmployeeUpdateForm
@@ -16,8 +19,23 @@ from .models import VulnerabilityFormModel, ReportingForm2Model
 from user_service.ratelimit import RateLimit, RateLimitExceeded
 from .forms import ReportingFormView, AddVulnerabilityForm, GDPRRequestForm, RateLimitForm
 
+import threading
+
 # Start a new Event group
 systemEvent = EventGroup()
+
+# Django Emails tend to take a long time, thus holding up the Page 
+# So by creating a new Thread we can send the email in the background so that the page can load faster
+class EmailThread(threading.Thread):
+    '''
+    handle mutihreading for emails
+    '''
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.email.send(fail_silently=False)
 
 
 def get_client_ip(request):
@@ -116,6 +134,12 @@ def gdprview(request):
 
     return render(request, 'publicview/gdprview.html', context)
 
+def gdprpolicy(request):
+    '''
+    The GDPR Compliance Policy View
+    '''
+    return render(request, 'publicview/gdprcompliance.html')
+
 
 @login_required(login_url='employee-login')
 def cyberdetectiveview(request):
@@ -212,6 +236,14 @@ def reports_update(request, primary_key):
             status = form.save(commit=False)
             status.status = form.cleaned_data['status']
             form.save()
+
+            # Email Functionality
+            subject = 'Vulnerability Report Update'
+            message = f'Your Vulnerability Report Status has been updated\n Status: {report.status}'
+            email = EmailMessage(subject, message, from_email='nkosilati23@gmail.com', to=[report.email])
+            # Initiate Thread
+            EmailThread(email).start()
+            
             systemEvent.info(f"The Public Report {report} has been updated.",
                              initiator=request.user)
             return redirect('adminview')
@@ -222,6 +254,40 @@ def reports_update(request, primary_key):
     context = {'form': form,
                'request': request.user}
     return render(request, 'adminview/reportsupdate.html', context)
+
+@login_required(login_url='employee-login')
+def internalreportsdetail(request, primary_key):
+    '''
+    Public Reports Detail View
+    '''
+    report = VulnerabilityFormModel.objects.get(id=primary_key)
+    context = {'report': report}
+    return render(request, 'adminview/internalreports_detail.html', context)
+
+@login_required(login_url='employee-login')
+def internalreports_update(request, primary_key):
+    '''
+    This will allow an admin to update a public vulnerability report
+    They wont be able to modify any data, just mark the report as fixed or unfixed
+    '''
+    report = VulnerabilityFormModel.objects.get(id=primary_key)
+    if request.method == 'POST':
+        form = AddVulnerabilityForm(request.POST, instance=report)
+        form.fields = {'status': form.fields.get('status')}
+        if form.is_valid():
+            status = form.save(commit=False)
+            status.status = form.cleaned_data['status']
+            form.save()
+            systemEvent.info(f"The Public Report {report} has been updated.",
+                             initiator=request.user)
+            return redirect('adminview')
+    else:
+        form = AddVulnerabilityForm(instance=report)
+        form.fields = {'status': form.fields.get('status')}
+        form.fields['status'].widget = forms.Select()
+    context = {'form': form,
+               'request': request.user}
+    return render(request, 'adminview/internal_reportsupdate.html', context)
 
 # ----------------------------------------EMPLOYEE ROUTES----------------------------------------
 @login_required(login_url='employee-login')
@@ -251,11 +317,6 @@ def add_flaw(request, user_id):
     Service to add the flaws, that have been identified by the employee. 
     This will allow employees to track breaches.
     '''
-    form = AddVulnerabilityForm()
-    context = {
-        'form': form,
-        'user_id': user_id,
-    }
     if request.method == 'POST':
         form = AddVulnerabilityForm(request.POST)
         if form.is_valid():
@@ -266,7 +327,14 @@ def add_flaw(request, user_id):
                 f"Cyberdetective {request.user} has submitted a new vulnerability report",
                 initiator=request.user)
             return redirect('employeeview', user_id=user_id)
-        context["not_valid"] = 1
+    else:
+        initial_data = {'user_id': user_id}
+        form = AddVulnerabilityForm(initial=initial_data)
+
+    context = {
+        'form': form,
+        'user_id': user_id,
+    }
     return render(request, 'employeeview/addFlaw.html', context)
 
 

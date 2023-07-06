@@ -210,3 +210,11 @@ MESSAGE_TAGS = {
         messages.WARNING: 'text-sm text-yellow-700',
         messages.ERROR: 'text-sm text-red-700',
 }
+
+BREVO_MASTER_PASS = os.environ.get('BREVO_MASTER_PASS')
+# Emails
+EMAIL_HOST = 'smtp-relay.brevo.com'
+EMAIL_HOST_USER = 'nkosilati23@gmail.com'
+EMAIL_HOST_PASSWORD = BREVO_MASTER_PASS
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

@@ -15,22 +15,48 @@
 
 ## :dart: About ##
 
-The Dutch Forensic Reporting System aims to provide a comprehensive reporting service for identifying flaws in ICT systems across various organisations.
+The Dutch Forensic Reporting System aims to provide a comprehensive reporting service for identifying flaws in ICT systems across various organisations. This is a group project, that is part of the Postgraduate Program at the University of Essex. 
 
-## 💻View Deployed Project
-- [Production](https://dfrsdomain-production.up.railway.app/)  
-- [Development](https://dfrsdomain-dev.up.railway.app/)
+Module: __Secure Software Development__.  
+Group Members & Contributors: _<a href="https://github.com/nkosi-tauro" target="_blank">Nkosilathi Tauro</a>_, _<a href="https://github.com/alesteka" target="_blank">Ales Tekavcic</a>_,  _<a href="https://github.com/muwalofra" target="_blank">Francis Muwalo</a>_ & _<a href="https://github.com/alihu12345" target="_blank">Abdulahi Alihu Ngamjeh</a>_.
 
-## :checkered_flag: Starting ##
-There are 2 ways of getting this project up and running but before getting started, please make sure you have [docker](https://www.docker.com/) installed if you are using method 2.   
-For Method 1, make sure you have [python](https://www.python.org/) 3.10.x and above installed.  
+## :rocket: Technologies ##
+
+The following languages and tools were used in this project:
+
+- [Python](https://www.python.org/) v3.10
+- [Django](https://www.djangoproject.com/) v4.2.2
+- [Serverless PostgreSQL Database](https://www.cockroachlabs.com/) cluster via CockroachDB
+- [Serverless Redis Cache](https://docs.railway.app/databases/redis) cluster via Railway 
+- [TailwindCSS](https://tailwindcss.com/)
+- [Docker](https://www.docker.com/): Container for Deployment
+- [Railway](https://docs.railway.app/deploy/deployments) Microservice Deployment
+- [Brevo](https://app.brevo.com/) email smtp server
+
+### Testing, Debugging & Security Tools:
+- [Django TestCase](https://docs.djangoproject.com/en/4.2/topics/testing/overview/)
+- [Debug Toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/installation.html)
+- [Django Security Checker](https://github.com/marketplace/actions/django-security-check)
+
+### Linter
+- [Pylint](https://pypi.org/project/pylint/) with Framework specific [pylint-django](https://pypi.org/project/pylint-django/) for addtional type checking.
+
+
+## :checkered_flag: Starting, Usage & Testing ##
+### 📺Live
+You can vist either the [Production](https://dfrsdomain-production.up.railway.app/)  or [Development](https://dfrsdomain-dev.up.railway.app/) servers to view the deployed project.  
+
+### Locally
+There are 2 ways of getting this project up and running locally.  
+__Requirements__
+- [python](https://www.python.org/) 3.10 or above installed.
+
+if you are using method 2:
+- [docker](https://www.docker.com/) is required
+
 
 1. Python
 2. Docker
-
-_Important:_  
-When Running locally please make sure that `DEBUG` and `SECURE_SSL_REDIRECT` are set to  `DEBUG=True` and `SECURE_SSL_REDIRECT=False` inside the `settings.py` file
-
 
 ### 1. Python
 
@@ -71,12 +97,50 @@ $ docker run --env-file=.env --publish 8000:8000 dfrs_domain
 # The server will initialize on <http://127.0.0.1:8000>
 ```
 
-## 🗃️ Adding Packages
+### 🗃️ Adding Packages
 
 ```bash
 #After installing new packages or tools via pip, run:
 $ pip freeze > requirements.txt
 #To add the packages to the requirements.txt file.
+```
+
+### :test_tube: Testing
+
+We are using The Default testing module in Django `TestCase` to create our unittests.  
+*Note: The tests take a while (few seconds) as a test database needs to be created.*  
+
+```bash
+#To run all the tests run:
+$ python manage.py test
+
+#For Linux/Mac use:
+$ python3 manage.py test
+```
+
+
+_Optional_: The `coverage` module is required if you want to run the `coverage commands`.
+```bash
+# Install coverage:
+$ python3 -m pip install coverage
+
+#For Linux/Mac use:
+$ python3 -m pip install coverage
+
+```
+
+Using `coverage`  
+*Replace the variable `django_app_name` with either*:
+- `user_service`
+- `reporting_system`
+```bash
+
+#To view Test Coverage in terminal:
+$ coverage run --source='django_app_name' manage.py test && coverage report
+
+#To view Test Coverage via HTML:
+$ coverage run --source='django_app_name' manage.py test && coverage report && coverage html
+
 ```
 
 
@@ -150,43 +214,29 @@ Server deployed on HTTPS Protocol:
 Let's Encrypt Certificate:  
 ![Alt text](security_images/cert.png)
 
+## 🧵 Multithreading & Concurrency.
+In Django, processing emails can be time-consuming and cause the application to halt until the process is finished. This presents several problems. For instance, on our deployed server, any process that exceeds 30 seconds will be terminated. To address this issue, we have incorporated multithreading into our application for handling emails. This approach creates a separate thread or background process specifically for managing email tasks. As a result, the application is able to carry on processing other requests while the email process is running independently.
+```py
+class EmailThread(threading.Thread):
+    '''
+    handle mutihreading for emails
+    '''
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.email.send(fail_silently=False)
+```
+
+### Caching
+We next implemented view caching. By caching views and the various states contained (e.g A user is authenticated), it helped reduce the number of database requests and the associated load on the database server, which should then improve its performance and allow it to handle more concurrent requests. 
 
 ## 🕵️ GDPR Compliance.
-As part of out application complying with GDPR, users can request that their data be deleted from the Dutch Forensics Reporting System.
+We are committed to ensuring compliance with the General Data Protection Regulation (GDPR) to protect the privacy and rights of individuals who interact with our website. Our GDPR compliance documentation provides detailed information on how we collect, use, and protect personal data, as well as the rights of data subjects (Woldford, N.D).
 
+For the complete GDPR compliance policy and detailed information on data collection, processing, security measures, data subject rights, and more, please refer to our [GDPR Compliance Documentation](https://dfrsdomain-dev.up.railway.app/gdpr-policy/).
 
-## :test_tube: Testing
-
-We are using The Default testing module in Django `TestCase` to create our tests.
-The `coverage` module is required if you want to run the `coverage commands`.
-```bash
-# Install coverage:
-$ python3 -m pip install coverage
-
-#For Linux/Mac use:
-$ python3 -m pip install coverage
-
-```
-
-*Note: The tests take a while (few seconds) as a test database needs to be created.*  
-*Replace the variable `django_app_name` with either*:
-- `user_service`
-- `reporting_system`
-
-```bash
-#To run all the tests run:
-$ python manage.py test
-
-#For Linux/Mac use:
-$ python3 manage.py test
-
-#To view Test Coverage in terminal:
-$ coverage run --source='django_app_name' manage.py test && coverage report
-
-#To view Test Coverage via HTML:
-$ coverage run --source='django_app_name' manage.py test && coverage report && coverage html
-
-```
 ## 🔍 References
 
 Django, (N.D). Security In Django. _SQL Injection Protection_ Available from:
@@ -195,11 +245,14 @@ https://docs.djangoproject.com/en/4.2/topics/security/ [Accessed 03 July 2023]
 Django, (N.D). Security In Django. Available from:
 https://docs.djangoproject.com/en/4.2/topics/security/ [Accessed 03 July 2023]
 
+Wolford, B. (N.D.). Writing a GDPR-compliant privacy notice (template included). GDPR.EU.
+Available from: https://gdpr.eu/privacy-notice/ [Accessed 06 July 2023]
 
-## ✍️ Authors
+
+<!-- ## ✍️ Authors
 Made with :heart: by 
 
 - <a href="https://github.com/alesteka" target="_blank">Ales Tekavcic</a>
 - <a href="https://github.com/muwalofra" target="_blank">Francis Muwalo</a>
 - <a href="https://github.com/nkosi-tauro" target="_blank">Nkosilathi Tauro</a>
-- <a href="https://github.com/alihu12345" target="_blank">Abdulahi Alihu Ngamjeh</a>
+- <a href="https://github.com/alihu12345" target="_blank">Abdulahi Alihu Ngamjeh</a> -->

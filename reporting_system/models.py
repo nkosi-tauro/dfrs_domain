@@ -47,7 +47,8 @@ STATUS_CHOICES = (
         ('unfixed', 'Unfixed'),
         ('fixed', 'Fixed'),
     )
-# Not using this Model
+
+# Not using these Models --------------------------------------------------------------- kept for Reference
 class ReportingFormModel(models.Model):
     '''
     Reporting Form Model
@@ -62,19 +63,23 @@ class ReportingFormModel(models.Model):
     def __str__(self):
         return f"{self.first_name} - {self.type_of_vulnerability}"
 
-class VulnerabilityFormModel(models.Model):
+class VulnerabilityFormModelUpdated(models.Model):
     '''
-    Reporting Form Model
+    Internal Reporting Form Model
     '''
-    user_id = models.ForeignKey(User, on_delete=models.CASCADE, serialize=True)
-    type = models.CharField(max_length=100, choices=Vulnerability_Type_Flaw,
+    employee_username = models.CharField(max_length=100, serialize=True)
+    type_of_vulnerability = models.CharField(max_length=100, choices=Vulnerability_Type,
                             blank=False, serialize=True)
-    severity = models.CharField(max_length=10, choices=CHOICES, blank=False,serialize=True)
+    severity = models.CharField(max_length=10, choices=CHOICES, blank=False, serialize=True)
     description = models.TextField(blank=True, serialize=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='unfixed')
 
     def __str__(self):
-        return f"{self.type}"
+        return f"{self.employee_username} - {self.type_of_vulnerability}"
+    
+# -------------------------------------------------------------------------------------------------------------
 
+# In USE
 class ReportingForm2Model(models.Model):
     '''
     Reporting Form Model
@@ -91,3 +96,17 @@ class ReportingForm2Model(models.Model):
 
     def __str__(self):
         return f"{self.first_name} - {self.type_of_vulnerability}"
+    
+class VulnerabilityFormModel(models.Model):
+    '''
+    Reporting Form Model
+    '''
+    user_id = models.ForeignKey(User, on_delete=models.CASCADE, serialize=True)
+    type = models.CharField(max_length=100, choices=Vulnerability_Type_Flaw,
+                            blank=False, serialize=True)
+    severity = models.CharField(max_length=10, choices=CHOICES, blank=False,serialize=True)
+    description = models.TextField(blank=True, serialize=True)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='unfixed')
+
+    def __str__(self):
+        return f"{self.type}"
