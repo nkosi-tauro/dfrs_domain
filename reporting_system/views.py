@@ -223,6 +223,40 @@ def reports_update(request, primary_key):
                'request': request.user}
     return render(request, 'adminview/reportsupdate.html', context)
 
+@login_required(login_url='employee-login')
+def internalreportsdetail(request, primary_key):
+    '''
+    Public Reports Detail View
+    '''
+    report = VulnerabilityFormModel.objects.get(id=primary_key)
+    context = {'report': report}
+    return render(request, 'adminview/internalreports_detail.html', context)
+
+@login_required(login_url='employee-login')
+def internalreports_update(request, primary_key):
+    '''
+    This will allow an admin to update a public vulnerability report
+    They wont be able to modify any data, just mark the report as fixed or unfixed
+    '''
+    report = VulnerabilityFormModel.objects.get(id=primary_key)
+    if request.method == 'POST':
+        form = AddVulnerabilityForm(request.POST, instance=report)
+        form.fields = {'status': form.fields.get('status')}
+        if form.is_valid():
+            status = form.save(commit=False)
+            status.status = form.cleaned_data['status']
+            form.save()
+            systemEvent.info(f"The Public Report {report} has been updated.",
+                             initiator=request.user)
+            return redirect('adminview')
+    else:
+        form = AddVulnerabilityForm(instance=report)
+        form.fields = {'status': form.fields.get('status')}
+        form.fields['status'].widget = forms.Select()
+    context = {'form': form,
+               'request': request.user}
+    return render(request, 'adminview/internal_reportsupdate.html', context)
+
 # ----------------------------------------EMPLOYEE ROUTES----------------------------------------
 @login_required(login_url='employee-login')
 def employeeupdate(request, user_id):
@@ -251,11 +285,6 @@ def add_flaw(request, user_id):
     Service to add the flaws, that have been identified by the employee. 
     This will allow employees to track breaches.
     '''
-    form = AddVulnerabilityForm()
-    context = {
-        'form': form,
-        'user_id': user_id,
-    }
     if request.method == 'POST':
         form = AddVulnerabilityForm(request.POST)
         if form.is_valid():
@@ -266,7 +295,14 @@ def add_flaw(request, user_id):
                 f"Cyberdetective {request.user} has submitted a new vulnerability report",
                 initiator=request.user)
             return redirect('employeeview', user_id=user_id)
-        context["not_valid"] = 1
+    else:
+        initial_data = {'user_id': user_id}
+        form = AddVulnerabilityForm(initial=initial_data)
+
+    context = {
+        'form': form,
+        'user_id': user_id,
+    }
     return render(request, 'employeeview/addFlaw.html', context)
 
 

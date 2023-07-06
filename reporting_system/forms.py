@@ -40,7 +40,19 @@ class AddVulnerabilityForm(forms.ModelForm):
         and fields that will be in the form
         '''
         model = VulnerabilityFormModel
-        fields = ['type', 'severity', 'description']
+        fields = "__all__"
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['user_id'].widget = forms.HiddenInput()  # Hide the status field by default
+        self.fields['status'].widget = forms.HiddenInput()  # Hide the status field by default
+
+    def clean(self):
+        cleaned_data = super().clean()
+        status = cleaned_data.get('status')
+        if status == 'fixed':
+            self.fields['status'].widget = forms.TextInput()  # Display the status field if it's marked as fixed
+        return cleaned_data
 
 class GDPRRequestForm(forms.Form):
     '''
