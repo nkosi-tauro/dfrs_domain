@@ -134,6 +134,12 @@ def gdprview(request):
 
     return render(request, 'publicview/gdprview.html', context)
 
+def gdprpolicy(request):
+    '''
+    The GDPR Compliance Policy View
+    '''
+    return render(request, 'publicview/gdprcompliance.html')
+
 
 @login_required(login_url='employee-login')
 def cyberdetectiveview(request):

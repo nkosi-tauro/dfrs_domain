@@ -48,5 +48,6 @@ urlpatterns = [
      # Public Routes
     path("report/",views.publicview, name="publicview"),
     path("gdpr-delete/",views.gdprview, name="gdprview"),
+    path("gdpr-policy/",views.gdprpolicy, name="gdpr-policy"),
 
 ]
