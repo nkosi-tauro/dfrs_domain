@@ -1,6 +1,7 @@
 '''
 Reporting System views
 '''
+from django.core.mail import EmailMessage
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -9,6 +10,8 @@ from django.contrib import messages
 from eventlog.models import Event
 from eventlog.events import EventGroup
 from django.views.decorators.cache import cache_page
+from django.core.mail import send_mail
+from django.contrib.sites.shortcuts import get_current_site
 from django.core.cache import caches
 from django import forms
 from user_service.forms import EmployeeUpdateForm
@@ -16,8 +19,23 @@ from .models import VulnerabilityFormModel, ReportingForm2Model
 from user_service.ratelimit import RateLimit, RateLimitExceeded
 from .forms import ReportingFormView, AddVulnerabilityForm, GDPRRequestForm, RateLimitForm
 
+import threading
+
 # Start a new Event group
 systemEvent = EventGroup()
+
+# Django Emails tend to take a long time, thus holding up the Page 
+# So by creating a new Thread we can send the email in the background so that the page can load faster
+class EmailThread(threading.Thread):
+    '''
+    handle mutihreading for emails
+    '''
+    def __init__(self, email):
+        self.email = email
+        threading.Thread.__init__(self)
+
+    def run(self):
+        self.email.send(fail_silently=False)
 
 
 def get_client_ip(request):
@@ -212,6 +230,14 @@ def reports_update(request, primary_key):
             status = form.save(commit=False)
             status.status = form.cleaned_data['status']
             form.save()
+
+            # Email Functionality
+            subject = 'Vulnerability Report Update'
+            message = f'Your Vulnerability Report Status has been updated\n Status: {report.status}'
+            email = EmailMessage(subject, message, from_email='nkosilati23@gmail.com', to=[report.email])
+            # Initiate Thread
+            EmailThread(email).start()
+            
             systemEvent.info(f"The Public Report {report} has been updated.",
                              initiator=request.user)
             return redirect('adminview')
