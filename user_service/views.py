@@ -45,7 +45,7 @@ def register_employee(request):
             systemEvent.info(f"New employee registered: {form.cleaned_data['username']}",
                              initiator=request.user)
             # This will redirect back to the admin view
-            return redirect('adminview')
+            return redirect('cyberdetectiveview')
         elif form.errors:
             # This will display the error messages
             if User.objects.filter(username=form.fields['username']).exists():
