@@ -59,6 +59,12 @@ def homeview(request):
     '''
     return render(request, 'homeview/home.html')
 
+def handle404(request, exception):
+    '''
+    404 Handler
+    '''
+    return render(request, 'base/404.html', {})
+
 
 @login_required(login_url='employee-login')
 def adminview(request):
