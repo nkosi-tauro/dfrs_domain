@@ -2,6 +2,8 @@
 Reporting System views
 '''
 from django.core.mail import EmailMessage
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -9,10 +11,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from eventlog.models import Event
 from eventlog.events import EventGroup
-from django.views.decorators.cache import cache_page
-from django.core.mail import send_mail
-from django.contrib.sites.shortcuts import get_current_site
-from django.core.cache import caches
+from django.core.cache import caches, cache
 from django import forms
 from user_service.forms import EmployeeUpdateForm
 from .models import VulnerabilityFormModel, ReportingForm2Model
@@ -146,20 +145,37 @@ def cyberdetectiveview(request):
     '''
     The Cyber Detective View
     '''
-    cyberdetectives = User.objects.all()
+    cyberdetectives = cache.get('cyberdetectives')
+    if cyberdetectives is None:
+        cyberdetectives = User.objects.all()
+        cache.set('cyberdetectives', cyberdetectives)
     context = {'cyberdetectives': cyberdetectives}
     return render(request, 'adminview/employee.html', context)
 
+@receiver([post_save, post_delete], sender=Event)
+def update_cyberdetectives_cache(sender, **kwargs):
+    cache.delete('cyberdetectives')
+
 # ----------------------------------------SYSTEM LOGS----------------------------------------
 @login_required(login_url='employee-login')
-# @cache_page(60 * 15) # Cache for 15 minutes
 def systemlogsview(request):
     '''
     The System Logs View
     '''
-    events = Event.objects.all()
+    events = cache.get('systemlogs')
+    if events is None:
+        events = Event.objects.all()
+        cache.set('systemlogs', events)
+
     context = {'events': events}
     return render(request, 'adminview/eventlogs.html', context)
+
+# Signal receivers to update cache on save or delete events
+@receiver([post_save, post_delete], sender=Event)
+def update_systemlogs_cache(sender, **kwargs):
+    cache.delete('systemlogs')
+
+
 
 @login_required(login_url='employee-login')
 def systemlogsdetailview(request, primary_key):
@@ -258,7 +274,7 @@ def reports_update(request, primary_key):
 @login_required(login_url='employee-login')
 def internalreportsdetail(request, primary_key):
     '''
-    Public Reports Detail View
+    Internal Reports Detail View
     '''
     report = VulnerabilityFormModel.objects.get(id=primary_key)
     context = {'report': report}
