@@ -1,7 +1,7 @@
-'''
+"""
 Rate limitting Logic
 https://forgepackages.com/guides/rate-limiting-requests/
-'''
+"""
 
 from datetime import timedelta
 
@@ -10,6 +10,10 @@ from django.core.exceptions import PermissionDenied
 
 
 class RateLimitExceeded(PermissionDenied):
+    """
+    Rate Limit Exception Class
+    """
+
     def __init__(self, usage, limit):
         self.usage = usage
         self.limit = limit
@@ -17,6 +21,9 @@ class RateLimitExceeded(PermissionDenied):
 
 
 class RateLimit:
+    """
+    Rate Limit Class
+    """
     def __init__(self, *, key, limit, period, cache=None, key_prefix="rl:"):
         self.key = key
         self.limit = limit
@@ -33,7 +40,7 @@ class RateLimit:
     def get_usage(self):
         # Timeout will be set here if it didn't exist, with a starting value of 0
         return self.cache.get_or_set(
-            self.key_prefix + self.key, 0, timeout=self.seconds # type: ignore
+            self.key_prefix + self.key, 0, timeout=self.seconds  # type: ignore
         )
 
     def increment_usage(self):
