@@ -283,6 +283,22 @@ We are committed to ensuring compliance with the General Data Protection Regulat
 
 For the complete GDPR compliance policy and detailed information on data collection, processing, security measures, data subject rights, and more, please refer to our [GDPR Compliance Documentation](https://dfrsdomain-dev.up.railway.app/gdpr-policy/).
 
+## Testing & Linters
+### Testing _Coming Soon_
+
+### Linters
+Our chosen `Linter` for this project was [Pylint](https://pypi.org/project/pylint/). The chosen code `Formatter` was [Black](https://black.readthedocs.io/en/stable/), previously it was Pep8 but we had some issues with it formatting the code.  
+We utilised the Linter with a few modifications. 
+
+1. `.pylintrc` file. This was so we could ignore the Default Django files and any other files that would not need to be Linted. Also we used it to configure our preferred indent space, `default` is `2` but we utilise `4` spaces.
+2. Instead of having the output in the terminal, we made use of [Pylint-Report](https://pypi.org/project/pylint-report/). This allowed us to set the pylint output to json and then convert the json output to a HTML file, which allowed for easy viewing of the `pylint` output.
+
+Pylint Report - See `pylint_output/pylint_report.html` the detailed output.  
+![Alt text](pylint_output/pylint.png)
+
+Pylint Report after fixes implemented - See `pylint_output/pylint_fixedreport.html` the detailed output.  
+![Alt text](pylint_output/pylint_fixed.png)
+
 ## 🔍 References
 
 Django. (N.D.). Security In Django. _SQL Injection Protection_ Available from:
@@ -306,3 +322,9 @@ Made with :heart: by
 - <a href="https://github.com/muwalofra" target="_blank">Francis Muwalo</a>
 - <a href="https://github.com/nkosi-tauro" target="_blank">Nkosilathi Tauro</a>
 - <a href="https://github.com/alihu12345" target="_blank">Abdulahi Alihu Ngamjeh</a> -->
+
+<!-- Pylint commands -->
+<!-- pylint --load-plugins=pylint_django --rcfile .pylintrc --output pylint_output/report.json * -->
+<!-- pylint --load-plugins=pylint_django --rcfile .pylintrc --output pylint_output/pylint_fixedreport.json *  -->
+<!-- Convert json output to html -->
+<!-- pylint_report pylint_output/pylint_fixedreport.json -o pylint_output/pylint_fixedreport.html -->
