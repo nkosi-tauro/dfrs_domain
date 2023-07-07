@@ -50,13 +50,8 @@ You can vist either the [Production](https://dfrsdomain-production.up.railway.ap
 There are 2 ways of getting this project up and running locally.  
 __Requirements__
 - [python](https://www.python.org/) 3.10 or above installed.
+- [docker](https://www.docker.com/) is required for method 2 Only
 
-if you are using method 2:
-- [docker](https://www.docker.com/) is required
-
-
-1. Python
-2. Docker
 
 ### 1. Python
 
@@ -204,6 +199,27 @@ We Implemented a logging feature that logs/Tracks the following:
 The logs are only viewable by an admin user.  
 ![Alt text](security_images/logs.png)
 
+In addition to the Logging features, we implemented a basic Ratelimitter (Gaeddert, 2023). To implement this we made the assumption that a user who continually fails to login to the platform is trying to `brute force` their way in. To Mitigate this, after `5` failed login attempts the Users IP will be flagged and blocked for the next `60` seconds from performing a login action on the application. 
+
+**Logic** `extract is from user_service/views.py`   
+```py
+def login_service(request):
+  ...
+  try:
+    RateLimit(
+      key=f"{get_client_ip(request)}",
+      limit=5,
+      period=60,
+      cache=caches['default'],
+    ).check()
+  except RateLimitExceeded as e:
+      systemEvent.critical(f"User with IP: {get_client_ip(request)} has been rate limitted, {e.usage} login requests failed",
+                                initiator=get_client_ip(request))
+      return HttpResponse(f"Rate limit exceeded. You have used {e.usage} requests, limit is {e.limit}.", status=429)        
+
+```
+
+
 ### 6. Risk: Cryptographic Failures:
 *Mitigation:*  
 We used The Django authentication provider which is a trusted authentication library (Django, N.D). This ensures the secure handling of sensitive data. SSL/TLS are enforced on the Server which encrypts any data moving between the application and database. 
@@ -215,6 +231,8 @@ Let's Encrypt Certificate:
 ![Alt text](security_images/cert.png)
 
 ## 🧵 Multithreading & Concurrency.
+
+### Multithreading
 In Django, processing emails can be time-consuming and cause the application to halt until the process is finished. This presents several problems. For instance, on our deployed server, any process that exceeds 30 seconds will be terminated. To address this issue, we have incorporated multithreading into our application for handling emails. This approach creates a separate thread or background process specifically for managing email tasks. As a result, the application is able to carry on processing other requests while the email process is running independently.
 ```py
 class EmailThread(threading.Thread):
@@ -230,7 +248,35 @@ class EmailThread(threading.Thread):
 ```
 
 ### Caching
-We next implemented view caching. By caching views and the various states contained (e.g A user is authenticated), it helped reduce the number of database requests and the associated load on the database server, which should then improve its performance and allow it to handle more concurrent requests. 
+We next implemented queryset caching. By caching querysets, it helped reduce the number of database requests and the associated load on the database server, which should then improve its performance and allow it to handle more concurrent requests. 
+
+**How it works:**  
+1. On page visit/load, ee first attempt to retrieve the querysets from the cache `cache.get('systemlogs')`
+2. If the querysets are not found in the cache (`None` is returned), we fetch them from the database `events = Event.objects.all()`
+3. And then we store the data in the cache `cache.set('systemlogs', events)`
+
+```py
+def systemlogsview(request):
+    '''
+    The System Logs View
+    '''
+    events = cache.get('systemlogs')
+    if events is None:
+        events = Event.objects.all()
+        cache.set('systemlogs', events)
+
+    context = {'events': events}
+    return render(request, 'adminview/eventlogs.html', context)
+```
+**Issue, Problem & Solution witch Caching**  
+But we then ran into a problem. Since we were caching the data (cache default timeout is `300` seconds) if any new data came through, the user would not be able to view the updated data (Redis, N.D.). To remedy this we utilised The Django signal receiver decorator to listen for when the Model Changed, if the Model changed, the cache would be immediately deleted so that a new call to the Database can be made.
+
+```py
+# Signal receivers to update cache on save or delete events
+@receiver([post_save, post_delete], sender=Event)
+def update_systemlogs_cache(sender, **kwargs):
+    cache.delete('systemlogs')
+```
 
 ## 🕵️ GDPR Compliance.
 We are committed to ensuring compliance with the General Data Protection Regulation (GDPR) to protect the privacy and rights of individuals who interact with our website. Our GDPR compliance documentation provides detailed information on how we collect, use, and protect personal data, as well as the rights of data subjects (Woldford, N.D).
@@ -239,11 +285,15 @@ For the complete GDPR compliance policy and detailed information on data collect
 
 ## 🔍 References
 
-Django, (N.D). Security In Django. _SQL Injection Protection_ Available from:
+Django. (N.D.). Security In Django. _SQL Injection Protection_ Available from:
 https://docs.djangoproject.com/en/4.2/topics/security/ [Accessed 03 July 2023]
 
-Django, (N.D). Security In Django. Available from:
+Django. (N.D.). Security In Django. Available from:
 https://docs.djangoproject.com/en/4.2/topics/security/ [Accessed 03 July 2023]
+
+Gaeddert, D. (2023). _Rate limiting requests in Django_. Available at: https://www.forgepackages.com/guides/rate-limiting-requests/ [Accessed 7 Jul. 2023].
+
+Redis. (N.D.). Client-side caching in Redis. Available at: https://redis.io/docs/manual/client-side-caching/.
 
 Wolford, B. (N.D.). Writing a GDPR-compliant privacy notice (template included). GDPR.EU.
 Available from: https://gdpr.eu/privacy-notice/ [Accessed 06 July 2023]
