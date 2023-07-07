@@ -1,0 +1,575 @@
+{
+  "messages": [
+    {
+      "type": "error",
+      "module": "reporting_system",
+      "obj": "",
+      "line": 1,
+      "column": 0,
+      "path": "reporting_system\\__init__.py",
+      "symbol": "django-not-configured",
+      "message": "Django was not configured. For more information run pylint --load-plugins=pylint_django --help-msg=django-not-configured",
+      "message-id": "E5110"
+    },
+    {
+      "type": "convention",
+      "module": "reporting_system.apps",
+      "obj": "",
+      "line": 1,
+      "column": 0,
+      "path": "reporting_system\\apps.py",
+      "symbol": "missing-module-docstring",
+      "message": "Missing module docstring",
+      "message-id": "C0114"
+    },
+    {
+      "type": "error",
+      "module": "reporting_system.apps",
+      "obj": "",
+      "line": 1,
+      "column": 0,
+      "path": "reporting_system\\apps.py",
+      "symbol": "django-not-configured",
+      "message": "Django was not configured. For more information run pylint --load-plugins=pylint_django --help-msg=django-not-configured",
+      "message-id": "E5110"
+    },
+    {
+      "type": "convention",
+      "module": "reporting_system.forms",
+      "obj": "",
+      "line": 21,
+      "column": 0,
+      "path": "reporting_system\\forms.py",
+      "symbol": "trailing-whitespace",
+      "message": "Trailing whitespace",
+      "message-id": "C0303"
+    },
+    {
+      "type": "convention",
+      "module": "reporting_system.forms",
+      "obj": "",
+      "line": 44,
+      "column": 0,
+      "path": "reporting_system\\forms.py",
+      "symbol": "trailing-whitespace",
+      "message": "Trailing whitespace",
+      "message-id": "C0303"
+    },
+    {
+      "type": "convention",
+      "module": "reporting_system.forms",
+      "obj": "",
+      "line": 68,
+      "column": 0,
+      "path": "reporting_system\\forms.py",
+      "symbol": "missing-final-newline",
+      "message": "Final newline missing",
+      "message-id": "C0304"
+    },
+    {
+      "type": "warning",
+      "module": "reporting_system.forms",
+      "obj": "",
+      "line": 20,
+      "column": 0,
+      "path": "reporting_system\\forms.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "warning",
+      "module": "reporting_system.forms",
+      "obj": "",
+      "line": 43,
+      "column": 0,
+      "path": "reporting_system\\forms.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "convention",
+      "module": "reporting_system.models",
+      "obj": "",
+      "line": 79,
+      "column": 0,
+      "path": "reporting_system\\models.py",
+      "symbol": "trailing-whitespace",
+      "message": "Trailing whitespace",
+      "message-id": "C0303"
+    },
+    {
+      "type": "convention",
+      "module": "reporting_system.models",
+      "obj": "",
+      "line": 99,
+      "column": 0,
+      "path": "reporting_system\\models.py",
+      "symbol": "trailing-whitespace",
+      "message": "Trailing whitespace",
+      "message-id": "C0303"
+    },
+    {
+      "type": "convention",
+      "module": "reporting_system.models",
+      "obj": "",
+      "line": 112,
+      "column": 0,
+      "path": "reporting_system\\models.py",
+      "symbol": "missing-final-newline",
+      "message": "Final newline missing",
+      "message-id": "C0304"
+    },
+    {
+      "type": "warning",
+      "module": "reporting_system.models",
+      "obj": "",
+      "line": 64,
+      "column": 0,
+      "path": "reporting_system\\models.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "warning",
+      "module": "reporting_system.models",
+      "obj": "",
+      "line": 78,
+      "column": 0,
+      "path": "reporting_system\\models.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "warning",
+      "module": "reporting_system.models",
+      "obj": "",
+      "line": 98,
+      "column": 0,
+      "path": "reporting_system\\models.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "warning",
+      "module": "reporting_system.models",
+      "obj": "",
+      "line": 112,
+      "column": 0,
+      "path": "reporting_system\\models.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "error",
+      "module": "reporting_system.models",
+      "obj": "",
+      "line": 1,
+      "column": 0,
+      "path": "reporting_system\\models.py",
+      "symbol": "django-not-configured",
+      "message": "Django was not configured. For more information run pylint --load-plugins=pylint_django --help-msg=django-not-configured",
+      "message-id": "E5110"
+    },
+    {
+      "type": "convention",
+      "module": "reporting_system.tests",
+      "obj": "",
+      "line": 1,
+      "column": 0,
+      "path": "reporting_system\\tests.py",
+      "symbol": "missing-module-docstring",
+      "message": "Missing module docstring",
+      "message-id": "C0114"
+    },
+    {
+      "type": "warning",
+      "module": "reporting_system.tests",
+      "obj": "",
+      "line": 1,
+      "column": 0,
+      "path": "reporting_system\\tests.py",
+      "symbol": "unused-import",
+      "message": "Unused TestCase imported from django.test",
+      "message-id": "W0611"
+    },
+    {
+      "type": "error",
+      "module": "reporting_system.views",
+      "obj": "",
+      "line": 1,
+      "column": 0,
+      "path": "reporting_system\\views.py",
+      "symbol": "django-not-configured",
+      "message": "Django was not configured. For more information run pylint --load-plugins=pylint_django --help-msg=django-not-configured",
+      "message-id": "E5110"
+    },
+    {
+      "type": "convention",
+      "module": "reporting_system.views",
+      "obj": "",
+      "line": 14,
+      "column": 0,
+      "path": "reporting_system\\views.py",
+      "symbol": "ungrouped-imports",
+      "message": "Imports from package django are not grouped",
+      "message-id": "C0412"
+    },
+    {
+      "type": "error",
+      "module": "requirements",
+      "obj": "",
+      "line": 1,
+      "column": 11,
+      "path": "requirements.txt",
+      "symbol": "syntax-error",
+      "message": "Parsing failed: 'invalid syntax (&lt;unknown&gt;, line 1)'",
+      "message-id": "E0001"
+    },
+    {
+      "type": "convention",
+      "module": "user_service.admin",
+      "obj": "",
+      "line": 1,
+      "column": 0,
+      "path": "user_service\\admin.py",
+      "symbol": "missing-module-docstring",
+      "message": "Missing module docstring",
+      "message-id": "C0114"
+    },
+    {
+      "type": "warning",
+      "module": "user_service.admin",
+      "obj": "",
+      "line": 1,
+      "column": 0,
+      "path": "user_service\\admin.py",
+      "symbol": "unused-import",
+      "message": "Unused admin imported from django.contrib",
+      "message-id": "W0611"
+    },
+    {
+      "type": "convention",
+      "module": "user_service.apps",
+      "obj": "",
+      "line": 1,
+      "column": 0,
+      "path": "user_service\\apps.py",
+      "symbol": "missing-module-docstring",
+      "message": "Missing module docstring",
+      "message-id": "C0114"
+    },
+    {
+      "type": "convention",
+      "module": "user_service.models",
+      "obj": "",
+      "line": 1,
+      "column": 0,
+      "path": "user_service\\models.py",
+      "symbol": "missing-module-docstring",
+      "message": "Missing module docstring",
+      "message-id": "C0114"
+    },
+    {
+      "type": "warning",
+      "module": "user_service.models",
+      "obj": "",
+      "line": 1,
+      "column": 0,
+      "path": "user_service\\models.py",
+      "symbol": "unused-import",
+      "message": "Unused models imported from django.db",
+      "message-id": "W0611"
+    },
+    {
+      "type": "convention",
+      "module": "user_service.ratelimit",
+      "obj": "",
+      "line": 48,
+      "column": 0,
+      "path": "user_service\\ratelimit.py",
+      "symbol": "missing-final-newline",
+      "message": "Final newline missing",
+      "message-id": "C0304"
+    },
+    {
+      "type": "convention",
+      "module": "user_service.ratelimit",
+      "obj": "RateLimit",
+      "line": 19,
+      "column": 0,
+      "path": "user_service\\ratelimit.py",
+      "symbol": "missing-class-docstring",
+      "message": "Missing class docstring",
+      "message-id": "C0115"
+    },
+    {
+      "type": "convention",
+      "module": "user_service.views",
+      "obj": "",
+      "line": 155,
+      "column": 13,
+      "path": "user_service\\views.py",
+      "symbol": "trailing-whitespace",
+      "message": "Trailing whitespace",
+      "message-id": "C0303"
+    },
+    {
+      "type": "warning",
+      "module": "user_service.views",
+      "obj": "",
+      "line": 55,
+      "column": 0,
+      "path": "user_service\\views.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "warning",
+      "module": "user_service.views",
+      "obj": "",
+      "line": 79,
+      "column": 0,
+      "path": "user_service\\views.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "warning",
+      "module": "user_service.views",
+      "obj": "",
+      "line": 132,
+      "column": 0,
+      "path": "user_service\\views.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "warning",
+      "module": "user_service.views",
+      "obj": "",
+      "line": 137,
+      "column": 0,
+      "path": "user_service\\views.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "warning",
+      "module": "user_service.views",
+      "obj": "",
+      "line": 144,
+      "column": 0,
+      "path": "user_service\\views.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "warning",
+      "module": "user_service.views",
+      "obj": "",
+      "line": 150,
+      "column": 0,
+      "path": "user_service\\views.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "warning",
+      "module": "user_service.views",
+      "obj": "",
+      "line": 153,
+      "column": 0,
+      "path": "user_service\\views.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "warning",
+      "module": "user_service.views",
+      "obj": "",
+      "line": 156,
+      "column": 0,
+      "path": "user_service\\views.py",
+      "symbol": "inconsistent-quotes",
+      "message": "Quote delimiter \" is inconsistent with the rest of the file",
+      "message-id": "W1405"
+    },
+    {
+      "type": "convention",
+      "module": "user_service.views",
+      "obj": "",
+      "line": 11,
+      "column": 0,
+      "path": "user_service\\views.py",
+      "symbol": "ungrouped-imports",
+      "message": "Imports from package django are not grouped",
+      "message-id": "C0412"
+    }
+  ],
+  "stats": {
+    "by_module": {
+      "reporting_system": {
+        "convention": 0,
+        "error": 1,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 0,
+        "warning": 0
+      },
+      "reporting_system.admin": {
+        "convention": 0,
+        "error": 0,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 4,
+        "warning": 0
+      },
+      "reporting_system.apps": {
+        "convention": 1,
+        "error": 1,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 4,
+        "warning": 0
+      },
+      "reporting_system.forms": {
+        "convention": 3,
+        "error": 0,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 35,
+        "warning": 2
+      },
+      "reporting_system.models": {
+        "convention": 3,
+        "error": 1,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 42,
+        "warning": 4
+      },
+      "reporting_system.tests": {
+        "convention": 1,
+        "error": 0,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 1,
+        "warning": 1
+      },
+      "reporting_system.urls": {
+        "convention": 0,
+        "error": 0,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 5,
+        "warning": 0
+      },
+      "reporting_system.views": {
+        "convention": 1,
+        "error": 1,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 209,
+        "warning": 0
+      },
+      "requirements": {
+        "convention": 0,
+        "error": 1,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 0,
+        "warning": 0
+      },
+      "user_service": {
+        "convention": 0,
+        "error": 0,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 0,
+        "warning": 0
+      },
+      "user_service.admin": {
+        "convention": 1,
+        "error": 0,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 1,
+        "warning": 1
+      },
+      "user_service.apps": {
+        "convention": 1,
+        "error": 0,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 4,
+        "warning": 0
+      },
+      "user_service.forms": {
+        "convention": 0,
+        "error": 0,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 13,
+        "warning": 0
+      },
+      "user_service.models": {
+        "convention": 1,
+        "error": 0,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 1,
+        "warning": 1
+      },
+      "user_service.ratelimit": {
+        "convention": 2,
+        "error": 0,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 26,
+        "warning": 0
+      },
+      "user_service.views": {
+        "convention": 2,
+        "error": 0,
+        "fatal": 0,
+        "info": 0,
+        "refactor": 0,
+        "statement": 86,
+        "warning": 8
+      }
+    },
+    "statement": 431,
+    "error": 5,
+    "warning": 17,
+    "refactor": 0,
+    "convention": 16
+  }
+}
