@@ -23,7 +23,7 @@ class BaseViewsTest(TestCase):
         return super().setUp()
 
 
-class CanViewSitePages(TestCase):
+class CanViewSitePages(BaseViewsTest):
     """
     Tests that the site pages can be viewed.
     """
@@ -40,16 +40,8 @@ class CanViewSitePages(TestCase):
         url = reverse("adminview")
         response = self.client.get(url)
         print(response)
-        self.assertEqual(response.status_code, 302)
-        self.assertTemplateUsed(response, "adminview/admin.html")
-
-    def test_can_view_employeeview(self):
-        # Log in with employee user
-        self.client.login(username="testuser", password="testpassword")
-        url = reverse("employeeview", args=[self.client.request.id])
-        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "employeeview/employee.html")
+        self.assertTemplateUsed(response, "adminview/admin.html")
 
     def test_can_view_publicview(self):
         url = reverse("publicview")

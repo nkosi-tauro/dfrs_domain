@@ -10,10 +10,6 @@ from django.core.exceptions import PermissionDenied
 
 
 class RateLimitExceeded(PermissionDenied):
-    """
-    Rate Limit Exception Class
-    """
-
     def __init__(self, usage, limit):
         self.usage = usage
         self.limit = limit
@@ -21,9 +17,6 @@ class RateLimitExceeded(PermissionDenied):
 
 
 class RateLimit:
-    """
-    Rate Limit Class
-    """
     def __init__(self, *, key, limit, period, cache=None, key_prefix="rl:"):
         self.key = key
         self.limit = limit
@@ -46,8 +39,11 @@ class RateLimit:
     def increment_usage(self):
         self.cache.incr(self.key_prefix + self.key, delta=1)
 
-    def check(self):
-        usage = self.get_usage()
+    def check(self, *args):
+        if len(args) != 0:  # For the testing purposes
+            usage = args[0]
+        else:
+            usage = self.get_usage()
 
         if usage >= self.limit:
             raise RateLimitExceeded(usage=usage, limit=self.limit)
