@@ -1,0 +1,1169 @@
+<!DOCTYPE HTML>
+<html lang="en">
+  <head>
+    <title>Pylint report</title>
+    <meta charset="utf-8">
+    <style>
+      html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: sans-serif;
+  padding: 1em;
+  margin: 0;
+  line-height: 1.5;
+}
+
+td {
+  vertical-align: top;
+}
+
+th,
+td {
+  padding: 0.5em;
+}
+
+th {
+  background-color: #8d9db6;
+}
+
+tr {
+  background-color: white;
+}
+
+.score {
+  color: red;
+}
+
+code {
+  font-family: Consolas, "courier new";
+  color: blue;
+  background-color: #f1f1f1;
+  padding: 2px;
+  font-size: 105%;
+}
+
+    </style>
+    </head>
+  <body>
+    <h1><u>Pylint report</u></h1>
+    <small>
+      Report generated on 2023-07-07 at 21:54:00 using <a href="https://github.com/drdv/pylint-report">pylint-report</a>
+    </small>
+    <h2>
+      <span>Score:</span>
+      <span class="score"> 8.65 </span>
+      <span> / 10 </span>
+    </h2>
+    <ul>
+      <li> <a href="#reporting_system"> reporting_system </a> (1)</li>
+      <li> reporting_system.admin (0)</li>
+      <li> <a href="#reporting_system.apps"> reporting_system.apps </a> (2)</li>
+      <li> <a href="#reporting_system.forms"> reporting_system.forms </a> (5)</li>
+      <li> <a href="#reporting_system.models"> reporting_system.models </a> (8)</li>
+      <li> <a href="#reporting_system.tests"> reporting_system.tests </a> (2)</li>
+      <li> reporting_system.urls (0)</li>
+      <li> <a href="#reporting_system.views"> reporting_system.views </a> (2)</li>
+      <li> <a href="#requirements"> requirements </a> (1)</li>
+      <li> user_service (0)</li>
+      <li> <a href="#user_service.admin"> user_service.admin </a> (2)</li>
+      <li> <a href="#user_service.apps"> user_service.apps </a> (1)</li>
+      <li> user_service.forms (0)</li>
+      <li> <a href="#user_service.models"> user_service.models </a> (2)</li>
+      <li> <a href="#user_service.ratelimit"> user_service.ratelimit </a> (2)</li>
+      <li> <a href="#user_service.views"> user_service.views </a> (10)</li>
+      </ul>
+    <section>
+      <h2>
+        <span>Module:</span>
+        <span id="reporting_system"> <code>reporting_system (1)</code> </span>
+      </h2>
+      <hr><table><tr>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>symbol</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>django-not-configured</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>type</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>error</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+      </tr></table>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th></th>
+      <th>line</th>
+      <th>column</th>
+      <th>symbol</th>
+      <th>type</th>
+      <th>obj</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>django-not-configured</td>
+      <td>error</td>
+      <td></td>
+      <td>Django was not configured. For more information run pylint --load-plugins=pylint_django --help-msg=django-not-configured</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+    <section>
+      <h2>
+        <span>Module:</span>
+        <span id="reporting_system.apps"> <code>reporting_system.apps (2)</code> </span>
+      </h2>
+      <hr><table><tr>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>symbol</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>django-not-configured</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>missing-module-docstring</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>type</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>convention</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>error</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+      </tr></table>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th></th>
+      <th>line</th>
+      <th>column</th>
+      <th>symbol</th>
+      <th>type</th>
+      <th>obj</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>missing-module-docstring</td>
+      <td>convention</td>
+      <td></td>
+      <td>Missing module docstring</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+      <td>django-not-configured</td>
+      <td>error</td>
+      <td></td>
+      <td>Django was not configured. For more information run pylint --load-plugins=pylint_django --help-msg=django-not-configured</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+    <section>
+      <h2>
+        <span>Module:</span>
+        <span id="reporting_system.forms"> <code>reporting_system.forms (5)</code> </span>
+      </h2>
+      <hr><table><tr>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>symbol</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>inconsistent-quotes</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>missing-final-newline</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>trailing-whitespace</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>type</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>convention</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>warning</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+      </tr></table>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th></th>
+      <th>line</th>
+      <th>column</th>
+      <th>symbol</th>
+      <th>type</th>
+      <th>obj</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>20</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>21</td>
+      <td>0</td>
+      <td>trailing-whitespace</td>
+      <td>convention</td>
+      <td></td>
+      <td>Trailing whitespace</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>43</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>44</td>
+      <td>0</td>
+      <td>trailing-whitespace</td>
+      <td>convention</td>
+      <td></td>
+      <td>Trailing whitespace</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>68</td>
+      <td>0</td>
+      <td>missing-final-newline</td>
+      <td>convention</td>
+      <td></td>
+      <td>Final newline missing</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+    <section>
+      <h2>
+        <span>Module:</span>
+        <span id="reporting_system.models"> <code>reporting_system.models (8)</code> </span>
+      </h2>
+      <hr><table><tr>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>symbol</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>django-not-configured</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>inconsistent-quotes</td>
+      <td>4</td>
+    </tr>
+    <tr>
+      <td>missing-final-newline</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>trailing-whitespace</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>type</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>convention</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <td>error</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>warning</td>
+      <td>4</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+      </tr></table>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th></th>
+      <th>line</th>
+      <th>column</th>
+      <th>symbol</th>
+      <th>type</th>
+      <th>obj</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>django-not-configured</td>
+      <td>error</td>
+      <td></td>
+      <td>Django was not configured. For more information run pylint --load-plugins=pylint_django --help-msg=django-not-configured</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>64</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>78</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>79</td>
+      <td>0</td>
+      <td>trailing-whitespace</td>
+      <td>convention</td>
+      <td></td>
+      <td>Trailing whitespace</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>98</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>99</td>
+      <td>0</td>
+      <td>trailing-whitespace</td>
+      <td>convention</td>
+      <td></td>
+      <td>Trailing whitespace</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>112</td>
+      <td>0</td>
+      <td>missing-final-newline</td>
+      <td>convention</td>
+      <td></td>
+      <td>Final newline missing</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>112</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+    <section>
+      <h2>
+        <span>Module:</span>
+        <span id="reporting_system.tests"> <code>reporting_system.tests (2)</code> </span>
+      </h2>
+      <hr><table><tr>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>symbol</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>missing-module-docstring</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>unused-import</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>type</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>convention</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>warning</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+      </tr></table>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th></th>
+      <th>line</th>
+      <th>column</th>
+      <th>symbol</th>
+      <th>type</th>
+      <th>obj</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>missing-module-docstring</td>
+      <td>convention</td>
+      <td></td>
+      <td>Missing module docstring</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+      <td>unused-import</td>
+      <td>warning</td>
+      <td></td>
+      <td>Unused TestCase imported from django.test</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+    <section>
+      <h2>
+        <span>Module:</span>
+        <span id="reporting_system.views"> <code>reporting_system.views (2)</code> </span>
+      </h2>
+      <hr><table><tr>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>symbol</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>django-not-configured</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>ungrouped-imports</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>type</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>convention</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>error</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+      </tr></table>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th></th>
+      <th>line</th>
+      <th>column</th>
+      <th>symbol</th>
+      <th>type</th>
+      <th>obj</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>django-not-configured</td>
+      <td>error</td>
+      <td></td>
+      <td>Django was not configured. For more information run pylint --load-plugins=pylint_django --help-msg=django-not-configured</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>14</td>
+      <td>0</td>
+      <td>ungrouped-imports</td>
+      <td>convention</td>
+      <td></td>
+      <td>Imports from package django are not grouped</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+    <section>
+      <h2>
+        <span>Module:</span>
+        <span id="requirements"> <code>requirements (1)</code> </span>
+      </h2>
+      <hr><table><tr>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>symbol</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>syntax-error</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>type</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>error</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+      </tr></table>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th></th>
+      <th>line</th>
+      <th>column</th>
+      <th>symbol</th>
+      <th>type</th>
+      <th>obj</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>11</td>
+      <td>syntax-error</td>
+      <td>error</td>
+      <td></td>
+      <td>Parsing failed: 'invalid syntax (&amp;lt;unknown&amp;gt;, line 1)'</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+    <section>
+      <h2>
+        <span>Module:</span>
+        <span id="user_service.admin"> <code>user_service.admin (2)</code> </span>
+      </h2>
+      <hr><table><tr>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>symbol</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>missing-module-docstring</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>unused-import</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>type</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>convention</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>warning</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+      </tr></table>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th></th>
+      <th>line</th>
+      <th>column</th>
+      <th>symbol</th>
+      <th>type</th>
+      <th>obj</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>missing-module-docstring</td>
+      <td>convention</td>
+      <td></td>
+      <td>Missing module docstring</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+      <td>unused-import</td>
+      <td>warning</td>
+      <td></td>
+      <td>Unused admin imported from django.contrib</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+    <section>
+      <h2>
+        <span>Module:</span>
+        <span id="user_service.apps"> <code>user_service.apps (1)</code> </span>
+      </h2>
+      <hr><table><tr>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>symbol</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>missing-module-docstring</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>type</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>convention</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+      </tr></table>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th></th>
+      <th>line</th>
+      <th>column</th>
+      <th>symbol</th>
+      <th>type</th>
+      <th>obj</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>missing-module-docstring</td>
+      <td>convention</td>
+      <td></td>
+      <td>Missing module docstring</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+    <section>
+      <h2>
+        <span>Module:</span>
+        <span id="user_service.models"> <code>user_service.models (2)</code> </span>
+      </h2>
+      <hr><table><tr>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>symbol</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>missing-module-docstring</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>unused-import</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>type</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>convention</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>warning</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+      </tr></table>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th></th>
+      <th>line</th>
+      <th>column</th>
+      <th>symbol</th>
+      <th>type</th>
+      <th>obj</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0</td>
+      <td>missing-module-docstring</td>
+      <td>convention</td>
+      <td></td>
+      <td>Missing module docstring</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>0</td>
+      <td>unused-import</td>
+      <td>warning</td>
+      <td></td>
+      <td>Unused models imported from django.db</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+    <section>
+      <h2>
+        <span>Module:</span>
+        <span id="user_service.ratelimit"> <code>user_service.ratelimit (2)</code> </span>
+      </h2>
+      <hr><table><tr>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>symbol</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>missing-class-docstring</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>missing-final-newline</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>type</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>convention</td>
+      <td>2</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+      </tr></table>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th></th>
+      <th>line</th>
+      <th>column</th>
+      <th>symbol</th>
+      <th>type</th>
+      <th>obj</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>19</td>
+      <td>0</td>
+      <td>missing-class-docstring</td>
+      <td>convention</td>
+      <td>RateLimit</td>
+      <td>Missing class docstring</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>48</td>
+      <td>0</td>
+      <td>missing-final-newline</td>
+      <td>convention</td>
+      <td></td>
+      <td>Final newline missing</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+    <section>
+      <h2>
+        <span>Module:</span>
+        <span id="user_service.views"> <code>user_service.views (10)</code> </span>
+      </h2>
+      <hr><table><tr>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>symbol</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>inconsistent-quotes</td>
+      <td>8</td>
+    </tr>
+    <tr>
+      <td>trailing-whitespace</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>ungrouped-imports</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+          <td>
+            <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th>type</th>
+      <th># msg</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>convention</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>warning</td>
+      <td>8</td>
+    </tr>
+  </tbody>
+</table>
+          </td>
+      </tr></table>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: center;">
+      <th></th>
+      <th>line</th>
+      <th>column</th>
+      <th>symbol</th>
+      <th>type</th>
+      <th>obj</th>
+      <th>message</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>11</td>
+      <td>0</td>
+      <td>ungrouped-imports</td>
+      <td>convention</td>
+      <td></td>
+      <td>Imports from package django are not grouped</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>55</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>79</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>132</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>137</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+    <tr>
+      <th>5</th>
+      <td>144</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>150</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+    <tr>
+      <th>7</th>
+      <td>153</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>155</td>
+      <td>13</td>
+      <td>trailing-whitespace</td>
+      <td>convention</td>
+      <td></td>
+      <td>Trailing whitespace</td>
+    </tr>
+    <tr>
+      <th>9</th>
+      <td>156</td>
+      <td>0</td>
+      <td>inconsistent-quotes</td>
+      <td>warning</td>
+      <td></td>
+      <td>Quote delimiter " is inconsistent with the rest of the file</td>
+    </tr>
+  </tbody>
+</table>
+    </section>
+    </body>
+</html>

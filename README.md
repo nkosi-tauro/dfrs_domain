@@ -103,7 +103,7 @@ $ pip freeze > requirements.txt
 ### :test_tube: Testing
 
 We are using The Default testing module in Django `TestCase` to create our unittests.  
-*Note: The tests take a while (few seconds) as a test database needs to be created.*  
+*Note: The tests take a while to be completed (few minutes) as a test database needs to be created.*  
 
 ```bash
 #To run all the tests run:
@@ -125,16 +125,13 @@ $ python3 -m pip install coverage
 ```
 
 Using `coverage`  
-*Replace the variable `django_app_name` with either*:
-- `user_service`
-- `reporting_system`
 ```bash
 
 #To view Test Coverage in terminal:
-$ coverage run --source='django_app_name' manage.py test && coverage report
+$ coverage run manage.py test && coverage report
 
 #To view Test Coverage via HTML:
-$ coverage run --source='django_app_name' manage.py test && coverage report && coverage html
+$ coverage run manage.py test && coverage report && coverage html
 
 ```
 
@@ -283,6 +280,34 @@ We are committed to ensuring compliance with the General Data Protection Regulat
 
 For the complete GDPR compliance policy and detailed information on data collection, processing, security measures, data subject rights, and more, please refer to our [GDPR Compliance Documentation](https://dfrsdomain-dev.up.railway.app/gdpr-policy/).
 
+## Testing & Linters
+### 🧪 Testing
+We created about `20` Tests, we tried to cover the most important functionality of our domain, such as:
+- Login Functionality - does a user get redirected to the correct views based on their `role`?
+- CRUD `creating employees`, `updating reports`, `deleting reports`  and so forth
+- Views, are the correct views being rendered?   
+- Ratelimit functionality
+- IP address - does this capture the correct IP address value?   
+
+All `20` Tests are currently passing🧪.  
+![Alt text](security_images/tests.png)  
+
+Our Current Test Coverage is `72%`.  _See [Testing](#:test_tube:-testing) section for more on coverage_   
+![Alt text](security_images/coverage.png)
+
+### Linters
+Our chosen `Linter` for this project was [Pylint](https://pypi.org/project/pylint/). The chosen code `Formatter` was [Black](https://black.readthedocs.io/en/stable/), previously it was Pep8 but we had some issues with it formatting the code.  
+We utilised the Linter with a few modifications. 
+
+1. `.pylintrc` file. This was so we could ignore the Default Django files and any other files that would not need to be Linted. Also we used it to configure our preferred indent space, `default` is `2` but we utilise `4` spaces.
+2. Instead of having the output in the terminal, we made use of [Pylint-Report](https://pypi.org/project/pylint-report/). This allowed us to set the pylint output to json and then convert the json output to a HTML file, which allowed for easy viewing of the `pylint` output.
+
+Pylint Report - See `pylint_output/pylint_report.html` the detailed output.  
+![Alt text](pylint_output/pylint.png)
+
+Pylint Report after fixes implemented - See `pylint_output/pylint_fixedreport.html` the detailed output.  
+![Alt text](pylint_output/pylint_fixed.png)
+
 ## 🔍 References
 
 Django. (N.D.). Security In Django. _SQL Injection Protection_ Available from:
@@ -306,3 +331,10 @@ Made with :heart: by
 - <a href="https://github.com/muwalofra" target="_blank">Francis Muwalo</a>
 - <a href="https://github.com/nkosi-tauro" target="_blank">Nkosilathi Tauro</a>
 - <a href="https://github.com/alihu12345" target="_blank">Abdulahi Alihu Ngamjeh</a> -->
+
+<!-- Pylint commands -->
+<!-- DO NOT RUN THE FIRST COMMAND, it will overwrite the original pylint report -->
+<!-- pylint --load-plugins=pylint_django --rcfile .pylintrc --output pylint_output/report.json * -->
+<!-- pylint --load-plugins=pylint_django --rcfile .pylintrc --output pylint_output/pylint_fixedreport.json *  -->
+<!-- Convert json output to html -->
+<!-- pylint_report pylint_output/pylint_fixedreport.json -o pylint_output/pylint_fixedreport.html -->
