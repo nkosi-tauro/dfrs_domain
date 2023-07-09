@@ -39,8 +39,12 @@ class RateLimit:
     def increment_usage(self):
         self.cache.incr(self.key_prefix + self.key, delta=1)
 
-    def check(self):
-        usage = self.get_usage()
+    def check(self, *args):
+        
+        if len(args) != 0: # For the testing purposes
+            usage = args[0]
+        else:
+            usage = self.get_usage()
 
         if usage >= self.limit:
             raise RateLimitExceeded(usage=usage, limit=self.limit)

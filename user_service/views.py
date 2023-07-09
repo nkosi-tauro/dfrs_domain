@@ -87,7 +87,6 @@ def employee_update(request, primary_key):
     This will allow an admin to update an employee
     '''
     employee = User.objects.get(id=primary_key)
-    print(employee)
     if request.method == 'POST':
         # instance=request.user will pass through the user data into the input fields
         form = EmployeeUpdateForm(request.POST, instance=employee)
