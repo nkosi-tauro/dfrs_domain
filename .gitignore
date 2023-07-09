@@ -6,6 +6,7 @@ user_service/tests/__pycache__/
 user_service/migrations/__pycache__/
 reporting_system/tests/__pycache__/
 reporting_system/migrations/__pycache__/
+tests/__pycache__/
 .vscode/
 .coverage
 htmlcov/

@@ -25,3 +25,5 @@ urlpatterns = [
     # Uncomment For Debugging Only
     # path("__debug__/", include(debug_toolbar.urls)),
 ]
+
+handler404 = "reporting_system.views.handle404"
