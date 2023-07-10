@@ -140,12 +140,11 @@ $ coverage run manage.py test && coverage report && coverage html
 
 ### 1. Risk: Injection
 *Mitigation:*  
-In our application, we have implemented Django's querysets which implement query parameterisation to protect against SQL injection attacks (Django, N.D). Additionally, we utilise the built-in validators to validate and sanitize user input, ensuring adherence to specific regex patterns which are utilised under the hood. These measures collectively enhance the security of our application by safeguarding against malicious SQL injections and promoting secure user input handling.
-
+In our application, we have implemented Django's querysets which implement query parameterisation to protect against SQL injection attacks (Django, N.D). By using The Django Object Relational Mapper (ORM) we avoid writing any raw SQL queries. Additionally, we utilise the built-in validators to validate and sanitize user input, ensuring adherence to specific regex patterns which are utilised under the hood. These measures collectively enhance the security of our application by safeguarding against malicious SQL injections and promoting secure user input handling.
 
 ### 2. Risk(s):  Insecure design + 3. Vulnerable and Outdated components
 *Mitigation(s):*  
-We added a [Django Dependency and Security checker](https://github.com/marketplace/actions/django-security-check). It scans the repo and helps to continuously monitor and fix common security vulnerabilities in the Django application. With this tool we can keep up to date with any changes to the tools we utilise in the project and update and or fix them if any issues arise.  
+We added a [Django Dependency and Security checker](https://github.com/marketplace/actions/django-security-check). It scans the repo and helps to continuously monitor and fix common security vulnerabilities in the Django application. With this tool we can keep up to date with any changes to the tools we utilise in the project and update and or fix them if any issues arise. In addition to this we compiled `20` unit tests to validate the flows in the application  
 
 These where some of the security issues identified in our Project:   
 
@@ -159,9 +158,9 @@ After fixing the issues:
 
 ### 4. Risk: Broken Access Control
 *Mitigation:*   
-Using The Django authentication provider allowed us to implement role based access to the application. Using the `@login_required(login_url='employee-login')` decorators, we can __secure__ routes behind the authentication system and any unauthenticated users will not be able to visit them. Furthermore we added a redirect system for Authenticated users roles, `admin` or `employee`. Based on their role the authenticated user will be redirected to the relevant view where they have permissions.  
+Using The Django authentication provider allowed us to implement role based access to the application. Using the `@login_required(login_url='employee-login')` decorators, we can __secure__ routes behind the authentication system and any unauthenticated users will not be able to visit them. Furthermore we added a redirect system for Authenticated users roles, `admin` or `employee`. Based on their role the authenticated user will be redirected to the relevant view where they have permissions.   
 
-Code Snippets:  
+**Code Snippets**:
 ```py
 #login decorator on route
 @login_required(login_url='employee-login')
@@ -184,21 +183,9 @@ if user is not None:
       return redirect('employeeview', user_id)
 ```
 
-### 5. Risk: Security Logging and Monitoring Failures:
-*Mitigation:*  
-We Implemented a logging feature that logs/Tracks the following:
+A basic Ratelimitter is also implemented (Gaeddert, 2023). To implement this we made the assumption that a user who continually fails to login to the platform is trying to `brute force` their way in. To Mitigate this, after `5` failed login attempts the Users IP will be flagged and blocked for the next `60` seconds from performing a login action on the application. These repeated failed attempts are also added to the `Event logs` that notify the admin user. 
 
-- When a user of the General Public submits a vulnerability report
-- When a user attempts and fails to login, it captures their IP - the plan would be then to rate limit the IP if we notice malicious activity (e.g repeat incorrect login attempts)
-- When Employees login
-- When Employees submit a vulnerability report  
-
-The logs are only viewable by an admin user.  
-![Alt text](security_images/logs.png)
-
-In addition to the Logging features, we implemented a basic Ratelimitter (Gaeddert, 2023). To implement this we made the assumption that a user who continually fails to login to the platform is trying to `brute force` their way in. To Mitigate this, after `5` failed login attempts the Users IP will be flagged and blocked for the next `60` seconds from performing a login action on the application. 
-
-**Logic** `extract is from user_service/views.py`   
+**Code Snippets**: `extract is from user_service/views.py`   
 ```py
 def login_service(request):
   ...
@@ -215,11 +202,36 @@ def login_service(request):
       return HttpResponse(f"Rate limit exceeded. You have used {e.usage} requests, limit is {e.limit}.", status=429)        
 
 ```
+In addition to the role access and ratelimitter, we have also included Session Invalidation. The current timer is `15` minutes of inactivty and the session token will be deleted and the user logged out and redirected to the login view.
+```bash
+# Session Invalidation
+# Logout after a period of inactivity
+INACTIVE_TIME = 15 * 60  # 15 minutes
+SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = INACTIVE_TIME  # change expired session
+SESSION_IDLE_TIMEOUT = INACTIVE_TIME  # logout
+```
+
+
+### 5. Risk: Security Logging and Monitoring Failures:
+*Mitigation:*  
+We Implemented a logging feature that logs/Tracks the following:
+
+- When a user of the General Public submits a vulnerability report
+- When a user attempts and fails to login, it captures their IP.
+- When Employees login
+- When Employees submit a vulnerability report  
+
+The logs are only viewable by an admin user.  
+![Alt text](security_images/logs.png)
+
+
 
 
 ### 6. Risk: Cryptographic Failures:
 *Mitigation:*  
-We used The Django authentication provider which is a trusted authentication library (Django, N.D). This ensures the secure handling of sensitive data. SSL/TLS are enforced on the Server which encrypts any data moving between the application and database. 
+We used The Django authentication provider which is a trusted authentication library. Passwords are hashed using SHA256 while utilising the PBKDF2 algorithm (Django, N.D). This ensures the secure handling of sensitive data. SSL/TLS are enforced on the Server which encrypts any data moving between the application and database. 
 
 Server deployed on HTTPS Protocol:  
 ![Alt text](security_images/https.png)
@@ -227,7 +239,7 @@ Server deployed on HTTPS Protocol:
 Let's Encrypt Certificate:  
 ![Alt text](security_images/cert.png)
 
-## 🧵 Multithreading & Concurrency.
+## 🧵 Multithreading, Concurrency & Microservices.
 
 ### Multithreading
 In Django, processing emails can be time-consuming and cause the application to halt until the process is finished. This presents several problems. For instance, on our deployed server, any process that exceeds 30 seconds will be terminated. To address this issue, we have incorporated multithreading into our application for handling emails. This approach creates a separate thread or background process specifically for managing email tasks. As a result, the application is able to carry on processing other requests while the email process is running independently.
@@ -275,6 +287,9 @@ def update_systemlogs_cache(sender, **kwargs):
     cache.delete('systemlogs')
 ```
 
+### :whale: Microservices
+In addition to incorporating multithreading and caching, our application infrastructure is based on a microservices architecture, allowing for seamless scalability to meet growing demands. By breaking down the application into independently deployable and manageable components (Database, Reporting System & Cache), we can scale specific microservices as needed, rather than the entire application. This approach enables efficient resource allocation, fault isolation, and optimal performance even during peak traffic periods.
+
 ## 🕵️ GDPR Compliance.
 We are committed to ensuring compliance with the General Data Protection Regulation (GDPR) to protect the privacy and rights of individuals who interact with our website. Our GDPR compliance documentation provides detailed information on how we collect, use, and protect personal data, as well as the rights of data subjects (Woldford, N.D).
 
@@ -309,6 +324,9 @@ Pylint Report after fixes implemented - See `pylint_output/pylint_fixedreport.ht
 ![Alt text](pylint_output/pylint_fixed.png)
 
 ## 🔍 References
+
+Django. (N.D.). Password management in Django. Available from:
+https://docs.djangoproject.com/en/4.2/topics/auth/passwords/ [Accessed 10 July 2023]
 
 Django. (N.D.). Security In Django. _SQL Injection Protection_ Available from:
 https://docs.djangoproject.com/en/4.2/topics/security/ [Accessed 03 July 2023]

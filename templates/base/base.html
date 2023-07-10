@@ -9,6 +9,7 @@
     <meta name="keywords" content="django, secure repository, docker" />
     <meta name="description"
           content="The Dutch Forensic Reporting System aims to provide a comprehensive reporting service for identifying flaws in ICT systems across various organisations." />
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon_io/favicon-32x32.png' %}">
     <title>
       {% block title %}
       {% endblock title %}
@@ -18,7 +19,7 @@
   <body>
     {% block content %}
     {% endblock content %}
-    <footer class="fixed bottom-0 left-0 border-t-2 w-screen bg-white h-12" >
+    <footer class="fixed bottom-0 left-0 border-t-2 w-screen bg-white h-12">
       {% include "base/footer.html" %}
     </footer>
   </body>

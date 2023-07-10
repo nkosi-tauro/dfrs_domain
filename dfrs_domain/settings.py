@@ -26,7 +26,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY')
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # (Set to True when in development mode)
@@ -35,13 +35,13 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "dfrsdomain-production.up.railway.app",
     "dfrsdomain-dev.up.railway.app",
-    "127.0.0.1"
+    "127.0.0.1",
 ]
 
 CSRF_TRUSTED_ORIGINS = [
     "https://dfrsdomain-production.up.railway.app",
     "https://dfrsdomain-dev.up.railway.app",
-    "https://127.0.0.1"
+    "https://127.0.0.1",
 ]
 
 # Uncomment For Debugging Only
@@ -55,9 +55,17 @@ CSRF_TRUSTED_ORIGINS = [
 SECURE_HSTS_SECONDS = 31536000
 SECURE_CONTENT_TYPE_NOSNIFF = True
 # using a secure-only session cookie makes it more difficult for network traffic sniffers to hijack user sessions.
-SESSION_COOKIE_SECURE=True
+SESSION_COOKIE_SECURE = True
 # Using a secure-only CSRF cookie makes it more difficult for network traffic sniffers to steal the CSRF token.
-CSRF_COOKIE_SECURE=True
+CSRF_COOKIE_SECURE = True
+
+# Session Invalidation
+# Logout after a period of inactivity
+INACTIVE_TIME = 15 * 60  # 15 minutes
+SESSION_SERIALIZER = "django.contrib.sessions.serializers.PickleSerializer"
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+SESSION_COOKIE_AGE = INACTIVE_TIME  # change expired session
+SESSION_IDLE_TIMEOUT = INACTIVE_TIME  # logout
 
 # For Production ONLY
 # SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
@@ -72,7 +80,7 @@ CSRF_COOKIE_SECURE=True
 # SESSION_COOKIE_SECURE=True
 # # Using a secure-only CSRF cookie makes it more difficult for network traffic sniffers to steal the CSRF token.
 # CSRF_COOKIE_SECURE=True
-# # Makes sure all subdomains are served over SSL 
+# # Makes sure all subdomains are served over SSL
 # SECURE_HSTS_INCLUDE_SUBDOMAINS=True
 # # Adds site to browser preload list
 # SECURE_HSTS_PRELOAD=True
@@ -105,11 +113,8 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "dfrs_domain.middleware.RestrictAdminMiddleware",
     # "debug_toolbar.middleware.DebugToolbarMiddleware", # Uncomment For Debugging Only
-
 ]
-AUTHENTICATION_BACKENDS = (
-        'django.contrib.auth.backends.ModelBackend',
-    )
+AUTHENTICATION_BACKENDS = ("django.contrib.auth.backends.ModelBackend",)
 ROOT_URLCONF = "dfrs_domain.urls"
 
 TEMPLATES = [
@@ -133,12 +138,16 @@ TEMPLATES = [
 WSGI_APPLICATION = "dfrs_domain.wsgi.application"
 
 
-# Database
+# Database, max_age=seconds
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
-db_config = dj_database_url.config(default=os.environ.get('DATABASE_URL'), conn_max_age=1000,
-                                   ssl_require=True, engine="django_cockroachdb")
+db_config = dj_database_url.config(
+    default=os.environ.get("DATABASE_URL"),
+    conn_max_age=1000,
+    ssl_require=True,
+    engine="django_cockroachdb",
+)
 DATABASES = {
-    'default': db_config,
+    "default": db_config,
 }
 
 # Caches
@@ -149,7 +158,7 @@ CACHES = {
         "LOCATION": f"redis://{os.environ.get('REDIS_USERNAME')}:{os.environ.get('REDIS_PASSWORD')}@containers-us-west-43.railway.app:6057",
         "OPTIONS": {
             "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
+        },
     }
 }
 
@@ -190,7 +199,7 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 STATICFILES_DIRS = [
-    BASE_DIR / 'static',
+    BASE_DIR / "static",
 ]
 
 STATIC_URL = "/static/"
@@ -204,17 +213,17 @@ LOGIN_REDIRECT_URL = "adminview"
 
 # Message Tags for form messages
 MESSAGE_TAGS = {
-        messages.DEBUG: 'text-sm text-yellow-700',
-        messages.INFO: 'text-sm text-blue-700',
-        messages.SUCCESS: 'text-sm font-medium text-green-800',
-        messages.WARNING: 'text-sm text-yellow-700',
-        messages.ERROR: 'text-sm text-red-700',
+    messages.DEBUG: "text-sm text-yellow-700",
+    messages.INFO: "text-sm text-blue-700",
+    messages.SUCCESS: "text-sm font-medium text-green-800",
+    messages.WARNING: "text-sm text-yellow-700",
+    messages.ERROR: "text-sm text-red-700",
 }
 
-BREVO_MASTER_PASS = os.environ.get('BREVO_MASTER_PASS')
+BREVO_MASTER_PASS = os.environ.get("BREVO_MASTER_PASS")
 # Emails
-EMAIL_HOST = 'smtp-relay.brevo.com'
-EMAIL_HOST_USER = 'nkosilati23@gmail.com'
+EMAIL_HOST = "smtp-relay.brevo.com"
+EMAIL_HOST_USER = "nkosilati23@gmail.com"
 EMAIL_HOST_PASSWORD = BREVO_MASTER_PASS
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
