@@ -239,9 +239,9 @@ Server deployed on HTTPS Protocol:
 Let's Encrypt Certificate:  
 ![Alt text](security_images/cert.png)
 
-## 🧵 Multithreading, Concurrency & Microservices.
+## Multithreading, Concurrency & Microservices.
 
-### Multithreading
+### 🧵 Multithreading
 In Django, processing emails can be time-consuming and cause the application to halt until the process is finished. This presents several problems. For instance, on our deployed server, any process that exceeds 30 seconds will be terminated. To address this issue, we have incorporated multithreading into our application for handling emails. This approach creates a separate thread or background process specifically for managing email tasks. As a result, the application is able to carry on processing other requests while the email process is running independently.
 ```py
 class EmailThread(threading.Thread):
@@ -256,7 +256,7 @@ class EmailThread(threading.Thread):
         self.email.send(fail_silently=False)
 ```
 
-### Caching
+### :redis: Caching
 We next implemented queryset caching. By caching querysets, it helped reduce the number of database requests and the associated load on the database server, which should then improve its performance and allow it to handle more concurrent requests. 
 
 **How it works:**  
