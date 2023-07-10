@@ -163,7 +163,8 @@ def cyberdetectiveview(request):
     """
     cyberdetectives = cache.get("cyberdetectives")
     if cyberdetectives is None:
-        cyberdetectives = User.objects.all()
+        # Exclude (admin) from the list of CyberDetectives
+        cyberdetectives = User.objects.exclude(id=request.user.id)
         cache.set("cyberdetectives", cyberdetectives)
     context = {"cyberdetectives": cyberdetectives}
     return render(request, "adminview/employee.html", context)
