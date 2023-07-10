@@ -239,7 +239,7 @@ Server deployed on HTTPS Protocol:
 Let's Encrypt Certificate:  
 ![Alt text](security_images/cert.png)
 
-## 🧵 Multithreading & Concurrency.
+## 🧵 Multithreading, Concurrency & Microservices.
 
 ### Multithreading
 In Django, processing emails can be time-consuming and cause the application to halt until the process is finished. This presents several problems. For instance, on our deployed server, any process that exceeds 30 seconds will be terminated. To address this issue, we have incorporated multithreading into our application for handling emails. This approach creates a separate thread or background process specifically for managing email tasks. As a result, the application is able to carry on processing other requests while the email process is running independently.
@@ -286,6 +286,9 @@ But we then ran into a problem. Since we were caching the data (cache default ti
 def update_systemlogs_cache(sender, **kwargs):
     cache.delete('systemlogs')
 ```
+
+### :whale: Microservices
+In addition to incorporating multithreading and caching, our application infrastructure is based on a microservices architecture, allowing for seamless scalability to meet growing demands. By breaking down the application into independently deployable and manageable components (Database, Reporting System & Cache), we can scale specific microservices as needed, rather than the entire application. This approach enables efficient resource allocation, fault isolation, and optimal performance even during peak traffic periods.
 
 ## 🕵️ GDPR Compliance.
 We are committed to ensuring compliance with the General Data Protection Regulation (GDPR) to protect the privacy and rights of individuals who interact with our website. Our GDPR compliance documentation provides detailed information on how we collect, use, and protect personal data, as well as the rights of data subjects (Woldford, N.D).
