@@ -8,19 +8,16 @@
   <img alt="Repository size" src="https://img.shields.io/github/repo-size/nkosi-tauro/dfrs_domain?color=56BEB8">
 
   <img alt="License" src="https://img.shields.io/github/license/nkosi-tauro/dfrs_domain?color=56BEB8">
-
-  [![Django CI](https://github.com/nkosi-tauro/dfrs_domain/actions/workflows/django.yml/badge.svg)](https://github.com/nkosi-tauro/dfrs_domain/actions/workflows/django.yml)
-
 </p>
 
 ## :dart: About ##
 
-The Dutch Forensic Reporting System aims to provide a comprehensive reporting service for identifying flaws in ICT systems across various organisations. This is a group project, that is part of the Postgraduate Program at the University of Essex. 
+The Dutch Forensic Reporting System aims to provide a comprehensive reporting service for identifying flaws in ICT systems across various organizations. This is a group project, that is part of the Postgraduate Program at the University of Essex. 
 
 Module: __Secure Software Development__.  
-Group Members & Contributors: _<a href="https://github.com/nkosi-tauro" target="_blank">Nkosilathi Tauro</a>_, _<a href="https://github.com/alesteka" target="_blank">Ales Tekavcic</a>_,  _<a href="https://github.com/muwalofra" target="_blank">Francis Muwalo</a>_ & _<a href="https://github.com/alihu12345" target="_blank">Abdulahi Alihu Ngamjeh</a>_.
+Group Members & Contributors: _<a href="https://github.com/nkosi-tauro" target="_blank">Nkosilathi Tauro</a>_, _<a href="https://github.com/alesteka" target="_blank">Ales Tekavcic</a>_, _<a href="https://github.com/muwalofra" target="_blank">Francis Muwalo</a>_ & _<a href="https://github.com/alihu12345" target="_blank">Abdulahi Alihu Ngamjeh</a>_.
 
-## :rocket: Technologies ##
+## 🧰 Tools and Libraries ##
 
 The following languages and tools were used in this project:
 
@@ -28,7 +25,7 @@ The following languages and tools were used in this project:
 - [Django](https://www.djangoproject.com/) v4.2.2
 - [Serverless PostgreSQL Database](https://www.cockroachlabs.com/) cluster via CockroachDB
 - [Serverless Redis Cache](https://docs.railway.app/databases/redis) cluster via Railway 
-- [TailwindCSS](https://tailwindcss.com/)
+- [Tailwind CSS](https://tailwindcss.com/)
 - [Docker](https://www.docker.com/): Container for Deployment
 - [Railway](https://docs.railway.app/deploy/deployments) Microservice Deployment
 - [Brevo](https://app.brevo.com/) email smtp server
@@ -43,17 +40,17 @@ The following languages and tools were used in this project:
 
 
 ## :checkered_flag: Starting, Usage & Testing ##
-### 📺Live
-You can vist either the [Production](https://dfrsdomain-production.up.railway.app/)  or [Development](https://dfrsdomain-dev.up.railway.app/) servers to view the deployed project.  
+### 📺 Live
+You can visit either the [Production](https://dfrsdomain-production.up.railway.app/) or [Development](https://dfrsdomain-dev.up.railway.app/) servers to view the deployed project.  
 
-### Locally
-There are 2 ways of getting this project up and running locally.  
-__Requirements__
-- [python](https://www.python.org/) 3.10 or above installed.
-- [docker](https://www.docker.com/) is required for method 2 Only
+### ⚙️ Locally
+*Note: it is recommended that you create a virtual environment when working with Django*.  
+For more information visit: [Creation of virtual environments](https://docs.python.org/3/library/venv.html)  
 
+__Requirements__  
+*Note: The project was created and tested with python 3.10 and 3.11*
+- [Python](https://www.python.org/) 3.10 or above installed.
 
-### 1. Python
 
 ```bash
 # Clone this project
@@ -70,24 +67,6 @@ $ python manage.py runserver
 
 #For Linux/Mac use:
 $ python3 manage.py runserver
-
-# The server will initialize on <http://127.0.0.1:8000>
-```
-
-### 2. Docker 
-
-```bash
-# Clone this project
-$ git clone https://github.com/nkosi-tauro/dfrs_domain
-
-# Access directory
-$ cd dfrs_domain
-
-# build docker container
-$ docker build --tag dfrs_domain .
-
-# Run the project
-$ docker run --env-file=.env --publish 8000:8000 dfrs_domain
 
 # The server will initialize on <http://127.0.0.1:8000>
 ```
@@ -140,13 +119,13 @@ $ coverage run manage.py test && coverage report && coverage html
 
 ### 1. Risk: Injection
 *Mitigation:*  
-In our application, we have implemented Django's querysets which implement query parameterisation to protect against SQL injection attacks (Django, N.D). By using The Django Object Relational Mapper (ORM) we avoid writing any raw SQL queries. Additionally, we utilise the built-in validators to validate and sanitize user input, ensuring adherence to specific regex patterns which are utilised under the hood. These measures collectively enhance the security of our application by safeguarding against malicious SQL injections and promoting secure user input handling.
+In our application, we have implemented Django's querysets which implement query parameterization to protect against SQL injection attacks (Django, N.D). By using The Django Object Relational Mapper (ORM) we avoid writing any raw SQL queries. Additionally, we utilize the built-in validators to validate and sanitize user input, ensuring adherence to specific Regex patterns which are utilized under the hood. These measures collectively enhance the security of our application by safeguarding against malicious SQL injections and promoting secure user input handling.
 
-### 2. Risk(s):  Insecure design + 3. Vulnerable and Outdated components
+### 2. Risk(s): Insecure design + 3. Vulnerable and Outdated components
 *Mitigation(s):*  
-We added a [Django Dependency and Security checker](https://github.com/marketplace/actions/django-security-check). It scans the repo and helps to continuously monitor and fix common security vulnerabilities in the Django application. With this tool we can keep up to date with any changes to the tools we utilise in the project and update and or fix them if any issues arise. In addition to this we compiled `20` unit tests to validate the flows in the application  
+We added a [Django Dependency and Security checker](https://github.com/marketplace/actions/django-security-check). It scans the repo and helps to continuously monitor and fix common security vulnerabilities in the Django application. With this tool we can keep up to date with any changes to the tools we utilize in the project and update and or fix them if any issues arise. In addition to this we compiled `20` unit tests to validate the flows in the application  
 
-These where some of the security issues identified in our Project:   
+These where some security issues identified in our Project:   
 
 ![Alt text](security_images/securityBefore.png)
 
@@ -158,7 +137,7 @@ After fixing the issues:
 
 ### 4. Risk: Broken Access Control
 *Mitigation:*   
-Using The Django authentication provider allowed us to implement role based access to the application. Using the `@login_required(login_url='employee-login')` decorators, we can __secure__ routes behind the authentication system and any unauthenticated users will not be able to visit them. Furthermore we added a redirect system for Authenticated users roles, `admin` or `employee`. Based on their role the authenticated user will be redirected to the relevant view where they have permissions.   
+Using The Django authentication provider allowed us to implement role based access to the application. Using the `@login_required(login_url='employee-login')` decorators, we can __secure__ routes behind the authentication system and any unauthenticated users will not be able to visit them. Furthermore, we added a redirect system for Authenticated users roles, `admin` or `employee`. Based on their role the authenticated user will be redirected to the relevant view where they have permissions.   
 
 **Code Snippets**:
 ```py
@@ -183,7 +162,7 @@ if user is not None:
       return redirect('employeeview', user_id)
 ```
 
-A basic Ratelimitter is also implemented (Gaeddert, 2023). To implement this we made the assumption that a user who continually fails to login to the platform is trying to `brute force` their way in. To Mitigate this, after `5` failed login attempts the Users IP will be flagged and blocked for the next `60` seconds from performing a login action on the application. These repeated failed attempts are also added to the `Event logs` that notify the admin user. 
+A basic Rate limiter is also implemented (Gaeddert, 2023). To implement this we made the assumption that a user who continually fails to log in to the platform is trying to `brute force` their way in. To Mitigate this, after `5` failed login attempts the Users IP will be flagged and blocked for the next `60` seconds from performing a login action on the application. These repeated failed attempts are also added to the `Event logs` that notify the admin user. 
 
 **Code Snippets**: `extract is from user_service/views.py`   
 ```py
@@ -202,7 +181,7 @@ def login_service(request):
       return HttpResponse(f"Rate limit exceeded. You have used {e.usage} requests, limit is {e.limit}.", status=429)        
 
 ```
-In addition to the role access and ratelimitter, we have also included Session Invalidation. The current timer is `15` minutes of inactivty and the session token will be deleted and the user logged out and redirected to the login view.
+In addition to the role access and rate limiter, we have also included Session Invalidation. The current timer is `15` minutes of inactivity and the session token will be deleted, and the user logged out and redirected to the login view.
 ```bash
 # Session Invalidation
 # Logout after a period of inactivity
@@ -219,7 +198,7 @@ SESSION_IDLE_TIMEOUT = INACTIVE_TIME  # logout
 We Implemented a logging feature that logs/Tracks the following:
 
 - When a user of the General Public submits a vulnerability report
-- When a user attempts and fails to login, it captures their IP.
+- When a user attempts and fails to log in, it captures their IP.
 - When Employees login
 - When Employees submit a vulnerability report  
 
@@ -231,7 +210,7 @@ The logs are only viewable by an admin user.
 
 ### 6. Risk: Cryptographic Failures:
 *Mitigation:*  
-We used The Django authentication provider which is a trusted authentication library. Passwords are hashed using SHA256 while utilising the PBKDF2 algorithm (Django, N.D). This ensures the secure handling of sensitive data. SSL/TLS are enforced on the Server which encrypts any data moving between the application and database. 
+We used The Django authentication provider which is a trusted authentication library. Passwords are hashed using SHA256 while utilizing the PBKDF2 algorithm (Django, N.D). This ensures the secure handling of sensitive data. SSL/TLS are enforced on the Server which encrypts any data moving between the application and database. An additional measure was to make sure that all Keys, such as the Django Secret key, Database URLs were never checked into source code repositories by using environment variables in their place.  
 
 Server deployed on HTTPS Protocol:  
 ![Alt text](security_images/https.png)
@@ -257,10 +236,10 @@ class EmailThread(threading.Thread):
 ```
 
 ### Caching
-We next implemented queryset caching. By caching querysets, it helped reduce the number of database requests and the associated load on the database server, which should then improve its performance and allow it to handle more concurrent requests. 
+We next implemented query set caching. By caching querysets, it helped reduce the number of database requests and the associated load on the database server, which should then improve its performance and allow it to handle more concurrent requests. 
 
 **How it works:**  
-1. On page visit/load, ee first attempt to retrieve the querysets from the cache `cache.get('systemlogs')`
+1. On page visit/load, we first attempt to retrieve the querysets from the cache `cache.get('systemlogs')`
 2. If the querysets are not found in the cache (`None` is returned), we fetch them from the database `events = Event.objects.all()`
 3. And then we store the data in the cache `cache.set('systemlogs', events)`
 
@@ -278,7 +257,7 @@ def systemlogsview(request):
     return render(request, 'adminview/eventlogs.html', context)
 ```
 **Issue, Problem & Solution witch Caching**  
-But we then ran into a problem. Since we were caching the data (cache default timeout is `300` seconds) if any new data came through, the user would not be able to view the updated data (Redis, N.D.). To remedy this we utilised The Django signal receiver decorator to listen for when the Model Changed, if the Model changed, the cache would be immediately deleted so that a new call to the Database can be made.
+But we then ran into a problem. Since we were caching the data (cache default timeout is `300` seconds) if any new data came through, the user would not be able to view the updated data (Redis, N.D.). To remedy this we utilized The Django signal receiver decorator to listen for when the Model Changed, if the Model changed, the cache would be immediately deleted so that a new call to the Database can be made.
 
 ```py
 # Signal receivers to update cache on save or delete events
@@ -288,7 +267,7 @@ def update_systemlogs_cache(sender, **kwargs):
 ```
 
 ### :whale: Microservices
-In addition to incorporating multithreading and caching, our application infrastructure is based on a microservices architecture, allowing for seamless scalability to meet growing demands. By breaking down the application into independently deployable and manageable components (Database, Reporting System & Cache), we can scale specific microservices as needed, rather than the entire application. This approach enables efficient resource allocation, fault isolation, and optimal performance even during peak traffic periods.
+In addition to incorporating multithreading and caching, our application infrastructure is based on a microservices' architecture, allowing for seamless scalability to meet growing demands. By breaking down the application into independently deployable and manageable components (Database, Reporting System & Cache), we can scale specific microservices as needed, rather than the entire application. This approach enables efficient resource allocation, fault isolation, and optimal performance even during peak traffic periods.
 
 ## 🕵️ GDPR Compliance.
 We are committed to ensuring compliance with the General Data Protection Regulation (GDPR) to protect the privacy and rights of individuals who interact with our website. Our GDPR compliance documentation provides detailed information on how we collect, use, and protect personal data, as well as the rights of data subjects (Woldford, N.D).
@@ -299,12 +278,12 @@ For the complete GDPR compliance policy and detailed information on data collect
 ### 🧪 Testing
 We created about `20` Tests, we tried to cover the most important functionality of our domain, such as:
 - Login Functionality - does a user get redirected to the correct views based on their `role`?
-- CRUD `creating employees`, `updating reports`, `deleting reports`  and so forth
+- CRUD `creating employees`, `updating reports`, `deleting reports` and so forth
 - Views, are the correct views being rendered?   
-- Ratelimit functionality
+- Rate limit functionality
 - IP address - does this capture the correct IP address value?   
 
-All `20` Tests are currently passing🧪.  
+All `20` Tests are currently passing 🧪.  
 ![Alt text](security_images/tests.png)  
 
 Our Current Test Coverage is `72%`.  _See [Testing](#:test_tube:-testing) section for more on coverage_   
@@ -314,8 +293,8 @@ Our Current Test Coverage is `72%`.  _See [Testing](#:test_tube:-testing) sectio
 Our chosen `Linter` for this project was [Pylint](https://pypi.org/project/pylint/). The chosen code `Formatter` was [Black](https://black.readthedocs.io/en/stable/), previously it was Pep8 but we had some issues with it formatting the code.  
 We utilised the Linter with a few modifications. 
 
-1. `.pylintrc` file. This was so we could ignore the Default Django files and any other files that would not need to be Linted. Also we used it to configure our preferred indent space, `default` is `2` but we utilise `4` spaces.
-2. Instead of having the output in the terminal, we made use of [Pylint-Report](https://pypi.org/project/pylint-report/). This allowed us to set the pylint output to json and then convert the json output to a HTML file, which allowed for easy viewing of the `pylint` output.
+1. `.pylintrc` file. This was so we could ignore the Default Django files and any other files that would not need to be Linted. Also, we used it to configure our preferred indent space, `default` is `2`, but we utilize `4` spaces.
+2. Instead of having the output in the terminal, we made use of [Pylint-Report](https://pypi.org/project/pylint-report/). This allowed us to set the Pylint output to JSON and then convert the JSON output to an HTML file, which allowed for easy viewing of the `pylint` output.
 
 Pylint Report - See `pylint_output/pylint_report.html` the detailed output.  
 ![Alt text](pylint_output/pylint.png)
@@ -341,6 +320,9 @@ Redis. (N.D.). Client-side caching in Redis. Available at: https://redis.io/docs
 Wolford, B. (N.D.). Writing a GDPR-compliant privacy notice (template included). GDPR.EU.
 Available from: https://gdpr.eu/privacy-notice/ [Accessed 06 July 2023]
 
+## :memo: License ##
+
+This project is under license from MIT. For more details, see the [LICENSE](LICENSE) file.
 
 <!-- ## ✍️ Authors
 Made with :heart: by 
