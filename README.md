@@ -256,7 +256,7 @@ def systemlogsview(request):
     context = {'events': events}
     return render(request, 'adminview/eventlogs.html', context)
 ```
-**Issue, Problem & Solution witch Caching**  
+**Issue, Problem & Solution with Caching**  
 But we then ran into a problem. Since we were caching the data (cache default timeout is `300` seconds) if any new data came through, the user would not be able to view the updated data (Redis, N.D.). To remedy this we utilized The Django signal receiver decorator to listen for when the Model Changed, if the Model changed, the cache would be immediately deleted so that a new call to the Database can be made.
 
 ```py
